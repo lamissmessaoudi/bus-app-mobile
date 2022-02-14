@@ -9,4 +9,16 @@ class AppTextStyles {
     fontFamily: 'RobotoSlab',
     fontWeight: FontWeight.w300,
   );
+  static TextStyle primarySlab17 = TextStyle(
+    fontSize: 17,
+    color: AppColors.primaryColor,
+    fontFamily: 'RobotoSlab',
+    fontWeight: FontWeight.w300,
+  );
+  static TextStyle primarySlab14 = TextStyle(
+    fontSize: 14,
+    color: AppColors.primaryColor,
+    fontFamily: 'RobotoSlab',
+    fontWeight: FontWeight.w300,
+  );
 }

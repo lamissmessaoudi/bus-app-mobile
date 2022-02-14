@@ -3,33 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
-import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
 class SigninController extends GetxController {
   GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   AuthService api = Get.find();
+
   // SharedPreferenceService sharedPreferenceService = Get.find();
 
   var loginController = TextEditingController(),
       passwordController = TextEditingController();
-  var isLoadingSignIn = false.obs;
-  Rx<Color> field1Color = Colors.grey.obs;
-  FocusNode focusNode = FocusNode();
 
-  @override
-  void onInit() {
-    super.onInit();
-    focusNode.addListener(() {
-      field1Color.value = AppColors.accentColor;
-    });
-    focusNode = FocusNode();
+  var isLoadingSignIn = false.obs;
+
+  Future<void> validateForm() async {
+    if (formKey1.currentState!.validate()) {
+      formKey1.currentState!.save();
+      print("vaaaaaaaaaaaaaliiiiiiiiideeeeeeee");
+    }
+  }
+
+  String? validateEmpty(value) {
+    if (value != null) {
+      if (!value.isEmpty) {
+        return null;
+      }
+    }
+    return 'Please provide a value.';
   }
 
   @override
-  void onClose() {
-    focusNode.dispose();
-    super.onClose();
+  void dispose() {
+    //onClose
+    passwordController.dispose();
+    loginController.dispose();
+    super.dispose();
   }
 
   void signInUser() async {

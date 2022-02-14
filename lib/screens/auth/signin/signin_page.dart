@@ -10,14 +10,15 @@ import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.da
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
+import 'package:softun_bus_mobile/widgets/btn_grey.dart';
 import 'package:softun_bus_mobile/widgets/custom_text_field.dart';
 
 class SigninPage extends GetView<SigninController> {
   SigninPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // var size = MediaQuery.of(context).size;
-    var test = false;
 
     return Scaffold(
       body: ConnectivityContainer(
@@ -25,101 +26,103 @@ class SigninPage extends GetView<SigninController> {
           init: SigninController(),
           initState: (_) {},
           builder: (controller) {
-            return test
-                ? Center(
-                    child: InkWell(
-                        onTap: () => Get.toNamed(Routes.initial),
-                        child: Container(
-                          child: Text(
-                            "Sign in",
-                            style: AppTextStyles.primarySlab24,
-                          ),
-                          height: 50,
-                          color: AppColors.saumonColor,
-                        )),
-                  )
-                : Container(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 100),
-                        Image.asset(
-                          Assets.logoSofrecom,
-                          height: 200,
-                        ),
-                        Form(
-                            key: controller.formKey1,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: controller.loginController,
-                                  focusNode: controller.focusNode,
-                                  decoration: InputDecoration(
-                                    // floatingLabelBehavior:
-                                    //     FloatingLabelBehavior.always,
-                                    labelStyle: TextStyle(
-                                        color: controller.focusNode.hasFocus
-                                            ? AppColors.accentColor
-                                            : Colors.grey),
-                                    labelText: "Login",
-
-                                    // hintText: "HINT",
-                                    focusColor: AppColors.accentColor,
-                                    fillColor: Colors.white,
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: AppColors.primaryColor,
-                                          width: 2.0),
-                                      // borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: AppColors.accentColor,
-                                          width: 2.0),
-                                      // borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: AppColors.errorColor,
-                                          width: 2.0),
-                                      // borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 100,
-                                ),
-                                TextFormField(
-                                  controller: controller.passwordController,
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value.toString().isEmpty) {
-                                      return "please_enter_your_password".tr;
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                    labelText: "Password",
-                                    fillColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.accentColor,
-                                        width: 2.0,
-                                      ),
-                                      // borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: AppColors.errorColor,
-                                          width: 2.0),
-                                      // borderRadius: BorderRadius.circular(25.0),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ))
-                      ],
+            return SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                child: Column(
+                  children: [
+                    SizedBox(height: 100),
+                    Image.asset(
+                      Assets.logoSofrecom,
+                      height: 200,
                     ),
-                  );
+                    Form(
+                      key: controller.formKey1,
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Login",
+                              style: AppTextStyles.primarySlab14,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            controller: controller.loginController,
+                            focusColor: AppColors.accentColor,
+                            borderColor: AppColors.primaryColor,
+                            errorColor: AppColors.errorColor,
+                            validator: controller.validateEmpty,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Password",
+                                style: AppTextStyles.primarySlab14),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            obscureText: true,
+                            controller: controller.passwordController,
+                            focusColor: AppColors.accentColor,
+                            borderColor: AppColors.primaryColor,
+                            errorColor: AppColors.errorColor,
+                            validator: controller.validateEmpty,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          BtnGrey(
+                            text: "Connexion",
+                            onTap: () {
+                              // Get.toNamed(Routes.roles);
+                              controller.validateForm();
+                              print("BTN IS PRESSESD !!");
+                            },
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Vous n’avez pas un compte? ",
+                                  style: AppTextStyles.primarySlab17),
+                              InkWell(
+                                  child: Text(
+                                "Activer",
+                                style: AppTextStyles.primarySlab17.copyWith(
+                                    decoration: TextDecoration.underline),
+                              )),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            child: Text(
+                              "Mot de passe oublié?",
+                              style: AppTextStyles.primarySlab14.copyWith(
+                                  decoration: TextDecoration.underline),
+                            ),
+                            onTap: () {
+                              Get.toNamed(Routes.roles);
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
           },
         ),
       ),
