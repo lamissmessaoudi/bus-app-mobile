@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/token_model.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
@@ -8,6 +11,7 @@ import 'package:softun_bus_mobile/widgets/snackbar.dart';
 class SigninController extends GetxController {
   GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   AuthService api = Get.find();
+  late Token token;
 
   // SharedPreferenceService sharedPreferenceService = Get.find();
 
@@ -16,12 +20,13 @@ class SigninController extends GetxController {
 
   var isLoadingSignIn = false.obs;
 
-  Future<void> validateForm() async {
-    if (formKey1.currentState!.validate()) {
-      formKey1.currentState!.save();
-      print("vaaaaaaaaaaaaaliiiiiiiiideeeeeeee");
-    }
-  }
+  // Future<void> validateForm() async {
+  //   if (formKey1.currentState!.validate()) {
+  //     formKey1.currentState!.save();
+  //     print("vaaaaaaaaaaaaaliiiiiiiiideeeeeeee");
+  //     signInUser();
+  //   }
+  // }
 
   String? validateEmpty(value) {
     if (value != null) {
@@ -41,16 +46,34 @@ class SigninController extends GetxController {
   }
 
   void signInUser() async {
+    print("Trying to sign in ...");
+
     try {
       isLoadingSignIn(true);
       // to check the all the condition of the appTextField
-      if (!formKey1.currentState!.validate()) return;
+      if (!formKey1.currentState!.validate()) {
+        print("form not valideee");
+        return;
+      }
 
-      var login = loginController.text;
+      var username = loginController.text;
       var password = passwordController.text;
 
-      print("Trying to sign in ...");
-      // var response = await api.signIn(login: login, password: password);
+      print("Trying to sign in controller...");
+      var response = await api.signIn(username: username, password: password);
+
+      print("response.runtimeType    " + (response.runtimeType.toString()));
+
+      print("response    " + (response.toString()));
+      token = Token(
+        access_token: response.data['access_token'],
+        token_type: response.data['token_type'],
+        refresh_token: response.data['refresh_token'],
+        expires_in: response.data['expires_in'],
+      );
+      print("*bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb*");
+      print("token map ----- ");
+      print(token);
 
       //redirect the user to the Homepage
       Get.offAllNamed(Routes.initial);

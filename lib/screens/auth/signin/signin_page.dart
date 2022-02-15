@@ -83,8 +83,9 @@ class SigninPage extends GetView<SigninController> {
                             text: "Connexion",
                             onTap: () {
                               // Get.toNamed(Routes.roles);
-                              controller.validateForm();
                               print("BTN IS PRESSESD !!");
+
+                              controller.signInUser();
                             },
                           ),
                           SizedBox(
