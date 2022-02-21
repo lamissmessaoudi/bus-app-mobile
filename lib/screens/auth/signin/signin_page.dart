@@ -31,7 +31,7 @@ class SigninPage extends GetView<SigninController> {
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                 child: Column(
                   children: [
-                    SizedBox(height: 100),
+                    SizedBox(height: 60),
                     Image.asset(
                       Assets.logoSofrecom,
                       height: 200,
@@ -44,7 +44,7 @@ class SigninPage extends GetView<SigninController> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Login",
-                              style: AppTextStyles.primarySlab14,
+                              style: AppTextStyles.primarySlab17,
                             ),
                           ),
                           SizedBox(
@@ -63,7 +63,7 @@ class SigninPage extends GetView<SigninController> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text("Password",
-                                style: AppTextStyles.primarySlab14),
+                                style: AppTextStyles.primarySlab17),
                           ),
                           SizedBox(
                             height: 10,
@@ -79,7 +79,7 @@ class SigninPage extends GetView<SigninController> {
                           SizedBox(
                             height: 30,
                           ),
-                          BtnGrey(
+                          CustomButton(
                             text: "Connexion",
                             onTap: () {
                               // Get.toNamed(Routes.roles);

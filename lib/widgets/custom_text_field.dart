@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
+import 'package:softun_bus_mobile/style/text.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hint;
@@ -12,7 +13,8 @@ class CustomTextField extends StatefulWidget {
   final TextInputType inputType;
   final bool obscureText;
   final String? Function(String?)? validator;
-
+  final Widget? prefix;
+  final Widget? suffixIcon;
   final Function? onChanged;
 
   CustomTextField(
@@ -24,6 +26,8 @@ class CustomTextField extends StatefulWidget {
       required this.errorColor,
       this.inputType = TextInputType.text,
       this.obscureText = false,
+      this.prefix = null,
+      this.suffixIcon = null,
       this.validator});
 
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -41,6 +45,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: AppTextStyles.hintPTMono1,
       validator: widget.validator,
       controller: widget.controller,
       cursorColor: widget.focusColor,
@@ -67,6 +72,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             width: 2.0,
           ),
         ),
+        hintStyle: AppTextStyles.hintPTMono1,
+        prefix: widget.prefix,
+        suffixIcon: widget.suffixIcon,
       ),
     );
   }

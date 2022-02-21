@@ -14,7 +14,14 @@ class Token {
   factory Token.fromJson(dynamic json) => Token(
         access_token: json.access_token,
         token_type: json.token_type,
-        refresh_token: json.refresh_tokens,
+        refresh_token: json.refresh_token,
         expires_in: json.expires_in,
       );
+
+  Map<String, dynamic> toJson() => {
+        "access_token": access_token,
+        "token_type": token_type,
+        "refresh_token": refresh_token,
+        "expires_in": expires_in,
+      };
 }

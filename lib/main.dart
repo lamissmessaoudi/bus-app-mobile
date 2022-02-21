@@ -5,6 +5,8 @@ import 'package:softun_bus_mobile/bindings/connectivity_binding.dart';
 import 'package:softun_bus_mobile/routes/app_pages.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
+import 'package:softun_bus_mobile/services/api/user_api.dart';
+import 'package:softun_bus_mobile/services/shared-prefs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +16,11 @@ void main() async {
 }
 
 initServices() async {
+  await Get.putAsync(() => SharedPreferenceService().init());
+
   await Get.putAsync(() => AuthService().init());
+
+  await Get.putAsync(() => UserService().init());
 }
 
 class GetApp extends StatelessWidget {

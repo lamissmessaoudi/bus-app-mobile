@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 
 getErrorSnackBar({title: String, message: String}) {
+  Get.closeAllSnackbars();
+  // Get.closeCurrentSnackbar();
+
   return Get.snackbar(
     title,
     message,

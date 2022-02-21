@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
+import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
 class SigninController extends GetxController {
@@ -13,20 +14,12 @@ class SigninController extends GetxController {
   AuthService api = Get.find();
   late Token token;
 
-  // SharedPreferenceService sharedPreferenceService = Get.find();
+  SharedPreferenceService sharedPreferenceService = Get.find();
 
   var loginController = TextEditingController(),
       passwordController = TextEditingController();
 
   var isLoadingSignIn = false.obs;
-
-  // Future<void> validateForm() async {
-  //   if (formKey1.currentState!.validate()) {
-  //     formKey1.currentState!.save();
-  //     print("vaaaaaaaaaaaaaliiiiiiiiideeeeeeee");
-  //     signInUser();
-  //   }
-  // }
 
   String? validateEmpty(value) {
     if (value != null) {
@@ -71,12 +64,17 @@ class SigninController extends GetxController {
         refresh_token: response.data['refresh_token'],
         expires_in: response.data['expires_in'],
       );
-      print("*bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb*");
       print("token map ----- ");
       print(token);
 
+      await sharedPreferenceService.setString(
+          "token", jsonEncode(token.toJson()));
+      // await sharedPreferenceService.setString("token", token.toString());
+
+      var s = await sharedPreferenceService.getString("token");
+      print("s =   ==== $s");
       //redirect the user to the Homepage
-      Get.offAllNamed(Routes.initial);
+      Get.offAllNamed(Routes.roles);
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

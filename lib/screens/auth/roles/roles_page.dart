@@ -19,7 +19,7 @@ class RolesPage extends StatelessWidget {
           builder: (controller) {
             return SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                 child: Column(
                   children: [
                     SizedBox(height: 100),
@@ -38,7 +38,7 @@ class RolesPage extends StatelessWidget {
                               padding: const EdgeInsets.all(10),
                               child: Image.asset(Assets.collaborateur),
                             ),
-                            BtnGrey(
+                            CustomButton(
                               text: "Collaborateur",
                               onTap: () => Get.toNamed(Routes.initial),
                             )
@@ -55,7 +55,7 @@ class RolesPage extends StatelessWidget {
                               padding: const EdgeInsets.all(10),
                               child: Image.asset(Assets.driver),
                             ),
-                            BtnGrey(
+                            CustomButton(
                               text: "Chauffeur",
                               onTap: () => Get.toNamed(Routes.initial),
                             ),

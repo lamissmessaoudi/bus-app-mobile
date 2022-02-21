@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:softun_bus_mobile/models/login_request.dart';
+import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/services/urls.dart';
 
 class AuthService extends GetxService {
@@ -19,12 +20,8 @@ class AuthService extends GetxService {
     return Dio(BaseOptions(connectTimeout: 6000, receiveTimeout: 6000));
   }
 
-// (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-//     (HttpClient client) {
-//   client.badCertificateCallback =
-//       (X509Certificate cert, String host, int port) => true;
-//   return client;
-// };
+  SharedPreferenceService sharedPreferenceService = Get.find();
+
   signIn({required String username, required String password}) async {
     print(username + "  " + password);
 

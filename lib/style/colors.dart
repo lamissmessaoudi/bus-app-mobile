@@ -8,6 +8,8 @@ class AppColors {
   static Color saumonColor = HexColor("FFCC96"); //Saumon
   static Color tabColor = HexColor("F1F5F8"); //Saumon
   static Color errorColor = HexColor("e04f5f");
+  static Color hintColor = HexColor("323941");
+  static Color borderColor = HexColor("D5D8DE");
 }
 
 class HexColor extends Color {
