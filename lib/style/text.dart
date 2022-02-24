@@ -27,7 +27,19 @@ class AppTextStyles {
     fontFamily: 'RobotoSlab',
     fontWeight: FontWeight.w300,
   );
-  static TextStyle hintPTMono1 = TextStyle(
+  static TextStyle inactiveMontserrat14 = TextStyle(
+    fontSize: 14,
+    color: AppColors.inactiveText,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w300,
+  );
+  static TextStyle activeMontserrat14 = TextStyle(
+    fontSize: 14,
+    color: Colors.black,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w300,
+  );
+  static TextStyle hintPTMono18 = TextStyle(
     fontSize: 18,
     color: AppColors.hintColor,
     fontFamily: 'PTMono',

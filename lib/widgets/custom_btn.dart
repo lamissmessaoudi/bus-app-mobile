@@ -32,7 +32,7 @@ class CustomButton extends StatelessWidget {
       ),
       child: InkWell(
         splashColor: AppColors.accentColor,
-        onTap: onTap,
+        onTap: btnType == BtnType.Inactive ? null : onTap,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -40,7 +40,9 @@ class CustomButton extends StatelessWidget {
                 ? AppColors.accentColor
                 : btnType == BtnType.AccentOutlined
                     ? AppColors.white
-                    : AppColors.tabColor,
+                    : btnType == BtnType.Inactive
+                        ? AppColors.inactiveGrayBg
+                        : AppColors.tabColor,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10.0),
           child: Text(
@@ -50,7 +52,9 @@ class CustomButton extends StatelessWidget {
                   ? AppColors.white
                   : btnType == BtnType.AccentOutlined
                       ? AppColors.accentColor
-                      : AppColors.primaryColor,
+                      : btnType == BtnType.Inactive
+                          ? AppColors.inactiveText
+                          : AppColors.primaryColor,
             ),
             textAlign: TextAlign.center,
           ),

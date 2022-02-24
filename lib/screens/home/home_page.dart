@@ -4,7 +4,7 @@ import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
 import 'package:softun_bus_mobile/screens/home/home_controller.dart';
 import 'package:softun_bus_mobile/style/text.dart';
-import 'package:softun_bus_mobile/widgets/btn_grey.dart';
+import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                       CustomButton(
                         text: "Roles",
                         onTap: () => Get.toNamed(Routes.roles),
-                      )
+                      ),
                     ],
                   ),
                 ),

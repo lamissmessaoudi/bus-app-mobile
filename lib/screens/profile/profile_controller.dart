@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/req_res_model.dart';
+import 'package:softun_bus_mobile/models/token_model.dart';
+import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
@@ -10,7 +13,8 @@ import 'package:softun_bus_mobile/widgets/snackbar.dart';
 class ProfileController extends GetxController {
   SharedPreferenceService sharedPreferenceService = Get.find();
   var nameController = TextEditingController(),
-      telController = TextEditingController(),
+      lastnameController = TextEditingController(),
+      phoneController = TextEditingController(),
       emailController = TextEditingController(),
       stationController = TextEditingController(),
       oldMDPController = TextEditingController(),
@@ -18,19 +22,23 @@ class ProfileController extends GetxController {
       conMDPController = TextEditingController();
 
   var isLoadingProfile = false.obs;
-  var isLoadingPersoUpdate = false.obs;
-  var isLoadingMDPUpdate = false.obs;
+  var oldMdpVis = true.obs;
+  var newMdpVis = true.obs;
+  var conMdpVis = true.obs;
+  var activeBtnPerso = false.obs;
 
   UserService api = Get.find();
 
-//  late String name,  tel , email ,  station ;
-  // late User fetchetedUser;
+  String? name, lastname;
+  late User fetchetedUser, updatedUser;
 
   GlobalKey<FormState> formKeyPerso = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyMDP = GlobalKey<FormState>();
 
-  //ProfileService api = Get.find();
-  //late User user;
+  toggleVisibility(RxBool vis) {
+    vis.value = !vis.value;
+    update();
+  }
 
   String? validateEmpty(value) {
     if (value != null) {
@@ -38,74 +46,78 @@ class ProfileController extends GetxController {
         return null;
       }
     }
-    return 'Please provide a value.';
+    return 'Veuillez remplir ce champs.';
   }
 
   String? validateEmail(value) {
     if (value.toString().isEmpty) {
-      return "entrez votre e-mail";
+      return "Entrez votre e-mail";
     } else if (!RegExp(r"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$")
         .hasMatch(value.toString())) {
-      return "veuillez vérifier la validité de votre e-mail";
+      return "Veuillez vérifier la validité de votre e-mail";
+    }
+  }
+
+  String? validatePhone(value) {
+    if (value.toString().isEmpty) {
+      return "Entrez votre numéro de téléphone";
+    } else if ((!RegExp(r'^-?[0-9]+$').hasMatch(value.toString())) ||
+        (!(value.length == 8))) {
+      return "Veuillez vérifier votre numéro de téléphone";
     }
   }
 
   String? validatePassword(value) {
     if (value.toString().isEmpty) {
-      return "entrez votre mot de passe";
+      return "Entrez votre mot de passe";
     } else if (!(value.length >= 8)) {
-      return "le mot de passe doit être supérieure à 8 caractères minimum";
+      return "Le mot de passe doit avoir au moins 8 caractères";
+    }
+  }
+
+  String? validateNewPassword(value) {
+    if (value.toString().isEmpty) {
+      return "Entrez votre mot de passe";
+    } else if (!(value.length >= 8)) {
+      return "Le mot de passe doit avoir au moins 8 caractères";
+    } else if (value == oldMDPController.text) {
+      return "Le nouveau et ancien mots de passe doivent être différents";
     }
   }
 
   String? validateConfirmedPassword(value) {
     if (value.toString().isEmpty) {
-      return "veuillez re-taper votre mot de passe";
+      return "Veuillez re-taper votre mot de passe";
     } else if (value != newMDPController.text) {
-      return "Les mots de passe ne coresspondent pas";
+      return "Les deux mots de passe ne se coresspondent pas";
     }
   }
 
   @override
-  void onInit() {
+  onInit() async {
     super.onInit();
-    print('on init ');
-    getProfileData();
-    nameController.text = //fetchetedUser.name ;
-        "Ahmed Ahmed";
-    telController.text = //fetchetedUser.phoneNumber;
-        "55 333 444";
-    emailController.text = //fetchetedUser.email;
-        "ahmed@gmail.com";
-    stationController.text = //fetchetedUser.station.name;
-        "Menzah 2 , Arianna";
+    await getProfileData();
+    autoFillFields();
   }
 
-//Get Usqer From the shared preferences.
-  void getProfileData() async {
-    try {
-      isLoadingProfile(true);
+  autoFillFields() {
+    nameController.text = fetchetedUser.name;
+    lastnameController.text = fetchetedUser.lastname;
+    phoneController.text = fetchetedUser.phone;
+    emailController.text = fetchetedUser.email;
+    stationController.text = fetchetedUser.station.toString();
 
-      print(isLoadingProfile.value);
-      print("-------SUUCCESS-------");
-      // var response = await api.getUser();
-
-      print("#########################################");
-      // fetchetedUser =
-      // print(fetchetedUser);
-    } catch (error) {
-      print("---- error in cont : $error");
-      getErrorSnackBar(title: "Oops!", message: "something wrong");
-    } finally {
-      isLoadingProfile(false);
-    }
+    name = fetchetedUser.name;
+    lastname = fetchetedUser.lastname;
+    setBtnState();
   }
 
   @override
   void dispose() {
     //onClose
     nameController.dispose();
-    telController.dispose();
+    lastnameController.dispose();
+    phoneController.dispose();
     emailController.dispose();
     stationController.dispose();
     oldMDPController.dispose();
@@ -114,49 +126,72 @@ class ProfileController extends GetxController {
     super.dispose();
   }
 
-  void updatePerso() async {
-    print("Trying to sign in ...");
+  getAccessToken() async {
+    var s = await sharedPreferenceService.getString("token");
+    var token = Token.fromJson(json.decode(s)).access_token;
 
+    return token;
+  }
+
+  getProfileData() async {
     try {
-      isLoadingPersoUpdate(true);
+      isLoadingProfile(true);
+      print('getProfileData');
+      //Get User From the shared preferences.
+      var c = await sharedPreferenceService.getString("user");
+
+      fetchetedUser = User.fromJson(jsonDecode(c));
+    } catch (error) {
+      getErrorSnackBar(title: "Oops!", message: "something wrong");
+    } finally {
+      isLoadingProfile(false);
+      update();
+    }
+  }
+
+  setBtnState() {
+    // activate/desactivate the submit btn of Perso Form
+    bool v = (nameController.text != fetchetedUser.name ||
+        lastnameController.text != fetchetedUser.lastname ||
+        phoneController.text != fetchetedUser.phone ||
+        stationController.text != fetchetedUser.station.toString());
+    activeBtnPerso.value = v;
+    update();
+  }
+
+  void updatePerso() async {
+    try {
       // to check the all the condition of the appTextField
       if (!formKeyPerso.currentState!.validate()) {
         print("form Perso not valideee");
         return;
       }
+      User updatedUser = fetchetedUser;
+      updatedUser.name = nameController.text;
+      updatedUser.lastname = lastnameController.text;
+      updatedUser.email = emailController.text;
+      updatedUser.phone = phoneController.text;
 
-      var name = nameController.text;
-      var email = emailController.text;
-      var station = stationController.text;
-      var telephone = telController.text;
+      //-------- FIX THIS LATER -------------
+      updatedUser.station = fetchetedUser.station;
 
       print("Trying to update perso controller...");
 
-      // print("response.runtimeType    " + (response.runtimeType.toString()));
+      var t = await getAccessToken();
+      var response = await api.updateUserPerso(token: t, user: updatedUser);
+      User u = User.fromJson(response.data);
 
-      // print("response    " + (response.toString()));
-      // token = Token(
-      //   access_token: response.data['access_token'],
-      //   token_type: response.data['token_type'],
-      //   refresh_token: response.data['refresh_token'],
-      //   expires_in: response.data['expires_in'],
-      // );
-      // print("token map ----- ");
-      // print(token);
+      // save the updated user in the local storage
+      await sharedPreferenceService.setString("user", jsonEncode(u.toJson()));
+      getSuccessSnackBar(
+          title: "Succés", message: "Coordonnées changées avec succés");
 
-      // await sharedPreferenceService.setString(
-      //     "token", jsonEncode(token.toJson()));
-      // await sharedPreferenceService.setString("token", token.toString());
-
-      // var s = await sharedPreferenceService.getString("token");
-      // print("s =   ==== $s");
-      //redirect the user to the Homepage
-      Get.offAllNamed(Routes.initial);
+      // get the newly updated user from the local storage to reFill the form and deativate the submit btn
+      await getProfileData();
+      autoFillFields();
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
-    } finally {
-      isLoadingPersoUpdate(false);
     }
   }
 
@@ -164,25 +199,28 @@ class ProfileController extends GetxController {
     print("Trying to update Password ...");
 
     try {
-      isLoadingMDPUpdate(true);
       // to check the all the condition of the appTextField
       if (!formKeyMDP.currentState!.validate()) {
         print("form MDP not valideee");
         return;
       }
 
-      var oldMdp = nameController.text;
-      var newMpd = emailController.text;
-      var conMdp = stationController.text;
+      var oldMdp = oldMDPController.text;
+      var newMpd = newMDPController.text;
 
-      print("Trying to update mdp controller...");
+      var t = await getAccessToken();
+      var response = await api.updatePassword(
+          token: t, newPassword: newMpd, oldPassword: oldMdp);
 
-      Get.offAllNamed(Routes.initial);
+      ChangePasswordResponse res =
+          ChangePasswordResponse.fromJson(response.data);
+
+      (res.status == "200")
+          ? getSuccessSnackBar(title: "Succés", message: res.message)
+          : getErrorSnackBar(title: "Oops!", message: res.message);
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
-    } finally {
-      isLoadingMDPUpdate(false);
     }
   }
 }

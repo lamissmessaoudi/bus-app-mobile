@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:softun_bus_mobile/models/login_request.dart';
+import 'package:softun_bus_mobile/models/req_res_model.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/services/urls.dart';
 

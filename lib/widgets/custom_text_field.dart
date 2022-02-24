@@ -12,6 +12,7 @@ class CustomTextField extends StatefulWidget {
   final Color errorColor;
   final TextInputType inputType;
   final bool obscureText;
+  final bool enabled;
   final String? Function(String?)? validator;
   final Widget? prefix;
   final Widget? suffixIcon;
@@ -26,6 +27,7 @@ class CustomTextField extends StatefulWidget {
       required this.errorColor,
       this.inputType = TextInputType.text,
       this.obscureText = false,
+      this.enabled = true,
       this.prefix = null,
       this.suffixIcon = null,
       this.validator});
@@ -45,12 +47,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: AppTextStyles.hintPTMono1,
+      style: AppTextStyles.hintPTMono18,
       validator: widget.validator,
       controller: widget.controller,
       cursorColor: widget.focusColor,
       obscureText: widget.obscureText,
       keyboardType: widget.inputType,
+      enabled: widget.enabled,
       decoration: InputDecoration(
         hintText: widget.hint,
         focusColor: AppColors.accentColor,
@@ -72,7 +75,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             width: 2.0,
           ),
         ),
-        hintStyle: AppTextStyles.hintPTMono1,
+        hintStyle: AppTextStyles.hintPTMono18,
         prefix: widget.prefix,
         suffixIcon: widget.suffixIcon,
       ),

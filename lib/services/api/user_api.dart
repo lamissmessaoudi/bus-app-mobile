@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:softun_bus_mobile/models/login_request.dart';
-import 'package:softun_bus_mobile/models/user.dart';
+import 'package:softun_bus_mobile/models/req_res_model.dart';
+import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/services/urls.dart';
 
@@ -14,7 +14,7 @@ class UserService extends GetxService {
     return this;
   }
 
-  late User user;
+  late ChangePasswordRequest req;
   var dio = Dio();
 
   Dio createDio() {
@@ -23,34 +23,106 @@ class UserService extends GetxService {
 
   SharedPreferenceService sharedPreferenceService = Get.find();
 
-  // getUser() async {
-  //   try {
-  //     print("**************** getUser ********************");
-  //     var path = AppUrls.profile;
-  //     print(path);
+  getUserSharedPrefs({required String token}) async {
+    try {
+      print("**************** getUserSharedPrefs ********************");
+      var path = AppUrls.profile;
+      var response = await dio.post(
+        path,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
 
-  //     var s = await sharedPreferenceService.getString("token");
-  //     print("s =   ==== $s");
-  //     var token = jsonDecode(s)["access-token"];
-  //     print("token");
-  //     print(token);
-  //     var response = await dio.post(
-  //       path,
-  //       options: Options(
-  //         headers: {
-  //           'content-type': 'application/json',
-  //           'Accept': 'application/json',
-  //           'Authorization': 'Bearer $token',
-  //         },
-  //       ),
-  //     );
-  //     if (response.statusCode == 200) {
-  //       return response;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     if (e is DioError) throw (e.response?.data['error']);
-  //   }
-  // }
+  getUserFromApi({required String token}) async {
+    try {
+      print("**************** getUserFromApi ********************");
+      var path = AppUrls.profile;
 
+      var response = await dio.get(
+        path,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
+
+  updateUserPerso({required String token, required User user}) async {
+    try {
+      print("**************** updateUserPerso ********************");
+      var data = jsonEncode(user.toJson());
+      var path = AppUrls.updatePerso;
+
+      var response = await dio.post(
+        path,
+        data: data,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
+
+  updatePassword(
+      {required String token,
+      required String newPassword,
+      required String oldPassword}) async {
+    try {
+      req = ChangePasswordRequest(
+          newPassword: newPassword, oldPassword: oldPassword);
+      var data = jsonEncode(req.toJson());
+      var path = AppUrls.updatePassword;
+
+      dynamic response = await dio.post(
+        path,
+        data: data,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
 }

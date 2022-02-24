@@ -1,1 +1,1 @@
-enum BtnType { AccentFilled, AccentOutlined, PrimaryOutline }
+enum BtnType { AccentFilled, AccentOutlined, PrimaryOutline, Inactive }

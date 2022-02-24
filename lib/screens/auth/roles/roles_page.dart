@@ -4,7 +4,7 @@ import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/auth/roles/roles_controller.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
-import 'package:softun_bus_mobile/widgets/btn_grey.dart';
+import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 
 class RolesPage extends StatelessWidget {
   const RolesPage({Key? key}) : super(key: key);

@@ -84,7 +84,10 @@ flutter:
         - asset: fonts/RobotoSlab-Regular.ttf
     - family: PTMono
       fonts:
-        - asset: fonts/PTMono-Regular.ttf    
+        - asset: fonts/PTMono-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf    
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

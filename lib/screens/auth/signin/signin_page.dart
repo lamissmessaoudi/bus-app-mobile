@@ -10,7 +10,7 @@ import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.da
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
-import 'package:softun_bus_mobile/widgets/btn_grey.dart';
+import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 import 'package:softun_bus_mobile/widgets/custom_text_field.dart';
 
 class SigninPage extends GetView<SigninController> {
@@ -43,7 +43,7 @@ class SigninPage extends GetView<SigninController> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Login",
+                              "E-mail",
                               style: AppTextStyles.primarySlab17,
                             ),
                           ),
@@ -55,26 +55,36 @@ class SigninPage extends GetView<SigninController> {
                             focusColor: AppColors.accentColor,
                             borderColor: AppColors.primaryColor,
                             errorColor: AppColors.errorColor,
-                            validator: controller.validateEmpty,
+                            validator: controller.validateEmail,
+                            inputType: TextInputType.emailAddress,
                           ),
                           SizedBox(
                             height: 30,
                           ),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("Password",
+                            child: Text("Mot de passe",
                                 style: AppTextStyles.primarySlab17),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           CustomTextField(
-                            obscureText: true,
                             controller: controller.passwordController,
                             focusColor: AppColors.accentColor,
                             borderColor: AppColors.primaryColor,
                             errorColor: AppColors.errorColor,
-                            validator: controller.validateEmpty,
+                            validator: controller.validateMDP,
+                            obscureText: controller.mdpVis.value,
+                            suffixIcon: GestureDetector(
+                              onTap: controller.toggleVisibility,
+                              child: Icon(
+                                controller.mdpVis.value
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                color: AppColors.inactiveText,
+                              ),
+                            ),
                           ),
                           SizedBox(
                             height: 30,

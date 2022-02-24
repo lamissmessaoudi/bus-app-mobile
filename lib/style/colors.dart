@@ -6,10 +6,15 @@ class AppColors {
   static Color secondaryColor = HexColor("323941"); //dark grey
   static Color accentColor = HexColor("FF9728"); //Orange
   static Color saumonColor = HexColor("FFCC96"); //Saumon
-  static Color tabColor = HexColor("F1F5F8"); //Saumon
-  static Color errorColor = HexColor("e04f5f");
-  static Color hintColor = HexColor("323941");
-  static Color borderColor = HexColor("D5D8DE");
+  static Color tabColor = HexColor("F1F5F8"); //btn + navbar bg
+  static Color errorColor = HexColor("e04f5f"); //red
+  static Color hintColor = HexColor("323941"); //very dark grey
+  static Color borderColor = HexColor("D5D8DE"); // textfield border
+  static Color green = HexColor("139652"); //activation header
+  static Color blue = HexColor("49a8df"); // Badge Border
+  static Color inactiveGrayBg = HexColor("dadada"); //Inactive Badge
+  static Color inactiveText = HexColor("7A7A7A"); //Inactive Badge Tzxt
+  static Color headerGray = HexColor("F4F4F4"); //activation header
 }
 
 class HexColor extends Color {

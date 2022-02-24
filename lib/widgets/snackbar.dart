@@ -18,3 +18,20 @@ getErrorSnackBar({title: String, message: String}) {
     duration: const Duration(milliseconds: 2500),
   );
 }
+
+getSuccessSnackBar({title: String, message: String}) {
+  Get.closeAllSnackbars();
+  // Get.closeCurrentSnackbar();
+
+  return Get.snackbar(
+    title,
+    message,
+    borderRadius: 8,
+    snackPosition: SnackPosition.TOP,
+    isDismissible: true,
+    backgroundColor: AppColors.green,
+    margin: const EdgeInsets.all(4),
+    colorText: AppColors.white,
+    duration: const Duration(milliseconds: 2500),
+  );
+}
