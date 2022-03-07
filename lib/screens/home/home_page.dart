@@ -43,6 +43,11 @@ class HomePage extends StatelessWidget {
                         text: "Roles",
                         onTap: () => Get.toNamed(Routes.roles),
                       ),
+                      SizedBox(height: 20),
+                      CustomButton(
+                        text: "Activation",
+                        onTap: () => Get.toNamed(Routes.activate),
+                      ),
                     ],
                   ),
                 ),

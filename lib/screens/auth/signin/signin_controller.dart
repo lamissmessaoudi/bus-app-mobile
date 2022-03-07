@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
+import 'package:softun_bus_mobile/models/req_res_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
@@ -73,17 +74,37 @@ class SigninController extends GetxController {
 
       print("Trying to sign in controller...");
       var response = await api.signIn(username: username, password: password);
+      print(" Sign In response.statusCode  === ${response.statusCode}");
 
-      // get token and save it in local storage
-      token = Token.fromJson(response.data);
-      await sharedPreferenceService.setString(
-          "token", jsonEncode(token.toJson()));
+      if (response.statusCode == 200) {
+        // get token and save it in local storage
+        token = Token.fromJson(response.data);
+        await sharedPreferenceService.setString(
+            "token", jsonEncode(token.toJson()));
 
-      //Get User Infos
-      user = await getUser(response.data['access_token']);
+        //Get User Infos
+        user = await getUser(response.data['access_token']);
 
-      //redirect the user to the Homepage
-      Get.offAllNamed(Routes.roles);
+        //redirect the user to the Homepage
+        Get.offAllNamed(Routes.roles);
+      }
+
+      // user inactive
+      if (response.statusCode == 400) {
+        var login = LoginRequest(password: password, username: username);
+        //redirect the user to the Activate his account
+        Get.offAllNamed(Routes.activate, parameters: {
+          'login': jsonEncode(login.toJson()),
+          'email': username,
+          'password': password
+        });
+      }
+
+      // wrong password
+      if (response.statusCode == 401) {
+        //Show snack bar error msg
+        getErrorSnackBar(title: "Oops!", message: "Mot de passe incorrect");
+      }
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

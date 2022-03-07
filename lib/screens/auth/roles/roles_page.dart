@@ -28,40 +28,46 @@ class RolesPage extends StatelessWidget {
                       height: 200,
                     ),
                     SizedBox(height: 70),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                    Center(
+                      child: Container(
+                        width: 500,
+                        alignment: Alignment.center,
+                        child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Image.asset(Assets.collaborateur),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Image.asset(Assets.collaborateur),
+                                ),
+                                CustomButton(
+                                  text: "Collaborateur",
+                                  onTap: () => Get.toNamed(Routes.initial),
+                                )
+                              ],
                             ),
-                            CustomButton(
-                              text: "Collaborateur",
-                              onTap: () => Get.toNamed(Routes.initial),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Image.asset(Assets.driver),
+                                ),
+                                CustomButton(
+                                  text: "Chauffeur",
+                                  onTap: () => Get.toNamed(Routes.initial),
+                                ),
+                              ],
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Image.asset(Assets.driver),
-                            ),
-                            CustomButton(
-                              text: "Chauffeur",
-                              onTap: () => Get.toNamed(Routes.initial),
-                            ),
-                          ],
-                        )
-                      ],
+                      ),
                     )
                   ],
                 ),

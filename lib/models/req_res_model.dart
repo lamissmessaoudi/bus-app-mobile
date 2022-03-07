@@ -8,6 +8,11 @@ class LoginRequest {
         "username": username,
         "password": password,
       };
+
+  factory LoginRequest.fromJson(dynamic json) => LoginRequest(
+        username: json["username"],
+        password: json["password"],
+      );
 }
 
 class ChangePasswordRequest {

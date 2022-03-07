@@ -21,6 +21,10 @@ class Station {
   dynamic localisation;
   dynamic circuit;
 
+  int get hashCode => id.hashCode;
+
+  bool operator ==(Object other) => other is Station && other.id == id;
+
   factory Station.fromJson(Map<String, dynamic> json) => Station(
         id: json["id"],
         name: json["name"],

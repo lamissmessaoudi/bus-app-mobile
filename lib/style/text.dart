@@ -15,6 +15,12 @@ class AppTextStyles {
     fontFamily: 'RobotoSlab',
     fontWeight: FontWeight.w300,
   );
+  static TextStyle primarySlab20 = TextStyle(
+    fontSize: 20,
+    color: AppColors.primaryColor,
+    fontFamily: 'RobotoSlab',
+    fontWeight: FontWeight.w300,
+  );
   static TextStyle primarySlab17 = TextStyle(
     fontSize: 17,
     color: AppColors.primaryColor,
@@ -31,18 +37,24 @@ class AppTextStyles {
     fontSize: 14,
     color: AppColors.inactiveText,
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w200,
   );
   static TextStyle activeMontserrat14 = TextStyle(
     fontSize: 14,
     color: Colors.black,
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w200,
   );
   static TextStyle hintPTMono18 = TextStyle(
     fontSize: 18,
     color: AppColors.hintColor,
     fontFamily: 'PTMono',
     // fontWeight: FontWeight.w300,
+  );
+  static TextStyle accentPTMono18 = TextStyle(
+    fontSize: 18,
+    color: AppColors.accentColor,
+    fontFamily: 'PTMono',
+    fontWeight: FontWeight.bold,
   );
 }

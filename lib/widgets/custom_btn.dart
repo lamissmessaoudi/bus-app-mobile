@@ -47,7 +47,7 @@ class CustomButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10.0),
           child: Text(
             text,
-            style: AppTextStyles.primarySlab24.copyWith(
+            style: AppTextStyles.primarySlab20.copyWith(
               color: btnType == BtnType.AccentFilled
                   ? AppColors.white
                   : btnType == BtnType.AccentOutlined

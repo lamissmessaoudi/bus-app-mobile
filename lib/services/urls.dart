@@ -6,4 +6,6 @@ class AppUrls {
   static const String profile = BASE_URL + "/user/";
   static const String updatePassword = profile + "updatepassword";
   static const String updatePerso = profile + "update";
+  static const String allStations = BASE_URL + "/stations/";
+  static const String activate = BASE_URL + "/signup/activateAccountMobile";
 }

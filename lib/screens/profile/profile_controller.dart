@@ -3,15 +3,18 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/req_res_model.dart';
+import 'package:softun_bus_mobile/models/station_model.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
-import 'package:softun_bus_mobile/routes/app_routes.dart';
+import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
 class ProfileController extends GetxController {
   SharedPreferenceService sharedPreferenceService = Get.find();
+  StationService stationApi = Get.find();
+
   var nameController = TextEditingController(),
       lastnameController = TextEditingController(),
       phoneController = TextEditingController(),
@@ -26,11 +29,14 @@ class ProfileController extends GetxController {
   var newMdpVis = true.obs;
   var conMdpVis = true.obs;
   var activeBtnPerso = false.obs;
+  var updatedPassword = false.obs;
 
   UserService api = Get.find();
 
   String? name, lastname;
   late User fetchetedUser, updatedUser;
+  late Station? chosenStation;
+  late List<Station> stationsList;
 
   GlobalKey<FormState> formKeyPerso = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyMDP = GlobalKey<FormState>();
@@ -70,8 +76,6 @@ class ProfileController extends GetxController {
   String? validatePassword(value) {
     if (value.toString().isEmpty) {
       return "Entrez votre mot de passe";
-    } else if (!(value.length >= 8)) {
-      return "Le mot de passe doit avoir au moins 8 caractères";
     }
   }
 
@@ -97,7 +101,29 @@ class ProfileController extends GetxController {
   onInit() async {
     super.onInit();
     await getProfileData();
+    await getStations();
     autoFillFields();
+  }
+
+  getStations() async {
+    try {
+      isLoadingProfile(true);
+      print("getStations...");
+
+      var response = await stationApi.getAllStations();
+      print('response stations , ${response.data}');
+
+      stationsList =
+          List<Station>.from(response.data.map((x) => Station.fromJson(x)));
+      print(
+          "list of stations   =   ${stationsList.toString()}    ${stationsList.length}");
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    } finally {
+      isLoadingProfile(false);
+      update();
+    }
   }
 
   autoFillFields() {
@@ -105,10 +131,25 @@ class ProfileController extends GetxController {
     lastnameController.text = fetchetedUser.lastname;
     phoneController.text = fetchetedUser.phone;
     emailController.text = fetchetedUser.email;
-    stationController.text = fetchetedUser.station.toString();
+    // stationController.text = fetchetedUser.station.name;
+    chosenStation = fetchetedUser.station; //= null;
 
+    print("station profil :   $chosenStation");
     name = fetchetedUser.name;
     lastname = fetchetedUser.lastname;
+    setBtnState();
+  }
+
+  emptyPasswordFields() {
+    oldMDPController.text = '';
+    newMDPController.text = '';
+    conMDPController.text = '';
+  }
+
+  void selectStation(Station? newval) {
+    chosenStation = newval;
+    print("selectStation    ${chosenStation}");
+    update();
     setBtnState();
   }
 
@@ -154,7 +195,7 @@ class ProfileController extends GetxController {
     bool v = (nameController.text != fetchetedUser.name ||
         lastnameController.text != fetchetedUser.lastname ||
         phoneController.text != fetchetedUser.phone ||
-        stationController.text != fetchetedUser.station.toString());
+        chosenStation != fetchetedUser.station);
     activeBtnPerso.value = v;
     update();
   }
@@ -171,9 +212,7 @@ class ProfileController extends GetxController {
       updatedUser.lastname = lastnameController.text;
       updatedUser.email = emailController.text;
       updatedUser.phone = phoneController.text;
-
-      //-------- FIX THIS LATER -------------
-      updatedUser.station = fetchetedUser.station;
+      updatedUser.station = chosenStation ?? fetchetedUser.station;
 
       print("Trying to update perso controller...");
 
@@ -195,7 +234,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  void updatePassword() async {
+  updatePassword() async {
     print("Trying to update Password ...");
 
     try {
@@ -215,9 +254,14 @@ class ProfileController extends GetxController {
       ChangePasswordResponse res =
           ChangePasswordResponse.fromJson(response.data);
 
-      (res.status == "200")
-          ? getSuccessSnackBar(title: "Succés", message: res.message)
-          : getErrorSnackBar(title: "Oops!", message: res.message);
+      if (res.status == "200") {
+        getSuccessSnackBar(title: "Succés", message: res.message);
+        updatedPassword.value = true;
+        update();
+        print("updatedPassword === ${updatedPassword.value}");
+      } else {
+        getErrorSnackBar(title: "Oops!", message: res.message);
+      }
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

@@ -6,7 +6,7 @@ import 'package:softun_bus_mobile/style/text.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hint;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final Color focusColor;
   final Color borderColor;
   final Color errorColor;
@@ -20,7 +20,7 @@ class CustomTextField extends StatefulWidget {
 
   CustomTextField(
       {this.hint = "",
-      required this.controller,
+      this.controller,
       this.onChanged,
       required this.focusColor,
       required this.borderColor,

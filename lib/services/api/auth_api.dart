@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:softun_bus_mobile/models/req_res_model.dart';
+import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/services/urls.dart';
+import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
 class AuthService extends GetxService {
   Future<AuthService> init() async {
@@ -50,7 +52,17 @@ class AuthService extends GetxService {
       }
     } catch (e) {
       print(e);
-      if (e is DioError) throw (e.response?.data['error']);
+
+      if (e is DioError) {
+        print(e.response?.data['error_description']);
+        if (e.response?.data['error_description'] == "User account is locked") {
+          Get.toNamed(Routes.roles);
+          return e
+              .response; // getErrorSnackBar(message: "User account is locked");
+        } else {
+          throw (e.response?.data['error']);
+        }
+      }
     }
   }
 }

@@ -20,4 +20,5 @@ class Assets {
   static const String signpost = "assets/signpost.png";
   static const String user = "assets/user.png";
   static const String start = "assets/start.png";
+  static const String done = "assets/done.png";
 }
