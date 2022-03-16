@@ -8,4 +8,6 @@ abstract class Routes {
   static const profile = '/profile';
   static const activate = '/activate';
   static const welcome = '/welcome';
+  static const homeColab = '/homeColab';
+  static const homeDriver = '/homeDriver';
 }

@@ -4,10 +4,16 @@ import 'package:softun_bus_mobile/screens/profile/profile_controller.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 
-class CustomDialog extends StatelessWidget {
+class CustomDialog extends StatefulWidget {
   @override
   final Widget child;
   CustomDialog({required this.child});
+
+  @override
+  State<CustomDialog> createState() => _CustomDialogState();
+}
+
+class _CustomDialogState extends State<CustomDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -46,7 +52,7 @@ class CustomDialog extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [child],
+                    children: [widget.child],
                   ),
                 ),
                 Positioned(

@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/bindings/activation_binding.dart';
 import 'package:softun_bus_mobile/bindings/home_binding.dart';
+import 'package:softun_bus_mobile/bindings/home_colab_binding.dart';
+import 'package:softun_bus_mobile/bindings/home_driver_binding.dart';
 import 'package:softun_bus_mobile/bindings/profile_binding.dart';
 import 'package:softun_bus_mobile/bindings/roles_binding.dart';
 import 'package:softun_bus_mobile/bindings/signin_binding.dart';
@@ -10,6 +12,8 @@ import 'package:softun_bus_mobile/screens/activation/activation_page.dart';
 import 'package:softun_bus_mobile/screens/activation/welcome_page.dart';
 import 'package:softun_bus_mobile/screens/auth/roles/roles_page.dart';
 import 'package:softun_bus_mobile/screens/auth/signin/signin_page.dart';
+import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_page.dart';
+import 'package:softun_bus_mobile/screens/home/homeDriver/home_driver_page.dart';
 import 'package:softun_bus_mobile/screens/home/home_page.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_page.dart';
 
@@ -44,6 +48,16 @@ class AppPages {
       name: Routes.welcome,
       page: () => WelcomePage(),
       binding: WelcomeBinding(),
+    ),
+    GetPage(
+      name: Routes.homeColab,
+      page: () => HomeColabPage(),
+      binding: HomeColabBinding(),
+    ),
+    GetPage(
+      name: Routes.homeDriver,
+      page: () => HomeDriverPage(),
+      binding: HomeDriverBinding(),
     ),
   ];
 }

@@ -8,12 +8,14 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
   final double? width;
   final BtnType btnType;
+  final bool isSmall;
 
   const CustomButton(
       {Key? key,
       required this.text,
       required this.onTap,
       this.width = 230,
+      this.isSmall = false,
       this.btnType = BtnType.PrimaryOutline})
       : super(key: key);
 
@@ -44,7 +46,9 @@ class CustomButton extends StatelessWidget {
                         ? AppColors.inactiveGrayBg
                         : AppColors.tabColor,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10.0),
+          padding: isSmall
+              ? const EdgeInsets.symmetric(horizontal: 20, vertical: 5.0)
+              : const EdgeInsets.symmetric(horizontal: 30, vertical: 10.0),
           child: Text(
             text,
             style: AppTextStyles.primarySlab20.copyWith(
@@ -55,6 +59,7 @@ class CustomButton extends StatelessWidget {
                       : btnType == BtnType.Inactive
                           ? AppColors.inactiveText
                           : AppColors.primaryColor,
+              fontSize: isSmall ? 17 : 20,
             ),
             textAlign: TextAlign.center,
           ),

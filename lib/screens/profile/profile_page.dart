@@ -327,7 +327,10 @@ class ProfilePage extends StatelessWidget {
                                     Center(
                                       child: CustomButton(
                                         text: "Changer le mot de passe ",
-                                        onTap: controller.updatePassword,
+                                        onTap: () {
+                                          controller.updatePassword(
+                                              controller.formKeyMDP);
+                                        },
                                         btnType: BtnType.AccentOutlined,
                                         width: null,
                                       ),

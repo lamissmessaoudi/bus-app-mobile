@@ -66,7 +66,7 @@ class WelcomePage extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) => CustomDialog(
                               child: Form(
-                                key: controller.formKeyMDP,
+                                key: controller.formKeyMDPwelcome,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -88,24 +88,32 @@ class WelcomePage extends StatelessWidget {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    CustomTextField(
-                                        controller: controller.oldMDPController,
-                                        focusColor: AppColors.accentColor,
-                                        borderColor: AppColors.borderColor,
-                                        errorColor: AppColors.errorColor,
-                                        validator: controller.validatePassword,
-                                        obscureText: controller.oldMdpVis.value,
-                                        suffixIcon: GestureDetector(
-                                          onTap: () =>
+                                    Obx(
+                                      () => CustomTextField(
+                                          controller:
+                                              controller.oldMDPController,
+                                          focusColor: AppColors.accentColor,
+                                          borderColor: AppColors.borderColor,
+                                          errorColor: AppColors.errorColor,
+                                          validator:
+                                              controller.validatePassword,
+                                          obscureText:
+                                              controller.oldMdpVis.value,
+                                          suffixIcon: GestureDetector(
+                                            onTap: () {
                                               controller.toggleVisibility(
-                                                  controller.oldMdpVis),
-                                          child: Icon(
-                                            controller.oldMdpVis.value
-                                                ? Icons.visibility_off_outlined
-                                                : Icons.visibility_outlined,
-                                            color: AppColors.inactiveText,
-                                          ),
-                                        )),
+                                                  controller.oldMdpVis);
+                                              controller.update();
+                                            },
+                                            child: Icon(
+                                              controller.oldMdpVis.value
+                                                  ? Icons
+                                                      .visibility_off_outlined
+                                                  : Icons.visibility_outlined,
+                                              color: AppColors.inactiveText,
+                                            ),
+                                          )),
+                                    ),
                                     SizedBox(
                                       height: 15,
                                     ),
@@ -116,25 +124,30 @@ class WelcomePage extends StatelessWidget {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    CustomTextField(
-                                        controller: controller.newMDPController,
-                                        focusColor: AppColors.accentColor,
-                                        borderColor: AppColors.borderColor,
-                                        errorColor: AppColors.errorColor,
-                                        validator:
-                                            controller.validateNewPassword,
-                                        obscureText: controller.newMdpVis.value,
-                                        suffixIcon: GestureDetector(
-                                          onTap: () =>
-                                              controller.toggleVisibility(
-                                                  controller.newMdpVis),
-                                          child: Icon(
-                                            controller.newMdpVis.value
-                                                ? Icons.visibility_off_outlined
-                                                : Icons.visibility_outlined,
-                                            color: AppColors.inactiveText,
-                                          ),
-                                        )),
+                                    Obx(
+                                      () => CustomTextField(
+                                          controller:
+                                              controller.newMDPController,
+                                          focusColor: AppColors.accentColor,
+                                          borderColor: AppColors.borderColor,
+                                          errorColor: AppColors.errorColor,
+                                          validator:
+                                              controller.validateNewPassword,
+                                          obscureText:
+                                              controller.newMdpVis.value,
+                                          suffixIcon: GestureDetector(
+                                            onTap: () =>
+                                                controller.toggleVisibility(
+                                                    controller.newMdpVis),
+                                            child: Icon(
+                                              controller.newMdpVis.value
+                                                  ? Icons
+                                                      .visibility_off_outlined
+                                                  : Icons.visibility_outlined,
+                                              color: AppColors.inactiveText,
+                                            ),
+                                          )),
+                                    ),
                                     SizedBox(
                                       height: 15,
                                     ),
@@ -145,23 +158,25 @@ class WelcomePage extends StatelessWidget {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    CustomTextField(
-                                      controller: controller.conMDPController,
-                                      focusColor: AppColors.accentColor,
-                                      borderColor: AppColors.borderColor,
-                                      errorColor: AppColors.errorColor,
-                                      validator:
-                                          controller.validateConfirmedPassword,
-                                      obscureText: controller.conMdpVis.value,
-                                      suffixIcon: GestureDetector(
-                                        onTap: () =>
-                                            controller.toggleVisibility(
-                                                controller.conMdpVis),
-                                        child: Icon(
-                                          controller.conMdpVis.value
-                                              ? Icons.visibility_off_outlined
-                                              : Icons.visibility_outlined,
-                                          color: AppColors.inactiveText,
+                                    Obx(
+                                      () => CustomTextField(
+                                        controller: controller.conMDPController,
+                                        focusColor: AppColors.accentColor,
+                                        borderColor: AppColors.borderColor,
+                                        errorColor: AppColors.errorColor,
+                                        validator: controller
+                                            .validateConfirmedPassword,
+                                        obscureText: controller.conMdpVis.value,
+                                        suffixIcon: GestureDetector(
+                                          onTap: () =>
+                                              controller.toggleVisibility(
+                                                  controller.conMdpVis),
+                                          child: Icon(
+                                            controller.conMdpVis.value
+                                                ? Icons.visibility_off_outlined
+                                                : Icons.visibility_outlined,
+                                            color: AppColors.inactiveText,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -184,8 +199,9 @@ class WelcomePage extends StatelessWidget {
                                               splashColor:
                                                   AppColors.accentColor,
                                               onTap: () async {
-                                                await controller
-                                                    .updatePassword();
+                                                await controller.updatePassword(
+                                                    controller
+                                                        .formKeyMDPwelcome);
                                                 if (controller.updatedPassword
                                                         .value ==
                                                     true) {

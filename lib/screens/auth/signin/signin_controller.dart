@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
@@ -16,7 +15,6 @@ class SigninController extends GetxController {
   GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   AuthService api = Get.find();
   UserService userApi = Get.find();
-
   SharedPreferenceService sharedPreferenceService = Get.find();
   late Token token;
   late User user;
@@ -82,7 +80,7 @@ class SigninController extends GetxController {
         await sharedPreferenceService.setString(
             "token", jsonEncode(token.toJson()));
 
-        //Get User Infos
+        //Get User Infos From Api
         user = await getUser(response.data['access_token']);
 
         //redirect the user to the Homepage

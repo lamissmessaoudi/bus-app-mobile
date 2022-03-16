@@ -25,7 +25,7 @@ class _ActivePersoState extends State<ActivePerso> {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Form(
-          key: controller.formKeyPerso,
+          key: controller.formKeyPersonel,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

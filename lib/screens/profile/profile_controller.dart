@@ -40,6 +40,7 @@ class ProfileController extends GetxController {
 
   GlobalKey<FormState> formKeyPerso = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyMDP = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyMDPwelcome = GlobalKey<FormState>();
 
   toggleVisibility(RxBool vis) {
     vis.value = !vis.value;
@@ -134,9 +135,14 @@ class ProfileController extends GetxController {
     // stationController.text = fetchetedUser.station.name;
     chosenStation = fetchetedUser.station; //= null;
 
-    print("station profil :   $chosenStation");
     name = fetchetedUser.name;
     lastname = fetchetedUser.lastname;
+
+    emptyPasswordFields();
+    oldMdpVis.value = true;
+    newMdpVis.value = true;
+    conMdpVis.value = true;
+
     setBtnState();
   }
 
@@ -234,12 +240,12 @@ class ProfileController extends GetxController {
     }
   }
 
-  updatePassword() async {
+  updatePassword(GlobalKey<FormState> f) async {
     print("Trying to update Password ...");
 
     try {
       // to check the all the condition of the appTextField
-      if (!formKeyMDP.currentState!.validate()) {
+      if (!f.currentState!.validate()) {
         print("form MDP not valideee");
         return;
       }
@@ -258,7 +264,7 @@ class ProfileController extends GetxController {
         getSuccessSnackBar(title: "Succés", message: res.message);
         updatedPassword.value = true;
         update();
-        print("updatedPassword === ${updatedPassword.value}");
+        autoFillFields();
       } else {
         getErrorSnackBar(title: "Oops!", message: res.message);
       }

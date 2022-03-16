@@ -10,6 +10,7 @@ import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/activation_api.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
+import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
@@ -18,6 +19,8 @@ class ActivationController extends GetxController {
   StationService stationApi = Get.find();
   AuthService authApi = Get.find();
   ActivationService api = Get.find();
+  UserService userApi = Get.find();
+  GlobalKey<FormState> formKeyDropDown = GlobalKey<FormState>();
 
   final step = ActivationStep.Personal.obs;
 
@@ -35,10 +38,10 @@ class ActivationController extends GetxController {
   var mdp;
 
   dynamic activedUser;
-  late List<Station> stationsList;
+  List<Station> stationsList = [];
   Station? chosenStation = null;
 
-  GlobalKey<FormState> formKeyPerso = GlobalKey<FormState>();
+  GlobalKey<FormState> formKeyPersonel = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyLocation = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyPassword = GlobalKey<FormState>();
 
@@ -135,7 +138,7 @@ class ActivationController extends GetxController {
     print("setPerso()");
 
     // to check the all the condition of the appTextField
-    if (!formKeyPerso.currentState!.validate()) {
+    if (!formKeyPersonel.currentState!.validate()) {
       print("form Perso not valideee");
       return;
     }
@@ -146,19 +149,11 @@ class ActivationController extends GetxController {
         phone: phoneController.text,
         poste: posteController.text,
         active: true);
-    print("iiiiiiii , ${activedUser.runtimeType}");
     step.value = ActivationStep.Location;
-    print("step.value , ${step.value}");
     update();
   }
 
   void setLocation() async {
-    print("setloooocR");
-    // to check the all the condition of the appTextField
-    // if (!formKeyLocation.currentState!.validate()) {
-    //   print("form Location not valideee");
-    //   return;
-    // }
     //GET THE STATION FROM THE FORM
     print("iiiiiiii , ${activedUser.runtimeType}");
     if (chosenStation != null) {
@@ -183,6 +178,8 @@ class ActivationController extends GetxController {
       }
       var response = await api.activateUser(user: activedUser);
       User u = User.fromJson(response.data);
+      // userConnected.user?.value = u;
+      update();
 
       print("Trying to sign in controller...");
       var resAuth =
