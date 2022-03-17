@@ -44,7 +44,9 @@ class RolesPage extends StatelessWidget {
                                 ),
                                 CustomButton(
                                   text: "Collaborateur",
-                                  onTap: () => Get.toNamed(Routes.homeColab),
+                                  onTap: () => Get.offAllNamed(Routes.initial,
+                                      parameters: {'route': Routes.homeColab}),
+                                  //  Get.toNamed(Routes.homeColab),
                                 )
                               ],
                             ),
@@ -61,7 +63,9 @@ class RolesPage extends StatelessWidget {
                                 ),
                                 CustomButton(
                                   text: "Chauffeur",
-                                  onTap: () => Get.toNamed(Routes.homeDriver),
+                                  onTap: () => Get.offAllNamed(Routes.initial,
+                                      parameters: {'route': Routes.homeDriver}),
+                                  //  Get.toNamed(Routes.homeDriver),
                                 ),
                               ],
                             )
