@@ -113,12 +113,9 @@ class ActivationController extends GetxController {
       print("getStations...");
 
       var response = await stationApi.getAllStations();
-      print('response stations , ${response.data}');
 
       stationsList =
           List<Station>.from(response.data.map((x) => Station.fromJson(x)));
-      print(
-          "list of stations   =   ${stationsList.toString()}    ${stationsList.length}");
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

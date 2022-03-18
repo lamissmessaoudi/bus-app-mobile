@@ -22,7 +22,11 @@ class HomePage extends StatelessWidget {
             init: HomeController(),
             initState: (_) {},
             builder: (controller) {
-              return getBody(controller);
+              return PageStorage(
+                  bucket: controller.bucket,
+                  child: controller.pages[controller.currentIndex.value]);
+
+              // return getBody(controller);
               // SingleChildScrollView(
               //   child: Center(
               //     child: Column(
