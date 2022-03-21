@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
+import 'package:softun_bus_mobile/style/text.dart';
 
 class CustomAnimatedBottomBar extends StatelessWidget {
   CustomAnimatedBottomBar({
@@ -138,9 +139,9 @@ class _ItemWidget extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 4),
                       child: DefaultTextStyle.merge(
-                        style: TextStyle(
+                        style: AppTextStyles.primarySlab17.copyWith(
                           color: item.activeColor ?? activeColor,
-                          fontWeight: FontWeight.bold,
+                          // fontWeight: FontWeight.bold,
                         ),
                         maxLines: 1,
                         textAlign: item.textAlign,

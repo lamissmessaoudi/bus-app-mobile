@@ -46,10 +46,12 @@ class ProfilePage extends StatelessWidget {
                               ),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 35),
                                   child: Text(
                                     "${controller.name} ${controller.lastname}",
                                     style: AppTextStyles.primarySlab36,
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),

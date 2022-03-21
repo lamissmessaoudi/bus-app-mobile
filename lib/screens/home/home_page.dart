@@ -8,61 +8,45 @@ import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_page
 import 'package:softun_bus_mobile/screens/home/homeDriver/home_driver_page.dart';
 import 'package:softun_bus_mobile/screens/home/home_controller.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_page.dart';
+import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/widgets/custom_animated_bottom_bar.dart';
+import 'package:softun_bus_mobile/widgets/custom_navigation_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // final controller = Get.put(HomeController());
+    GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: scaffoldState,
+      drawer: CustomDrawer(),
       bottomNavigationBar: _buildBottomBar(),
       body: ConnectivityContainer(
         child: GetBuilder<HomeController>(
             init: HomeController(),
             initState: (_) {},
             builder: (controller) {
-              return PageStorage(
+              return Stack(children: [
+                PageStorage(
                   bucket: controller.bucket,
-                  child: controller.pages[controller.currentIndex.value]);
-
-              // return getBody(controller);
-              // SingleChildScrollView(
-              //   child: Center(
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         SizedBox(height: 20),
-              //         Text(
-              //           "Home",
-              //           style: AppTextStyles.primarySlab36,
-              //         ),
-              //         SizedBox(height: 100),
-              //         CustomButton(
-              //           text: "Profile",
-              //           onTap: () => Get.toNamed(Routes.profile),
-              //         ),
-              //         SizedBox(height: 20),
-              //         CustomButton(
-              //           text: "Sign In",
-              //           onTap: () => Get.toNamed(Routes.signin),
-              //         ),
-              //         SizedBox(height: 20),
-              //         CustomButton(
-              //           text: "Roles",
-              //           onTap: () => Get.toNamed(Routes.roles),
-              //         ),
-              //         SizedBox(height: 20),
-              //         CustomButton(
-              //           text: "Activation",
-              //           onTap: () => Get.toNamed(Routes.activate),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-
-              // );
+                  child: controller.pages[controller.currentIndex.value],
+                ),
+                // return getBody(controller);
+                Positioned(
+                  left: 10,
+                  top: 20,
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: AppColors.primaryColor,
+                      ),
+                      onPressed: () =>
+                          scaffoldState.currentState?.openDrawer()),
+                )
+              ]);
             }),
       ),
     );
@@ -108,6 +92,9 @@ Widget _buildBottomBar() {
   );
 }
 
+//THIS CODE BUILDS All the pages at once and in the same time at first
+// problem: updating the profile doesn't update the info in the home
+// we needed the pages to rebuild each time we navigate to them
 Widget getBody(HomeController controller) {
   List<Widget> pages = [
     controller.route == Routes.homeColab

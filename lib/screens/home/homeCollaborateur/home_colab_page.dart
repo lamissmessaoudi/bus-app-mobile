@@ -36,9 +36,13 @@ class HomeColabPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(height: 30),
-                              Text(
-                                "Bonjour ${controller.name}",
-                                style: AppTextStyles.primarySlab36,
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 40),
+                                child: Text(
+                                  "Bonjour ${controller.name}",
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.primarySlab36,
+                                ),
                               ),
                               SizedBox(height: 40),
 
