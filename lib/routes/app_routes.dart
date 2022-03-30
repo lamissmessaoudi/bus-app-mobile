@@ -1,5 +1,3 @@
-import 'package:softun_bus_mobile/screens/activation/welcome_page.dart';
-
 abstract class Routes {
   static const initial = '/';
   static const roles = '/roles';
@@ -10,4 +8,5 @@ abstract class Routes {
   static const welcome = '/welcome';
   static const homeColab = '/homeColab';
   static const homeDriver = '/homeDriver';
+  static const request = '/request';
 }

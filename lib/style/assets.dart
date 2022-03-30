@@ -21,4 +21,15 @@ class Assets {
   static const String user = "assets/user.png";
   static const String start = "assets/start.png";
   static const String done = "assets/done.png";
+  static const String station = "assets/station.png";
+  static const String emptyBox = "assets/emptyBox.png";
+  static const String locked = "assets/locked.png";
+  static const String demande = "assets/demande.png";
+  static const String sent = "assets/sent.png";
+  static const String shield = "assets/shield.png";
+  static const String rightArrow = "assets/rightArrow.png";
+  static const String leftArrow = "assets/leftArrow.png";
+  static const String nextFloating = "assets/nextFloating.png";
+  static const String backFloating = "assets/backFloating.png";
+  static const String switchIcon = "assets/switch.png";
 }

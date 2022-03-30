@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
-import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
 import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_controller.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
+import 'package:softun_bus_mobile/widgets/card_bus.dart';
 import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 import 'package:softun_bus_mobile/widgets/custom_dialog.dart';
+import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 
 class HomeColabPage extends StatelessWidget {
   const HomeColabPage({Key? key}) : super(key: key);
@@ -23,19 +24,17 @@ class HomeColabPage extends StatelessWidget {
             initState: (_) {},
             builder: (controller) {
               return controller.isLoadingHome.value
-                  ? Center(
-                      child: (Text("LOADINGGGGG")),
-                    )
+                  ? CustomLoader()
                   : SingleChildScrollView(
                       child: Center(
                         child: Container(
                           width: 500,
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          margin: EdgeInsets.symmetric(horizontal: 35),
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(height: 30),
                               Container(
                                 margin: EdgeInsets.symmetric(horizontal: 40),
                                 child: Text(
@@ -115,197 +114,21 @@ class HomeColabPage extends StatelessWidget {
 
                               //  Bus Card
                               // card 1
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 5,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 15),
-                                              child: Image.asset(
-                                                Assets.bus,
-                                                width: 60,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Text("Bus n° 36",
-                                                      style: AppTextStyles
-                                                          .primarySlab24),
-                                                  Text(
-                                                    "Circuit",
-                                                    style: AppTextStyles
-                                                        .primarySlab17,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  color: AppColors.green),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 3,
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  "Disponible",
-                                                  style: AppTextStyles
-                                                      .primarySlab17
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.white),
-                                                ),
-                                              ),
-                                            )
-                                          ]),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Arrivée dans 5 min",
-                                        style: AppTextStyles.primarySlab17,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Text(
-                                          "Station actuelle: Manar 3",
-                                          style: AppTextStyles.primarySlab17,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Center(
-                                        child: CustomButton(
-                                          isSmall: true,
-                                          width: null,
-                                          text: "Visualiser",
-                                          btnType: BtnType.AccentOutlined,
-                                          onTap: () =>
-                                              Get.toNamed(Routes.welcome),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              BusCard(
+                                arrivee: " 5 mins",
+                                bus: "Bus n°34",
+                                circuit: "Circuit 5",
+                                dispo: true,
+                                stationActuelle: "ElGhazela",
                               ),
                               SizedBox(height: 20),
-                              // card 2
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                elevation: 5,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 15),
-                                              child: Image.asset(
-                                                Assets.bus,
-                                                width: 60,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Text("Bus n° 31",
-                                                      style: AppTextStyles
-                                                          .primarySlab24),
-                                                  Text(
-                                                    "Circuit 5",
-                                                    style: AppTextStyles
-                                                        .primarySlab17,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  color: AppColors.errorColor),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 3,
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  "Complet",
-                                                  style: AppTextStyles
-                                                      .primarySlab17
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.white),
-                                                ),
-                                              ),
-                                            )
-                                          ]),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Arrivée dans 10 min",
-                                        style: AppTextStyles.primarySlab17,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Text(
-                                          "Station actuelle: Menzah 5",
-                                          style: AppTextStyles.primarySlab17,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Center(
-                                        child: CustomButton(
-                                          isSmall: true,
-                                          width: null,
-                                          text: "Visualiser",
-                                          btnType: BtnType.AccentOutlined,
-                                          onTap: () =>
-                                              Get.toNamed(Routes.welcome),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              BusCard(
+                                arrivee: " 5 mins",
+                                bus: "Bus n°34",
+                                circuit: "Circuit 5",
+                                dispo: false,
+                                stationActuelle: "Menzah 5",
                               ),
-                              SizedBox(height: 20),
                             ],
                           ),
                         ),

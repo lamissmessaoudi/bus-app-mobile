@@ -1,25 +1,26 @@
 import 'dart:convert';
 
-import 'package:softun_bus_mobile/models/location_model.dart';
-
 Station stationFromJson(String str) => Station.fromJson(json.decode(str));
 
 String stationToJson(Station data) => json.encode(data.toJson());
 
 class Station {
-  Station({
-    required this.id,
-    required this.name,
-    required this.description,
-    this.localisation,
-    this.circuit,
-  });
+  Station(
+      {required this.id,
+      required this.name,
+      required this.description,
+      this.localisation,
+      this.subscribedUsers,
+      this.longitude,
+      this.lattitude});
 
   int id;
   String name;
   String description;
   dynamic localisation;
-  dynamic circuit;
+  dynamic subscribedUsers;
+  dynamic longitude;
+  dynamic lattitude;
 
   int get hashCode => id.hashCode;
 
@@ -30,7 +31,8 @@ class Station {
         name: json["name"],
         description: json["description"],
         localisation: json["localisation"],
-        circuit: json["circuit"],
+        longitude: json["longitude"],
+        lattitude: json["lattitude"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,6 +40,7 @@ class Station {
         "name": name,
         "description": description,
         "localisation": localisation,
-        "circuit": circuit,
+        "longitude": longitude,
+        "lattitude": lattitude,
       };
 }

@@ -8,6 +8,7 @@ import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_btn.dart';
+import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 import 'package:softun_bus_mobile/widgets/custom_text_field.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -22,14 +23,13 @@ class ProfilePage extends StatelessWidget {
             initState: (_) {},
             builder: (controller) {
               return controller.isLoadingProfile.value
-                  ? Center(
-                      child: (Text("LOADINGGGGG")),
-                    )
+                  ? CustomLoader()
                   : SingleChildScrollView(
                       child: Center(
                         child: Container(
                           width: 500,
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          margin: EdgeInsets.symmetric(horizontal: 35),
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
                           child: Column(
                             children: [
                               SizedBox(
@@ -254,6 +254,7 @@ class ProfilePage extends StatelessWidget {
                                         errorColor: AppColors.errorColor,
                                         validator: controller.validatePassword,
                                         obscureText: controller.oldMdpVis.value,
+                                        minLines: 1,
                                         suffixIcon: GestureDetector(
                                           onTap: () =>
                                               controller.toggleVisibility(
@@ -283,6 +284,7 @@ class ProfilePage extends StatelessWidget {
                                         validator:
                                             controller.validateNewPassword,
                                         obscureText: controller.newMdpVis.value,
+                                        minLines: 1,
                                         suffixIcon: GestureDetector(
                                           onTap: () =>
                                               controller.toggleVisibility(
@@ -312,6 +314,7 @@ class ProfilePage extends StatelessWidget {
                                         validator: controller
                                             .validateConfirmedPassword,
                                         obscureText: controller.conMdpVis.value,
+                                        minLines: 1,
                                         suffixIcon: GestureDetector(
                                           onTap: () =>
                                               controller.toggleVisibility(

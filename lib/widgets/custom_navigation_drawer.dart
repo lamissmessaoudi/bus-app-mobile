@@ -29,7 +29,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             buildDrawerItem(
               asset: Assets.mapEdit,
-              text: "Demande",
+              text: "Demandes",
               onTap: () => navigate(0),
               route: Routes.roles,
             ),
@@ -98,9 +98,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   navigate(int index) {
     if (index == 0) {
-      Get.toNamed(Routes.roles);
+      Get.toNamed(Routes.request);
     } else if (index == 1) {
-      Get.toNamed(Routes.welcome);
+      Get.toNamed(Routes.roles);
     }
     if (index == 2) {
       Get.toNamed(Routes.profile);

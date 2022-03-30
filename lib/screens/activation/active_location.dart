@@ -6,6 +6,7 @@ import 'package:softun_bus_mobile/screens/activation/activation_controller.dart'
 import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_btn.dart';
+import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 
 class ActiveLocation extends StatefulWidget {
   ActiveLocation({
@@ -26,9 +27,7 @@ class _ActiveLocationState extends State<ActiveLocation> {
         initState: (_) {},
         builder: (controller) {
           return controller.isLoadingActivation.value
-              ? Center(
-                  child: (Text("LOADINGGGGG")),
-                )
+              ? CustomLoader()
               : Container(
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),

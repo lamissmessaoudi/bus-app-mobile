@@ -17,6 +17,7 @@ class CustomTextField extends StatefulWidget {
   final Widget? prefix;
   final Widget? suffixIcon;
   final Function? onChanged;
+  final int? minLines;
 
   CustomTextField(
       {this.hint = "",
@@ -30,7 +31,8 @@ class CustomTextField extends StatefulWidget {
       this.enabled = true,
       this.prefix = null,
       this.suffixIcon = null,
-      this.validator});
+      this.validator,
+      this.minLines});
 
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
@@ -54,6 +56,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.obscureText,
       keyboardType: widget.inputType,
       enabled: widget.enabled,
+      minLines: widget.minLines,
+      maxLines: widget.minLines,
       decoration: InputDecoration(
         hintText: widget.hint,
         focusColor: AppColors.accentColor,
@@ -75,7 +79,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             width: 2.0,
           ),
         ),
-        hintStyle: AppTextStyles.hintPTMono18,
+        hintStyle:
+            AppTextStyles.hintPTMono18.copyWith(color: AppColors.inactiveText),
         prefix: widget.prefix,
         suffixIcon: widget.suffixIcon,
       ),

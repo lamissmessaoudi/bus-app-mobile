@@ -77,6 +77,7 @@ class SigninPage extends GetView<SigninController> {
                               errorColor: AppColors.errorColor,
                               validator: controller.validateMDP,
                               obscureText: controller.mdpVis.value,
+                              minLines: 1,
                               suffixIcon: GestureDetector(
                                 onTap: controller.toggleVisibility,
                                 child: Icon(

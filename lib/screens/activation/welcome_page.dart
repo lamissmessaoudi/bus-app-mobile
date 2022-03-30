@@ -99,6 +99,7 @@ class WelcomePage extends StatelessWidget {
                                               controller.validatePassword,
                                           obscureText:
                                               controller.oldMdpVis.value,
+                                          minLines: 1,
                                           suffixIcon: GestureDetector(
                                             onTap: () {
                                               controller.toggleVisibility(
@@ -135,6 +136,7 @@ class WelcomePage extends StatelessWidget {
                                               controller.validateNewPassword,
                                           obscureText:
                                               controller.newMdpVis.value,
+                                          minLines: 1,
                                           suffixIcon: GestureDetector(
                                             onTap: () =>
                                                 controller.toggleVisibility(
@@ -167,6 +169,7 @@ class WelcomePage extends StatelessWidget {
                                         validator: controller
                                             .validateConfirmedPassword,
                                         obscureText: controller.conMdpVis.value,
+                                        minLines: 1,
                                         suffixIcon: GestureDetector(
                                           onTap: () =>
                                               controller.toggleVisibility(
