@@ -37,9 +37,9 @@ class RequestCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(demande.name, style: AppTextStyles.primarySlab24),
+                    Text(demande.titre, style: AppTextStyles.primarySlab24),
                     Text(
-                      demande.date,
+                      demande.date ?? "",
                       style: AppTextStyles.primarySlab14,
                     )
                   ],
@@ -48,21 +48,21 @@ class RequestCard extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: demande.state == RequestState.Accepted
+                    color: demande.status == RequestState.Accepted
                         ? AppColors.green
-                        : demande.state == RequestState.Rejected
+                        : demande.status == RequestState.Rejected
                             ? AppColors.errorColor
                             : AppColors.yellow),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                  child: demande.state == RequestState.Accepted
+                  child: demande.status == RequestState.Accepted
                       ? Text(
                           "Acceptée",
                           style: AppTextStyles.primarySlab17
                               .copyWith(color: AppColors.white),
                         )
-                      : demande.state == RequestState.Rejected
+                      : demande.status == RequestState.Rejected
                           ? Text(
                               "Refusée",
                               style: AppTextStyles.primarySlab17
@@ -82,7 +82,7 @@ class RequestCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Text(
-                "${demande.description} , ${demande.zone}",
+                "${demande.description} ",
                 style: AppTextStyles.primarySlab17,
               ),
             ),

@@ -34,6 +34,7 @@ class StartDriving extends StatelessWidget {
                   Assets.start,
                   fit: BoxFit.contain,
                 )),
+            onTap: controller.selectCircuit,
           ),
           SizedBox(height: 20),
           Center(

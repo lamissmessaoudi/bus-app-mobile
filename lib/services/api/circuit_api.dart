@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:softun_bus_mobile/models/demande_model.dart';
+import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/services/urls.dart';
 
-class StationService extends GetxService {
-  Future<StationService> init() async {
+class CircuitService extends GetxService {
+  Future<CircuitService> init() async {
     dio = createDio();
     return this;
   }
@@ -20,36 +20,12 @@ class StationService extends GetxService {
 
   SharedPreferenceService sharedPreferenceService = Get.find();
 
-  getAllStations() async {
+  getAllCircuits({required String token}) async {
     try {
-      var path = AppUrls.allStations;
+      var path = AppUrls.allCircuits;
 
       var response = await dio.get(
         path,
-        options: Options(
-          headers: {
-            'content-type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Basic c29mdHVuLWJ1czpzZWNyZXQ='
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        return response;
-      }
-    } catch (e) {
-      print(e);
-      if (e is DioError) throw (e.response?.data['error']);
-    }
-  }
-
-  addStation({required String token, required Demande demande}) async {
-    try {
-      var path = AppUrls.sendRequest;
-
-      var response = await dio.post(
-        path,
-        data: jsonEncode(demande.toJson()),
         options: Options(
           headers: {
             'content-type': 'application/json',
@@ -67,9 +43,9 @@ class StationService extends GetxService {
     }
   }
 
-  getAllRequests() async {
+  getAvailableCircuits({required String token}) async {
     try {
-      var path = AppUrls.allRequests;
+      var path = AppUrls.availableCircuits;
 
       var response = await dio.get(
         path,
@@ -77,11 +53,10 @@ class StationService extends GetxService {
           headers: {
             'content-type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Basic c29mdHVuLWJ1czpzZWNyZXQ='
+            'Authorization': 'Bearer $token',
           },
         ),
       );
-      print(response);
       if (response.statusCode == 200) {
         return response;
       }
@@ -91,12 +66,13 @@ class StationService extends GetxService {
     }
   }
 
-  getUserRequests({required String token}) async {
+  reserveCircuit({required String token, required Circuit circuit}) async {
     try {
-      var path = AppUrls.userRequests;
-
-      var response = await dio.get(
+      var path = AppUrls.reserveCircuit;
+      print("reserveCircuit");
+      var response = await dio.post(
         path,
+        data: jsonEncode(circuit.toJson()),
         options: Options(
           headers: {
             'content-type': 'application/json',

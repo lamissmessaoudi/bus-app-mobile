@@ -1,32 +1,36 @@
+import 'dart:convert';
+
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
+
+Demande demandeFromJson(String str) => Demande.fromJson(json.decode(str));
+
+String demandeToJson(Demande data) => json.encode(data.toJson());
 
 class Demande {
   Demande({
-    required this.name,
-    required this.zone,
+    required this.titre,
     required this.description,
-    required this.date,
-    this.state,
+    this.date,
+    this.status = RequestState.Inprogress,
     // required this.location,
   });
 
-  String name;
-  String zone;
+  String titre;
   String description;
-  String date;
-  RequestState? state;
+  String? date;
+  RequestState? status;
 
-  factory Demande.fromJson(dynamic json) => Demande(
-        name: json.name,
-        zone: json.zone,
-        description: json.description,
-        date: json.date,
-        state: json.state,
+  factory Demande.fromJson(Map<String, dynamic> json) => Demande(
+        titre: json["titre"],
+        description: json["description"],
+        // state: json["state"],
+        status: EnumToString.fromString(RequestState.values, json["status"]),
+        date: json["date"],
       );
 
   Map<String, dynamic> toJson() => {
-        "zone": zone,
         "description": description,
-        "date": date,
+        "titre": titre,
       };
 }

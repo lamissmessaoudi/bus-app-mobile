@@ -32,16 +32,32 @@ class RequestStationController extends GetxController {
   }
 
   @override
-  void onInit() {
+  onInit() async {
     // TODO: implement onInit
     super.onInit();
-    // Demande d = Demande(
-    //     name: "Demande",
-    //     zone: "Ariana",
-    //     description: "Rond point petite Arianna prés de magasin général",
-    //     date: "20/05/2O22",
-    //     state: RequestState.Accepted);
-    demandeList = [];
+    await getRequests();
+  }
+
+  getRequests() async {
+    try {
+      isLoadingRequest(true);
+      print("getRequests...");
+
+      var t = await getAccessToken();
+      var response = await stationApi.getUserRequests(token: t);
+
+      demandeList =
+          List<Demande>.from(response.data.map((x) => Demande.fromJson(x)));
+      print(" { demandeList[0]}= ${demandeList[0]} /// type: ${{
+        demandeList[0]
+      }.runtimeType} ");
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    } finally {
+      isLoadingRequest(false);
+      update();
+    }
   }
 
   getAccessToken() async {
@@ -58,30 +74,20 @@ class RequestStationController extends GetxController {
         print("form Add station not valideee");
         return;
       }
-
       Demande d = Demande(
-          name: "Demande",
-          zone: zoneController.text,
-          description: descriptionController.text,
-          date: "20/05/2O22",
-          state: RequestState.Accepted);
-
-      ///// FORE UI TESTS
-      demandeList.add(d);
-      step.value = RequestStep.requestSucces;
-      update();
+        titre: zoneController.text,
+        description: descriptionController.text,
+      );
 
       var t = await getAccessToken();
-      // var response = await stationApi.addStation(
-      //   token: t,
-      //   demande: d,
-      // );
+      var response = await stationApi.addStation(
+        token: t,
+        demande: d,
+      );
 
-      // if (response.status == "200") {
-      //   Get.toNamed(Routes.requestSuccess);
-      // } else {
-      //   getErrorSnackBar(title: "Oops!", message: response.message);
-      // }
+      step.value = RequestStep.requestSucces;
+      await getRequests();
+      update();
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
