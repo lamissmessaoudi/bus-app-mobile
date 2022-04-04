@@ -128,7 +128,7 @@ class SigninPage extends GetView<SigninController> {
                                     decoration: TextDecoration.underline),
                               ),
                               onTap: () {
-                                Get.toNamed(Routes.roles);
+                                Get.toNamed(Routes.forgetPassword);
                               },
                             ),
                           ],

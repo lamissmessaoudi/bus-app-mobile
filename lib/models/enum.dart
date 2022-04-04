@@ -31,3 +31,10 @@ enum RoleType {
   collaborateur,
   admin,
 }
+
+enum ForgetPasswordStep {
+  recuperationEmail,
+  recuperationCode,
+  recuperationPassword,
+  recuperationSucces,
+}

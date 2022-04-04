@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 
@@ -18,21 +19,24 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final Function? onChanged;
   final int? minLines;
+  final bool isCode;
 
-  CustomTextField(
-      {this.hint = "",
-      this.controller,
-      this.onChanged,
-      required this.focusColor,
-      required this.borderColor,
-      required this.errorColor,
-      this.inputType = TextInputType.text,
-      this.obscureText = false,
-      this.enabled = true,
-      this.prefix = null,
-      this.suffixIcon = null,
-      this.validator,
-      this.minLines});
+  CustomTextField({
+    this.hint = "",
+    this.controller,
+    this.onChanged,
+    required this.focusColor,
+    required this.borderColor,
+    required this.errorColor,
+    this.inputType = TextInputType.text,
+    this.obscureText = false,
+    this.enabled = true,
+    this.prefix = null,
+    this.suffixIcon = null,
+    this.validator,
+    this.minLines,
+    this.isCode = false,
+  });
 
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
@@ -49,6 +53,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(widget.isCode ? 1 : 200),
+      ],
       style: AppTextStyles.hintPTMono18,
       validator: widget.validator,
       controller: widget.controller,
