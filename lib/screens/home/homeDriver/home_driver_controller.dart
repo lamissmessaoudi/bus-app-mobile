@@ -52,7 +52,7 @@ class HomeDriverController extends GetxController {
       print("getCircuits ...");
       var t = await getAccessToken();
 
-      var response = await circuitApi.getAllCircuits(token: t);
+      var response = await circuitApi.getAvailableCircuits(token: t);
 
       circuitList =
           List<Circuit>.from(response.data.map((x) => Circuit.fromJson(x)));

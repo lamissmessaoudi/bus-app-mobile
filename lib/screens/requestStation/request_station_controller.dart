@@ -45,12 +45,10 @@ class RequestStationController extends GetxController {
 
       var t = await getAccessToken();
       var response = await stationApi.getUserRequests(token: t);
+      print(response.data);
 
       demandeList =
           List<Demande>.from(response.data.map((x) => Demande.fromJson(x)));
-      print(" { demandeList[0]}= ${demandeList[0]} /// type: ${{
-        demandeList[0]
-      }.runtimeType} ");
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
@@ -75,6 +73,7 @@ class RequestStationController extends GetxController {
         return;
       }
       Demande d = Demande(
+        date: "",
         titre: zoneController.text,
         description: descriptionController.text,
       );

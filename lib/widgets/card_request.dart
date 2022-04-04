@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:softun_bus_mobile/models/demande_model.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
@@ -14,6 +15,7 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime? date = DateTime.tryParse(demande.date);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 5,
@@ -39,7 +41,7 @@ class RequestCard extends StatelessWidget {
                   children: [
                     Text(demande.titre, style: AppTextStyles.primarySlab24),
                     Text(
-                      demande.date ?? "",
+                      DateFormat.yMMMMd().format(date!),
                       style: AppTextStyles.primarySlab14,
                     )
                   ],

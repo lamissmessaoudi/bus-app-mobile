@@ -42,16 +42,12 @@ class RequestFormPage extends StatelessWidget {
                 validator: controller.validateEmpty,
                 hint: "Ex: Ariana",
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               Text(
                 "Description détaillée de l'emplacement:",
                 style: AppTextStyles.hintPTMono18,
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               CustomTextField(
                 controller: controller.descriptionController,
                 focusColor: AppColors.accentColor,
@@ -61,12 +57,12 @@ class RequestFormPage extends StatelessWidget {
                 hint: "Ex: Rond point petite Arianna prés de magasin général ",
                 minLines: 2,
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 20),
               Text(
-                "Ou bien choisissez l'emplacement sur la carte:",
+                "Choisissez l'emplacement sur la carte:",
                 style: AppTextStyles.hintPTMono18,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Container(
                 height: 150,
                 color: AppColors.inactiveGrayBg,

@@ -11,14 +11,14 @@ class Demande {
   Demande({
     required this.titre,
     required this.description,
-    this.date,
+    required this.date,
     this.status = RequestState.Inprogress,
     // required this.location,
   });
 
   String titre;
   String description;
-  String? date;
+  String date;
   RequestState? status;
 
   factory Demande.fromJson(Map<String, dynamic> json) => Demande(
