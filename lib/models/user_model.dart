@@ -1,3 +1,5 @@
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/models/location_model.dart';
 import 'package:softun_bus_mobile/models/role_model.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
@@ -22,7 +24,7 @@ class User {
   String poste;
   Location? location;
   Station station;
-  List<Role> roles;
+  List<RoleType> roles;
   bool active;
 
   factory User.fromJson(dynamic json) => User(
@@ -30,7 +32,8 @@ class User {
         lastname: json["lastname"],
         email: json["email"],
         phone: json["phone"],
-        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
+        roles: List.from(json["roles"].map((x) =>
+            EnumToString.fromString(RoleType.values, Role.fromJson(x).name))),
         location: json["location"],
         station: Station.fromJson(json["station"]),
         poste: json["poste"],
@@ -42,7 +45,8 @@ class User {
         "lastname": lastname,
         "email": email,
         "phone": phone,
-        "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
+        "roles": List.from(roles
+            .map((x) => Role(name: EnumToString.convertToString(x)).toJson())),
         "station": station.toJson(),
         "location": location,
         "poste": poste,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
+import 'package:softun_bus_mobile/screens/home/home_controller.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_controller.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
@@ -14,9 +16,11 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  final c = Get.put(ProfileController());
+  final h = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
-    final c = Get.put(ProfileController());
     return Drawer(
       child: Container(
         child: Column(
@@ -24,32 +28,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
             SizedBox(height: 20),
             buildDrawerHeader(c),
             SizedBox(height: 20),
-            Divider(
-              color: AppColors.inactiveGrayBg,
-            ),
-            buildDrawerItem(
-              asset: Assets.mapEdit,
-              text: "Demandes",
-              onTap: () => navigate(0),
-              route: Routes.roles,
-            ),
-            Divider(
-              color: AppColors.inactiveGrayBg,
-            ),
+            h.role == RoleType.collaborateur
+                ? buildDrawerItem(
+                    asset: Assets.mapEdit,
+                    text: "Demandes",
+                    onTap: () => navigate(0),
+                    route: Routes.roles,
+                  )
+                : SizedBox(),
             buildDrawerItem(
               asset: Assets.locationMap,
               text: "Stations",
               onTap: () => navigate(1),
               route: Routes.welcome,
             ),
-            Divider(
-              color: AppColors.inactiveGrayBg,
-            ),
             buildDrawerItem(
               asset: Assets.logout,
               text: "Logout",
               onTap: () => navigate(2),
-              route: Routes.profile,
+              route: Routes.signin,
             )
           ],
         ),
@@ -80,30 +77,37 @@ class _CustomDrawerState extends State<CustomDrawer> {
       required VoidCallback onTap,
       required String route,
       z}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-        leading: Image.asset(asset),
-        title: Text(
-          text,
-          style: AppTextStyles.primarySlab17.copyWith(
-              color: Get.currentRoute == route
-                  ? AppColors.accentColor
-                  : AppColors.primaryColor),
+    return Column(
+      children: [
+        Divider(
+          color: AppColors.inactiveGrayBg,
         ),
-        onTap: onTap,
-      ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            leading: Image.asset(asset),
+            title: Text(
+              text,
+              style: AppTextStyles.primarySlab17.copyWith(
+                  color: Get.currentRoute == route
+                      ? AppColors.accentColor
+                      : AppColors.primaryColor),
+            ),
+            onTap: onTap,
+          ),
+        ),
+      ],
     );
   }
 
   navigate(int index) {
     if (index == 0) {
-      Get.toNamed(Routes.request);
+      h.role == RoleType.collaborateur ? Get.toNamed(Routes.request) : null;
     } else if (index == 1) {
       Get.toNamed(Routes.roles);
     }
     if (index == 2) {
-      Get.toNamed(Routes.profile);
+      Get.toNamed(Routes.signin);
     }
   }
 }
