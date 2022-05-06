@@ -30,6 +30,7 @@ class _CustomDialogState extends State<CustomDialog> {
         builder: (controller) {
           return Container(
             // Don't Add Padding here
+            width: 500,
             margin: EdgeInsets.only(left: 0.0, right: 0.0),
             child: Stack(
               children: <Widget>[
@@ -37,6 +38,7 @@ class _CustomDialogState extends State<CustomDialog> {
                   padding: EdgeInsets.all(
                     18.0,
                   ),
+                  width: 500,
                   margin: EdgeInsets.symmetric(vertical: 25.0, horizontal: 20),
                   decoration: BoxDecoration(
                       color: AppColors.white,

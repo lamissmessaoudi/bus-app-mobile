@@ -10,4 +10,8 @@ abstract class Routes {
   static const homeDriver = '/homeDriver';
   static const request = '/request';
   static const forgetPassword = '/forgetPassword';
+  static const visualizeBus = '/visualizeBus';
+  static const maptest = '/maptest';
+  static const searchMap = '/searchMap';
+  static const homeexpl = '/homeexpl';
 }

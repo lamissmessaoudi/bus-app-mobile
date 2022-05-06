@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
@@ -29,6 +30,17 @@ class HomeColabController extends GetxController {
   late User fetchedUser, updatedUser;
   late Station? chosenStation;
   late List<Station> stationsList;
+
+  // MapController mapController = MapController(
+  //   initMapWithUserPosition: false,
+  //   initPosition: GeoPoint(latitude: 47.4358055, longitude: 8.4737324),
+  //   areaLimit: BoundingBox(
+  //     east: 10.4922941,
+  //     north: 47.8084648,
+  //     south: 45.817995,
+  //     west: 5.9559113,
+  //   ),
+  // );
 
   @override
   onInit() async {

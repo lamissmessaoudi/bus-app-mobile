@@ -82,7 +82,8 @@ class InactiveUser {
         lastname: json["lastname"],
         email: json["email"],
         phone: json["phone"],
-        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
+        roles: List.from(json["roles"].map((x) =>
+            EnumToString.fromString(RoleType.values, Role.fromJson(x).name))),
         location: json["location"],
         station: Station.fromJson(json["station"]),
         poste: json["poste"],

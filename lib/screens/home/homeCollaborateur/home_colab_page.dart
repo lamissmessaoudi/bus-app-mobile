@@ -249,7 +249,10 @@ class HomeColabPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10),
               child: Center(
-                child: Image.asset(Assets.locationMap),
+                child: Image.asset(
+                  Assets.locationMap,
+                  height: 60,
+                ),
               ),
             ),
             SizedBox(

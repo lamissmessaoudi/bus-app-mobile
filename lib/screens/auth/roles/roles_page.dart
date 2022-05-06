@@ -45,7 +45,8 @@ class RolesPage extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(10),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
                                         child:
                                             Image.asset(Assets.collaborateur),
                                       ),
@@ -68,7 +69,8 @@ class RolesPage extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(10),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
                                         child: Image.asset(Assets.driver),
                                       ),
                                       CustomButton(

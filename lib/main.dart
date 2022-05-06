@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,6 @@ import 'package:softun_bus_mobile/services/shared-prefs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await initServices();
   runApp(GetApp());
 }
@@ -34,7 +35,10 @@ class GetApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.signin,
+        initialRoute:
+            // Routes.homeexpl,
+            // Routes.maptest,
+            Routes.signin,
         initialBinding: NetworkBinding(),
         defaultTransition: Transition.fade,
         getPages: AppPages.pages,

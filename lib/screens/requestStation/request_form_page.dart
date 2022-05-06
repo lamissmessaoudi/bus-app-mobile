@@ -6,6 +6,7 @@ import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 import 'package:softun_bus_mobile/widgets/custom_text_field.dart';
+import 'package:softun_bus_mobile/widgets/pick_location_container.dart';
 
 class RequestFormPage extends StatelessWidget {
   const RequestFormPage({Key? key}) : super(key: key);
@@ -65,7 +66,8 @@ class RequestFormPage extends StatelessWidget {
               SizedBox(height: 15),
               Container(
                 height: 150,
-                color: AppColors.inactiveGrayBg,
+                // color: AppColors.inactiveGrayBg,
+                child: LocationPicker(),
               ),
               SizedBox(
                 height: 20,
