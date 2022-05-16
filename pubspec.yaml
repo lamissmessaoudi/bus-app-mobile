@@ -42,6 +42,10 @@ dependencies:
   enum_to_string: ^2.0.1
   intl: ^0.17.0
   flutter_osm_plugin: ^0.33.0+2
+  firebase_core: ^1.16.0
+  firebase_database: ^9.0.13
+  location: ^4.3.0
+  device_info_plus: ^3.2.3
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
+import 'package:softun_bus_mobile/services/api/visualization_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
@@ -15,6 +16,7 @@ class SigninController extends GetxController {
   GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   AuthService api = Get.find();
   UserService userApi = Get.find();
+  VisualisationService visService = Get.find();
   SharedPreferenceService sharedPreferenceService = Get.find();
   late Token token;
   late User user;
@@ -80,6 +82,9 @@ class SigninController extends GetxController {
         await sharedPreferenceService.setString(
             "token", jsonEncode(token.toJson()));
 
+        //set the current device id to the connected user
+        await setDeviceId(response.data['access_token']);
+
         //Get User Infos From Api
         user = await getUser(response.data['access_token']);
 
@@ -129,6 +134,29 @@ class SigninController extends GetxController {
       getErrorSnackBar(title: "Oops!", message: error.toString());
     } finally {
       isLoadingSignIn(false);
+    }
+  }
+
+  setDeviceId(String t) async {
+    try {
+      isLoadingSignIn(true);
+
+      //Get deviceId from device
+      String x = await visService.initDeviceId();
+      print("visService.initDeviceId()  ${x}");
+
+      //set deviceId to user
+      var response = await userApi.setDeviceId(token: t, deviceId: x);
+
+      //save deviceId to the local storage
+      await sharedPreferenceService.setString("deviceId", x);
+    } catch (error) {
+      getErrorSnackBar(
+          title: "Oops!", message: "setDeviceId ${error.toString()}");
+      print(error);
+    } finally {
+      isLoadingSignIn(false);
+      update();
     }
   }
 }

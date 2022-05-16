@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
-import 'package:softun_bus_mobile/screens/activation/activation_page.dart';
 import 'package:softun_bus_mobile/screens/activation/welcome_page.dart';
 import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_page.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/home_driver_page.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_controller.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_page.dart';
+import 'package:softun_bus_mobile/screens/visualize/visualize_page.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
@@ -35,7 +35,7 @@ class HomeController extends GetxController {
               ? HomeDriverPage()
               : WelcomePage(),
       ProfilePage(),
-      ActivationPage(),
+      VisualizePage(),
       // WelcomePage(),
     ];
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_controller.dart';
@@ -10,15 +10,14 @@ import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 
 class BusCard extends StatelessWidget {
-  final String bus, circuit, arrivee, stationActuelle;
-  final bool dispo;
+  final String bus, arrivee, stationActuelle;
+  final CircuitDto circuit;
   BusCard({
     Key? key,
     required this.bus,
     required this.circuit,
     required this.arrivee,
     required this.stationActuelle,
-    required this.dispo,
   }) : super(key: key);
 
   final controller = Get.put(HomeColabController());
@@ -48,7 +47,7 @@ class BusCard extends StatelessWidget {
                   children: [
                     Text(bus, style: AppTextStyles.primarySlab24),
                     Text(
-                      circuit,
+                      circuit.name,
                       style: AppTextStyles.primarySlab17,
                     )
                   ],
@@ -57,11 +56,13 @@ class BusCard extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: dispo ? AppColors.green : AppColors.errorColor),
+                    color: circuit.available
+                        ? AppColors.green
+                        : AppColors.errorColor),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-                  child: dispo
+                  child: circuit.available
                       ? Text(
                           "Disponible",
                           style: AppTextStyles.primarySlab17
@@ -99,18 +100,8 @@ class BusCard extends StatelessWidget {
                 text: "Visualiser",
                 btnType: BtnType.AccentOutlined,
                 onTap: () async {
-                  Get.toNamed(Routes.visualizeBus);
-
-                  // RoadInfo roadInfo = await controller.mapController.drawRoad(
-                  //   GeoPoint(latitude: 47.35387, longitude: 8.43609),
-                  //   GeoPoint(latitude: 47.4371, longitude: 8.6136),
-                  //   roadOption: RoadOption(
-                  //     roadColor: Colors.yellow,
-                  //     roadWidth: 70,
-                  //   ),
-                  // );
-                  // print("${roadInfo.distance}km");
-                  // print("${roadInfo.duration}sec");
+                  controller.selectCircuit(circuit);
+                  Get.toNamed(Routes.visualize);
                 },
               ),
             ),

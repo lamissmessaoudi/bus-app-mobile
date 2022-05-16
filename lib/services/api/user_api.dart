@@ -125,4 +125,29 @@ class UserService extends GetxService {
       if (e is DioError) throw (e.response?.data['error']);
     }
   }
+
+  setDeviceId({required String deviceId, required String token}) async {
+    try {
+      print("**************** setDeviceId ********************");
+      var path = AppUrls.updateDevice;
+
+      var response = await dio.post(
+        path,
+        data: deviceId,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
@@ -73,13 +74,11 @@ class HomeColabPage extends StatelessWidget {
                                               Text(
                                                   controller
                                                       .fetchedUser.station.name,
-                                                  // "Station Menzah 2",
                                                   style: AppTextStyles
                                                       .primarySlab24),
                                               Text(
                                                 controller.fetchedUser.station
                                                     .description,
-                                                // "Menzah 2, en face de magasin générale",
                                                 style:
                                                     AppTextStyles.primarySlab17,
                                               )
@@ -113,22 +112,10 @@ class HomeColabPage extends StatelessWidget {
                               SizedBox(height: 20),
 
                               //  Bus Card
-                              // card 1
-                              BusCard(
-                                arrivee: " 5 mins",
-                                bus: "Bus n°34",
-                                circuit: "Circuit 5",
-                                dispo: true,
-                                stationActuelle: "ElGhazela",
-                              ),
-                              SizedBox(height: 20),
-                              BusCard(
-                                arrivee: " 5 mins",
-                                bus: "Bus n°34",
-                                circuit: "Circuit 5",
-                                dispo: false,
-                                stationActuelle: "Menzah 5",
-                              ),
+                              getBusCards(controller.fetchedUser.station.circuit
+                                  // .where((e) => !e.available)
+                                  // .toList()
+                                  )
                             ],
                           ),
                         ),
@@ -137,6 +124,20 @@ class HomeColabPage extends StatelessWidget {
             }),
       ),
     );
+  }
+
+  getBusCards(List<CircuitDto>? list) {
+    return Column(children: [
+      SizedBox(),
+      ...?list?.map(
+        (item) => BusCard(
+          circuit: item,
+          arrivee: " 5 mins",
+          bus: "Bus n°34",
+          stationActuelle: "Menzah 5",
+        ),
+      )
+    ]);
   }
 
   Future<dynamic> changeStationDialog(

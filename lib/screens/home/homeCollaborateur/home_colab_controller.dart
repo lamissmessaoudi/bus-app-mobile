@@ -3,12 +3,16 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
+import 'package:softun_bus_mobile/models/trajet_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/services/api/activation_api.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
+import 'package:softun_bus_mobile/services/api/circuit_api.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
+import 'package:softun_bus_mobile/services/api/trajet_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
@@ -19,6 +23,8 @@ class HomeColabController extends GetxController {
   AuthService authApi = Get.find();
   ActivationService api = Get.find();
   UserService userApi = Get.find();
+  TrajetService trajetApi = Get.find();
+  CircuitService circuitApi = Get.find();
   var activeBtnPerso = false.obs;
   var updatedLocation = false.obs;
 
@@ -29,7 +35,10 @@ class HomeColabController extends GetxController {
   var isLoadingHome = false.obs;
   late User fetchedUser, updatedUser;
   late Station? chosenStation;
+  late CircuitDto? chosenCircuit;
+  late Trajet? chosenTrajet;
   late List<Station> stationsList;
+  late List<Station> trajetStops;
 
   // MapController mapController = MapController(
   //   initMapWithUserPosition: false,
@@ -126,6 +135,40 @@ class HomeColabController extends GetxController {
       await sharedPreferenceService.setString("user", jsonEncode(u.toJson()));
       await getProfileData();
       autoFillFields();
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    }
+  }
+
+  void selectCircuit(CircuitDto? newval) async {
+    chosenCircuit = newval;
+    print("selectCircuit    ${chosenCircuit}");
+    update();
+    //Get.toNamed(visualize)
+    try {
+      print("Trying to get Trajet...");
+
+      // get token
+      var s = await sharedPreferenceService.getString("token");
+      var t = Token.fromJson(json.decode(s)).access_token;
+
+      // get trajet du circuit selectioné
+      var response1 =
+          await trajetApi.getTrajet(token: t, circuit: chosenCircuit!);
+      getSuccessSnackBar(title: "Succés", message: "Trajet obtenu avec succés");
+
+      chosenTrajet = Trajet.fromJson(response1.data);
+      print("chosenTrajet    ${chosenTrajet}");
+      print(json.encode(chosenTrajet));
+
+      // get liste de station du trajet
+      var response2 =
+          await circuitApi.getCircuitById(token: t, id: chosenCircuit!.id);
+      var c = Circuit.fromJson(response2.data);
+      trajetStops = c.station;
+
+      update();
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

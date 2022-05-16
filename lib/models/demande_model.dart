@@ -15,7 +15,6 @@ class Demande {
     required this.latitude,
     required this.longitude,
     this.status = RequestState.Inprogress,
-    // required this.location,
   });
 
   String titre;
@@ -28,7 +27,6 @@ class Demande {
   factory Demande.fromJson(Map<String, dynamic> json) => Demande(
         titre: json["titre"],
         description: json["description"],
-        // state: json["state"],
         status: EnumToString.fromString(RequestState.values, json["status"]),
         date: json["date"],
         longitude: json["longitude"],

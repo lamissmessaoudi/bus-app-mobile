@@ -2,13 +2,11 @@ import 'package:get/get.dart';
 import 'package:softun_bus_mobile/bindings/activation_binding.dart';
 import 'package:softun_bus_mobile/bindings/forget_password_binding.dart';
 import 'package:softun_bus_mobile/bindings/home_binding.dart';
-import 'package:softun_bus_mobile/bindings/maptest_binding.dart';
 import 'package:softun_bus_mobile/bindings/profile_binding.dart';
 import 'package:softun_bus_mobile/bindings/request_station_controller.dart';
 import 'package:softun_bus_mobile/bindings/roles_binding.dart';
-import 'package:softun_bus_mobile/bindings/searchmap_binding.dart';
 import 'package:softun_bus_mobile/bindings/signin_binding.dart';
-import 'package:softun_bus_mobile/bindings/visualize_bus_binding.dart';
+import 'package:softun_bus_mobile/bindings/visualize_binding.dart';
 import 'package:softun_bus_mobile/bindings/welcome_binding.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/activation/activation_page.dart';
@@ -16,10 +14,10 @@ import 'package:softun_bus_mobile/screens/activation/welcome_page.dart';
 import 'package:softun_bus_mobile/screens/auth/roles/roles_page.dart';
 import 'package:softun_bus_mobile/screens/auth/signin/signin_page.dart';
 import 'package:softun_bus_mobile/screens/forgetPassword/forgot_password_page.dart';
-import 'package:softun_bus_mobile/screens/home/homeCollaborateur/visualize_bus.dart';
 import 'package:softun_bus_mobile/screens/home/home_page.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_page.dart';
 import 'package:softun_bus_mobile/screens/requestStation/request_station_page.dart';
+import 'package:softun_bus_mobile/screens/visualize/visualize_page.dart';
 
 class AppPages {
   static final pages = [
@@ -74,9 +72,9 @@ class AppPages {
       binding: ForgetPasswordBinding(),
     ),
     GetPage(
-      name: Routes.visualizeBus,
-      page: () => VisualizeBusPage(),
-      binding: VisualizeBusBinding(),
+      name: Routes.visualize,
+      page: () => VisualizePage(),
+      binding: VisualizeBinding(),
     ),
   ];
 }

@@ -1,6 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
-import 'package:softun_bus_mobile/models/location_model.dart';
 import 'package:softun_bus_mobile/models/role_model.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
 
@@ -11,10 +10,10 @@ class User {
     required this.email,
     required this.phone,
     required this.roles,
-    required this.location,
     required this.station,
     required this.poste,
     required this.active,
+    required this.deviceId,
   });
 
   String name;
@@ -22,10 +21,10 @@ class User {
   String email;
   String phone;
   String poste;
-  Location? location;
   Station station;
   List<RoleType> roles;
   bool active;
+  String deviceId;
 
   factory User.fromJson(dynamic json) => User(
         name: json["name"],
@@ -34,10 +33,10 @@ class User {
         phone: json["phone"],
         roles: List.from(json["roles"].map((x) =>
             EnumToString.fromString(RoleType.values, Role.fromJson(x).name))),
-        location: json["location"],
         station: Station.fromJson(json["station"]),
         poste: json["poste"],
         active: json["active"],
+        deviceId: json["deviceId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,9 +47,9 @@ class User {
         "roles": List.from(roles
             .map((x) => Role(name: EnumToString.convertToString(x)).toJson())),
         "station": station.toJson(),
-        "location": location,
         "poste": poste,
         "active": active,
+        "deviceId": deviceId,
       };
 }
 
@@ -61,7 +60,6 @@ class InactiveUser {
     required this.email,
     required this.phone,
     this.roles,
-    this.location,
     this.station,
     required this.poste,
     required this.active,
@@ -72,7 +70,6 @@ class InactiveUser {
   String email;
   String phone;
   String poste;
-  Location? location;
   Station? station;
   List<Role>? roles;
   bool active;
@@ -84,7 +81,6 @@ class InactiveUser {
         phone: json["phone"],
         roles: List.from(json["roles"].map((x) =>
             EnumToString.fromString(RoleType.values, Role.fromJson(x).name))),
-        location: json["location"],
         station: Station.fromJson(json["station"]),
         poste: json["poste"],
         active: json["active"],
@@ -96,7 +92,6 @@ class InactiveUser {
         "email": email,
         "phone": phone,
         "station": station?.toJson(),
-        "location": location,
         "poste": poste,
         "active": active,
       };

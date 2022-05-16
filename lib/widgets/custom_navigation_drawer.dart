@@ -40,7 +40,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               asset: Assets.locationMap,
               text: "Stations et Circuits",
               onTap: () => navigate(1),
-              route: Routes.welcome,
+              route: Routes.roles,
             ),
             buildDrawerItem(
               asset: Assets.logout,
@@ -104,7 +104,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     if (index == 0) {
       h.role == RoleType.collaborateur ? Get.toNamed(Routes.request) : null;
     } else if (index == 1) {
-      Get.toNamed(Routes.homeexpl);
+      Get.toNamed(Routes.roles);
     }
     if (index == 2) {
       Get.toNamed(Routes.signin);

@@ -51,7 +51,7 @@ class StationCard extends StatelessWidget {
                 ),
               ),
               (station.subscribedUsers != null && station.subscribedUsers != 0)
-                  ? CustomBadge(text: station.subscribedUsers)
+                  ? CustomBadge(text: " ${station.subscribedUsers}")
                   : SizedBox(),
             ]),
           ],

@@ -66,6 +66,29 @@ class CircuitService extends GetxService {
     }
   }
 
+  getCircuitById({required String token, required int id}) async {
+    try {
+      var path = AppUrls.circuitById + "$id";
+
+      var response = await dio.get(
+        path,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
+
   reserveCircuit({required String token, required Circuit circuit}) async {
     try {
       var path = AppUrls.reserveCircuit;
