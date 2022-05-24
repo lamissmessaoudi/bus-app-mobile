@@ -2,8 +2,8 @@ class AppUrls {
   static const String BASE_URL =
       // "http://localhost:8080/softun-bus";
       // "http://10.241.106.20:8080/softun-bus"; //Sofrecomn LAN
-      "http://192.168.38.198:8080/softun-bus"; // Galaxy point accés
-  // "http://10.241.106.12:8080/softun-bus"; //VM
+      "http://192.168.22.198:8080/softun-bus"; // Galaxy point accés
+  // "http://10.241.106.20:8080/softun-bus"; //VM
 
   static const String LOGIN = BASE_URL + "/oauth/token?grant_type=password";
   static const String profile = BASE_URL + "/user/";
@@ -20,4 +20,6 @@ class AppUrls {
   static const String allRequests = BASE_URL + "/demandes/";
   static const String userRequests = BASE_URL + "/demandes/user/";
   static const String trajets = BASE_URL + "/trajet/";
+  static const String reservedCircuit = BASE_URL + "/trajet/reservedCircuit";
+  static const String addTransport = BASE_URL + "/transport/addTransport";
 }

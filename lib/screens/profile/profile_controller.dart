@@ -224,7 +224,8 @@ class ProfileController extends GetxController {
       User u = User.fromJson(response.data);
 
       // save the updated user in the local storage
-      await sharedPreferenceService.setString("user", jsonEncode(u.toJson()));
+      await sharedPreferenceService.setString(
+          "user", jsonEncode(u.toSharedJson()));
       getSuccessSnackBar(
           title: "Succés", message: "Coordonnées changées avec succés");
 

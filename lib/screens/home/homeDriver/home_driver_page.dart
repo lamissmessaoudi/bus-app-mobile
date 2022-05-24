@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/driving_circuits.dart';
+import 'package:softun_bus_mobile/screens/home/homeDriver/driving_selected.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/driving_stations.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/home_driver_controller.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/driving_start.dart';
-import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 
 class HomeDriverPage extends StatelessWidget {
@@ -17,38 +17,6 @@ class HomeDriverPage extends StatelessWidget {
     final c = Get.put(HomeDriverController());
 
     return Scaffold(
-      floatingActionButton: Obx(
-        () => Container(
-          margin: EdgeInsets.only(left: 35),
-          child: c.step == DrivingStep.stationsDriving
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      child: Image.asset(
-                        Assets.backFloating,
-                        width: 50,
-                      ),
-                      onTap: c.returnPage,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: GestureDetector(
-                        child: Image.asset(
-                          Assets.nextFloating,
-                          width: 50,
-                        ),
-                        onTap: () {
-                          c.step.value = DrivingStep.startDriving;
-                          c.update();
-                        },
-                      ),
-                    ),
-                  ],
-                )
-              : null,
-        ),
-      ),
       body: ConnectivityContainer(
         child: GetBuilder<HomeDriverController>(
             init: HomeDriverController(),
@@ -74,7 +42,10 @@ class HomeDriverPage extends StatelessWidget {
                                         : controller.step ==
                                                 DrivingStep.stationsDriving
                                             ? DrivingStations()
-                                            : StartDriving(),
+                                            : controller.step ==
+                                                    DrivingStep.startDriving
+                                                ? StartDriving()
+                                                : DrivingSelected(),
                               ),
                             ),
                             SizedBox(height: 40),

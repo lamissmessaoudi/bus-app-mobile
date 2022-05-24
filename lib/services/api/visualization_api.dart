@@ -37,9 +37,6 @@ class VisualisationService extends GetxService {
       required LocationData? currentLocation}) async {
     // send current location to the Firebase database
     try {
-      print("deviceid $deviceid");
-
-      print("sendCurrentLocation");
       await databaseReference.child(deviceid).set({
         'latitude': currentLocation?.latitude,
         'longitude': currentLocation?.longitude,

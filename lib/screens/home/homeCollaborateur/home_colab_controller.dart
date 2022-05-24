@@ -7,12 +7,15 @@ import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
 import 'package:softun_bus_mobile/models/trajet_model.dart';
+import 'package:softun_bus_mobile/models/transport_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
+import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/activation_api.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/services/api/circuit_api.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/trajet_api.dart';
+import 'package:softun_bus_mobile/services/api/transport_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
@@ -25,11 +28,11 @@ class HomeColabController extends GetxController {
   UserService userApi = Get.find();
   TrajetService trajetApi = Get.find();
   CircuitService circuitApi = Get.find();
+  TransportService transpotApi = Get.find();
   var activeBtnPerso = false.obs;
   var updatedLocation = false.obs;
 
   GlobalKey<FormState> formKeyStation = GlobalKey<FormState>();
-
   String? name;
 
   var isLoadingHome = false.obs;
@@ -37,19 +40,10 @@ class HomeColabController extends GetxController {
   late Station? chosenStation;
   late CircuitDto? chosenCircuit;
   late Trajet? chosenTrajet;
+  late String driverDeviceId;
   late List<Station> stationsList;
   late List<Station> trajetStops;
-
-  // MapController mapController = MapController(
-  //   initMapWithUserPosition: false,
-  //   initPosition: GeoPoint(latitude: 47.4358055, longitude: 8.4737324),
-  //   areaLimit: BoundingBox(
-  //     east: 10.4922941,
-  //     north: 47.8084648,
-  //     south: 45.817995,
-  //     west: 5.9559113,
-  //   ),
-  // );
+  late GeoPoint reservationPosition;
 
   @override
   onInit() async {
@@ -109,7 +103,6 @@ class HomeColabController extends GetxController {
 
   void selectStation(Station? newval) {
     chosenStation = newval;
-    print("selectStation    ${chosenStation}");
     update();
     setBtnState();
   }
@@ -132,7 +125,8 @@ class HomeColabController extends GetxController {
       User u = User.fromJson(response.data);
 
       // save the updated user in the local storage
-      await sharedPreferenceService.setString("user", jsonEncode(u.toJson()));
+      await sharedPreferenceService.setString(
+          "user", jsonEncode(u.toSharedJson()));
       await getProfileData();
       autoFillFields();
     } catch (error) {
@@ -141,11 +135,17 @@ class HomeColabController extends GetxController {
     }
   }
 
-  void selectCircuit(CircuitDto? newval) async {
-    chosenCircuit = newval;
-    print("selectCircuit    ${chosenCircuit}");
-    update();
-    //Get.toNamed(visualize)
+  reserverBus(
+      {required double latitude,
+      required double longitude,
+      required CircuitDto circuit}) async {
+    // Set the location of user
+    reservationPosition = GeoPoint(latitude: latitude, longitude: longitude);
+    print("setPosition    ${reservationPosition}");
+
+    //Set the chosen circuit
+    chosenCircuit = circuit;
+
     try {
       print("Trying to get Trajet...");
 
@@ -153,22 +153,24 @@ class HomeColabController extends GetxController {
       var s = await sharedPreferenceService.getString("token");
       var t = Token.fromJson(json.decode(s)).access_token;
 
-      // get trajet du circuit selectioné
+      // get trajet of chosen circuit to get the Driver&Stations
       var response1 =
           await trajetApi.getTrajet(token: t, circuit: chosenCircuit!);
-      getSuccessSnackBar(title: "Succés", message: "Trajet obtenu avec succés");
-
+      // getSuccessSnackBar(title: "Succés", message: "Trajet obtenu avec succés");
       chosenTrajet = Trajet.fromJson(response1.data);
       print("chosenTrajet    ${chosenTrajet}");
-      print(json.encode(chosenTrajet));
 
-      // get liste de station du trajet
-      var response2 =
-          await circuitApi.getCircuitById(token: t, id: chosenCircuit!.id);
-      var c = Circuit.fromJson(response2.data);
-      trajetStops = c.station;
+      // Add User to Transport table
+      Transport transport = Transport(
+          circuit: chosenCircuit!, latitude: latitude, longitude: longitude);
+      var response3 =
+          await transpotApi.addUserToTransport(token: t, transport: transport);
+      print("response3.  ${response3}");
+      getSuccessSnackBar(title: "Réservation avec Succés", message: "");
 
       update();
+
+      Get.toNamed(Routes.visualize);
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

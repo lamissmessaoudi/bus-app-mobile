@@ -165,7 +165,7 @@ class HomeColabPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       Text(
                         "Choisissez votre Station ",
@@ -238,26 +238,7 @@ class HomeColabPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 25,
-            ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                'Ou bien envoyer votre position :',
-                style: AppTextStyles.hintPTMono18,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Center(
-                child: Image.asset(
-                  Assets.locationMap,
-                  height: 60,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
+              height: 20,
             ),
             Center(
               child: Padding(

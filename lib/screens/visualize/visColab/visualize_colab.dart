@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
+import 'package:softun_bus_mobile/screens/visualize/visColab/visualize_controller_colab.dart';
 import 'package:softun_bus_mobile/screens/visualize/visualize_controller.dart';
+import 'package:softun_bus_mobile/style/colors.dart';
 import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 
 class VisualizeColabPage extends StatefulWidget {
@@ -18,10 +20,11 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Colab Map"),
+        backgroundColor: AppColors.accentColor,
       ),
       body: ConnectivityContainer(
-        child: GetBuilder<VisualizeController>(
-            init: VisualizeController(),
+        child: GetBuilder<VisualizeColabController>(
+            init: VisualizeColabController(),
             initState: (_) {},
             builder: (controller) {
               return controller.isLoadingVis.value
@@ -70,7 +73,7 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                             ),
                           )),
                         ),
-                        FloatingActionButton(
+                        RaisedButton(
                           child: Text("Voir circuit "),
                           onPressed: () async {
                             RoadInfo roadInfo =
@@ -82,8 +85,8 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                                   latitude: 36.826914001839285,
                                   longitude: 10.193816593715127), //Hay Khadhra
                               roadOption: RoadOption(
-                                roadColor: Colors.yellow,
-                                roadWidth: 70,
+                                roadColor: AppColors.blue,
+                                roadWidth: 20,
                               ),
                             );
                             print("${roadInfo.distance}km");

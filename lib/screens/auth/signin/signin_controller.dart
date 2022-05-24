@@ -74,7 +74,6 @@ class SigninController extends GetxController {
 
       print("Trying to sign in controller...");
       var response = await api.signIn(username: username, password: password);
-      print(" Sign In response.statusCode  === ${response.statusCode}");
 
       if (response.statusCode == 200) {
         // get token and save it in local storage
@@ -126,7 +125,8 @@ class SigninController extends GetxController {
       User u = User.fromJson(response.data);
 
       // Store user in local storage
-      await sharedPreferenceService.setString("user", jsonEncode(u.toJson()));
+      await sharedPreferenceService.setString(
+          "user", jsonEncode(u.toSharedJson()));
 
       return u;
     } catch (error) {

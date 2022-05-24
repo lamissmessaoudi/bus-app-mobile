@@ -4,12 +4,10 @@ import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 
 class CircuitCard extends StatelessWidget {
-  final Circuit circuit;
-  // final bool isSelected;
+  final Circuit? circuit;
   const CircuitCard({
     Key? key,
     required this.circuit,
-    // required this.isSelected,
   }) : super(key: key);
 
   @override
@@ -36,11 +34,11 @@ class CircuitCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      circuit.name,
+                      circuit!.name,
                       style: AppTextStyles.primarySlab24,
                     ),
                     Text(
-                      circuit.name,
+                      circuit!.name,
                       style: AppTextStyles.primarySlab17,
                     )
                   ],

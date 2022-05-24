@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
-import 'package:softun_bus_mobile/routes/app_routes.dart';
+import 'package:softun_bus_mobile/screens/auth/roles/roles_controller.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_controller.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
@@ -12,9 +12,11 @@ import 'package:softun_bus_mobile/widgets/custom_dialog.dart';
 import 'package:softun_bus_mobile/widgets/custom_text_field.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({
+  WelcomePage({
     Key? key,
   }) : super(key: key);
+
+  final roleController = Get.put(RolesController());
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +266,7 @@ class WelcomePage extends StatelessWidget {
                         ),
                         CustomButton(
                           text: "Continuer",
-                          onTap: () => Get.toNamed(Routes.initial),
+                          onTap: roleController.welcomeNavigation,
                           btnType: BtnType.AccentOutlined,
                         )
                       ],

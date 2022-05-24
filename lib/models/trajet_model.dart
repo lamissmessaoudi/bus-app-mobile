@@ -16,19 +16,16 @@ class Trajet {
     required this.circuit,
     required this.user,
     required this.date,
-    required this.id,
   });
 
   Circuit circuit;
   User user;
   DateTime date;
-  int id;
 
   factory Trajet.fromJson(Map<String, dynamic> json) => Trajet(
         circuit: Circuit.fromJson(json["circuit"]),
         user: User.fromJson(json["user"]),
         date: DateTime.parse(json["date"]),
-        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,6 +33,5 @@ class Trajet {
         "user": user.toJson(),
         "date":
             "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
-        "id": id,
       };
 }

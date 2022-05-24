@@ -5,10 +5,12 @@ import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
+import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/activation_api.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/services/api/circuit_api.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
+import 'package:softun_bus_mobile/services/api/trajet_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
@@ -20,9 +22,11 @@ class HomeDriverController extends GetxController {
   AuthService authApi = Get.find();
   ActivationService api = Get.find();
   UserService userApi = Get.find();
+  TrajetService trajetApi = Get.find();
+
   var activeBtnPerso = false.obs;
   var updatedLocation = false.obs;
-  final step = DrivingStep.ciruitDriving.obs;
+  Rx<DrivingStep>? step;
 
   String? name;
 
@@ -34,6 +38,7 @@ class HomeDriverController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    await getReservedCircuit();
     await getProfileData();
     await getCircuits();
     name = fetchedUser.name;
@@ -83,20 +88,48 @@ class HomeDriverController extends GetxController {
     }
   }
 
+  //Checks if driver has chosen circuit that day: changes UI
+  getReservedCircuit() async {
+    try {
+      isLoadingHome(true);
+      var t = await getAccessToken();
+      var response = await trajetApi.reservedCircuit(token: t);
+      print('getReservedCircuit');
+
+      if (response.statusCode == 200) {
+        var c = Circuit.fromJson((response.data));
+        print(c.name);
+        chosenCircuit = c;
+        step = DrivingStep.selectedDriving.obs;
+        update();
+      }
+      if (response.statusCode == 404) {
+        step = DrivingStep.ciruitDriving.obs;
+        update();
+      }
+      update();
+    } catch (error) {
+      getErrorSnackBar(title: "Oops!", message: "something wrong");
+    } finally {
+      isLoadingHome(false);
+      update();
+    }
+  }
+
   setCircuit(Circuit? newval) async {
     chosenCircuit = newval;
     print("setCircuit    ${chosenCircuit}");
 
-    step.value = DrivingStep.stationsDriving;
+    step?.value = DrivingStep.stationsDriving;
     update();
   }
 
   returnPage() {
-    step.value == DrivingStep.startDriving
-        ? step.value = DrivingStep.stationsDriving
-        : step.value == DrivingStep.stationsDriving
-            ? step.value = DrivingStep.ciruitDriving
-            : step.value = DrivingStep.ciruitDriving;
+    step?.value == DrivingStep.startDriving
+        ? step?.value = DrivingStep.stationsDriving
+        : step?.value == DrivingStep.stationsDriving
+            ? step?.value = DrivingStep.ciruitDriving
+            : step?.value = DrivingStep.ciruitDriving;
     update();
   }
 
@@ -111,7 +144,10 @@ class HomeDriverController extends GetxController {
       var t = await getAccessToken();
       var response =
           await circuitApi.reserveCircuit(token: t, circuit: chosenCircuit!);
-
+      Get.toNamed(Routes.visualize)!.then((r) {
+        step?.value = DrivingStep.selectedDriving;
+        update();
+      });
       getSuccessSnackBar(
           title: "Succés", message: "Ce circuit est bien reservé pour vous!");
     } catch (error) {

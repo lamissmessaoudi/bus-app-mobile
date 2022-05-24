@@ -41,4 +41,29 @@ class RolesController extends GetxController {
       update();
     }
   }
+
+  welcomeNavigation() async {
+    try {
+      var c = await sharedPreferenceService.getString("user");
+
+      var user = User.fromJson(jsonDecode(c));
+      roleList = user.roles;
+      if (roleList.contains(RoleType.chauffeur) &&
+          (roleList.contains(RoleType.collaborateur))) {
+        Get.toNamed(Routes.roles);
+      } else if (roleList.contains(RoleType.chauffeur)) {
+        Get.toNamed(Routes.homeDriver);
+      } else if (roleList.contains(RoleType.collaborateur)) {
+        Get.toNamed(Routes.homeColab);
+      } else {
+        Get.toNamed(Routes.roles);
+      }
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    } finally {
+      isLoadingRoles(false);
+      update();
+    }
+  }
 }

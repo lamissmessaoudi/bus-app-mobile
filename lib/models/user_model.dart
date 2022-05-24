@@ -44,6 +44,16 @@ class User {
         "lastname": lastname,
         "email": email,
         "phone": phone,
+        "station": station.toJson(),
+        "poste": poste,
+        "active": active,
+        "deviceId": deviceId,
+      };
+  Map<String, dynamic> toSharedJson() => {
+        "name": name,
+        "lastname": lastname,
+        "email": email,
+        "phone": phone,
         "roles": List.from(roles
             .map((x) => Role(name: EnumToString.convertToString(x)).toJson())),
         "station": station.toJson(),
@@ -63,6 +73,7 @@ class InactiveUser {
     this.station,
     required this.poste,
     required this.active,
+    required this.deviceId,
   });
 
   String name;
@@ -73,6 +84,7 @@ class InactiveUser {
   Station? station;
   List<Role>? roles;
   bool active;
+  String deviceId;
 
   factory InactiveUser.fromJson(dynamic json) => InactiveUser(
         name: json["name"],
@@ -84,6 +96,7 @@ class InactiveUser {
         station: Station.fromJson(json["station"]),
         poste: json["poste"],
         active: json["active"],
+        deviceId: json["deviceId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -94,5 +107,6 @@ class InactiveUser {
         "station": station?.toJson(),
         "poste": poste,
         "active": active,
+        "deviceId": deviceId,
       };
 }

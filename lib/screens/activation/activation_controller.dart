@@ -11,6 +11,7 @@ import 'package:softun_bus_mobile/services/api/activation_api.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
+import 'package:softun_bus_mobile/services/api/visualization_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
@@ -20,6 +21,7 @@ class ActivationController extends GetxController {
   AuthService authApi = Get.find();
   ActivationService api = Get.find();
   UserService userApi = Get.find();
+  VisualisationService visService = Get.find();
   GlobalKey<FormState> formKeyDropDown = GlobalKey<FormState>();
 
   final step = ActivationStep.Personal.obs;
@@ -139,15 +141,27 @@ class ActivationController extends GetxController {
       print("form Perso not valideee");
       return;
     }
-    activedUser = InactiveUser(
-        name: nameController.text,
-        lastname: lastnameController.text,
-        email: emailController.text,
-        phone: phoneController.text,
-        poste: posteController.text,
-        active: true);
-    step.value = ActivationStep.Location;
-    update();
+
+    //Get deviceId from device
+    String x = await visService.initDeviceId();
+    print("visService.initDeviceId()  ${x}");
+    if (x != null) {
+      activedUser = InactiveUser(
+          name: nameController.text,
+          lastname: lastnameController.text,
+          email: emailController.text,
+          phone: phoneController.text,
+          poste: posteController.text,
+          active: true,
+          deviceId: x);
+      //save deviceId to the local storage
+      await sharedPreferenceService.setString("deviceId", x);
+
+      // Navigate to the next page
+      step.value = ActivationStep.Location;
+      update();
+    } else
+      print("deviceId === NULL");
   }
 
   void setLocation() async {
@@ -191,7 +205,8 @@ class ActivationController extends GetxController {
       }
 
       // save the newly created user in the local storage
-      await sharedPreferenceService.setString("user", jsonEncode(u.toJson()));
+      await sharedPreferenceService.setString(
+          "user", jsonEncode(u.toSharedJson()));
       Get.toNamed(Routes.welcome);
     } catch (error) {
       print(error.toString());

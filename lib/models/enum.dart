@@ -18,7 +18,7 @@ enum DrivingStep {
   ciruitDriving,
   stationsDriving,
   startDriving,
-  visualizeDriving
+  selectedDriving
 }
 enum RequestStep {
   requestList,
