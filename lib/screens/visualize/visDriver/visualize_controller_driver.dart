@@ -180,9 +180,10 @@ class VisualizeDriverController extends GetxController {
         roadColor: AppColors.blue,
         roadWidth: 20,
       ),
-      // intersectPoint: chosenCircuit!.station
-      //     .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
-      //     .toList(),
+      
+       intersectPoint: chosenCircuit!.station
+           .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+          .toList(),
     );
     print("${roadInfo.distance}km");
     print("${roadInfo.duration}sec");
