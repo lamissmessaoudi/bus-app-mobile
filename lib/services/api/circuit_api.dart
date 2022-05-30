@@ -89,7 +89,8 @@ class CircuitService extends GetxService {
     }
   }
 
-  reserveCircuit({required String token, required Circuit circuit}) async {
+  reserveCircuit(
+      {required String token, required CircuitResDto circuit}) async {
     try {
       var path = AppUrls.reserveCircuit;
       print("reserveCircuit");

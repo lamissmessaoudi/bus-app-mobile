@@ -129,14 +129,12 @@ class HomeColabPage extends StatelessWidget {
   getBusCards(List<CircuitDto>? list) {
     return Column(children: [
       SizedBox(),
-      ...?list?.map(
-        (item) => BusCard(
-          circuit: item,
-          arrivee: " 5 mins",
-          bus: "Bus n°34",
-          stationActuelle: "Menzah 5",
-        ),
-      )
+      ...?list?.map((item) => BusCard(
+            circuit: item,
+            arrivee: " 5 mins",
+            bus: "Bus n°34",
+            stationActuelle: "Menzah 5",
+          ))
     ]);
   }
 

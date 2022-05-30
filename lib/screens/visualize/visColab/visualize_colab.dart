@@ -54,43 +54,11 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                               ),
                             ),
                           ),
-                          // roadConfiguration: RoadConfiguration(
-                          //   startIcon: MarkerIcon(
-                          //     icon: Icon(
-                          //       Icons.person,
-                          //       size: 64,
-                          //       color: Colors.brown,
-                          //     ),
-                          //   ),
-                          //   roadColor: Colors.yellowAccent,
-                          // ),
-                          markerOption: MarkerOption(
-                              defaultMarker: MarkerIcon(
-                            icon: Icon(
-                              Icons.person_pin_circle,
-                              color: Colors.blue,
-                              size: 56,
-                            ),
-                          )),
                         ),
                         RaisedButton(
                           child: Text("Voir circuit "),
                           onPressed: () async {
-                            RoadInfo roadInfo =
-                                await controller.mapController.drawRoad(
-                              GeoPoint(
-                                  latitude: 36.83189972628371,
-                                  longitude: 10.232979910714306), //Sofrecom
-                              GeoPoint(
-                                  latitude: 36.826914001839285,
-                                  longitude: 10.193816593715127), //Hay Khadhra
-                              roadOption: RoadOption(
-                                roadColor: AppColors.blue,
-                                roadWidth: 20,
-                              ),
-                            );
-                            print("${roadInfo.distance}km");
-                            print("${roadInfo.duration}sec");
+                            await controller.drawRoad();
                           },
                         ),
                       ],

@@ -81,13 +81,13 @@ class _ActiveLocationState extends State<ActiveLocation> {
                                         selectedItemBuilder:
                                             (BuildContext context) {
                                           return controller.stationsList
-                                              .map<Widget>((Station item) {
+                                              .map<Widget>((StationDto item) {
                                             return Text(item.name);
                                           }).toList();
                                         },
                                         items: controller.stationsList
-                                            .map<DropdownMenuItem<Station>>(
-                                                (Station valueItem) {
+                                            .map<DropdownMenuItem<StationDto>>(
+                                                (StationDto valueItem) {
                                           return DropdownMenuItem(
                                               value: valueItem,
                                               child: Column(
@@ -139,10 +139,12 @@ class _ActiveLocationState extends State<ActiveLocation> {
                             children: [
                               CustomButton(
                                   text: "Retour",
+                                  width: null,
                                   onTap: controller.returnPage,
                                   btnType: BtnType.AccentOutlined),
                               CustomButton(
                                   text: "Suivant",
+                                  width: null,
                                   onTap: controller.setLocation,
                                   btnType: BtnType.AccentFilled),
                             ],

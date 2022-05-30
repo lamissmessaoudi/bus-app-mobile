@@ -54,7 +54,11 @@ getStationCards(List<Circuit>? list, HomeDriverController controller) {
     SizedBox(),
     ...?list?.map(
       (item) => GestureDetector(
-          child: CircuitCard(circuit: item),
+          child: CircuitCard(
+            name: item.name,
+            // description: item.description,
+            description: item.name,
+          ),
           onTap: () => controller.setCircuit(item)),
     )
   ]);

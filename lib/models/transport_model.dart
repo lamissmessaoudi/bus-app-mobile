@@ -33,3 +33,23 @@ class Transport {
         "circuit": circuit.toJson(),
       };
 }
+
+class TransportDto {
+  TransportDto({
+    required this.longitude,
+    required this.latitude,
+  });
+
+  dynamic longitude;
+  dynamic latitude;
+
+  factory TransportDto.fromJson(Map<String, dynamic> json) => TransportDto(
+        longitude: json["longitude"],
+        latitude: json["latitude"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "longitude": longitude,
+        "latitude": latitude,
+      };
+}

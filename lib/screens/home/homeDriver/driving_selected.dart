@@ -44,12 +44,17 @@ class _DrivingSelectedState extends State<DrivingSelected> {
             ),
           ),
           SizedBox(height: 20),
-          CircuitCard(circuit: controller.chosenCircuit),
+          CircuitCard(
+            name: controller.chosenCircuit!.name,
+            // description: controller.chosenCircuit!.description,
+            description: controller.chosenCircuit!.name,
+          ),
           SizedBox(height: 20),
           CustomButton(
             text: "Visualiser",
             onTap: () => Get.toNamed(Routes.visualize),
             isSmall: true,
+            width: null,
             btnType: BtnType.AccentFilled,
           ),
           SizedBox(height: 20),

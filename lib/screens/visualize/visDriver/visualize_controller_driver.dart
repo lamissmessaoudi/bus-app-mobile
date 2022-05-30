@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +8,11 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/station_model.dart';
+import 'package:softun_bus_mobile/models/token_model.dart';
+import 'package:softun_bus_mobile/models/transport_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/home_driver_controller.dart';
-import 'package:softun_bus_mobile/services/api/stations_api.dart';
+import 'package:softun_bus_mobile/services/api/transport_api.dart';
 import 'package:softun_bus_mobile/services/api/visualization_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
@@ -17,15 +20,15 @@ import 'package:softun_bus_mobile/widgets/snackbar.dart';
 
 class VisualizeDriverController extends GetxController {
   SharedPreferenceService sharedPreferenceService = Get.find();
-  StationService stationApi = Get.find();
+  TransportService transportApi = Get.find();
   VisualisationService visService = Get.find();
   final homeController = Get.put(HomeDriverController());
 
-  // var c = false.obs;
   late User fetchedUser;
-  late Circuit? chosenCircuit;
-  // late RoleType role;
+  late CircuitResDto? chosenCircuit;
   var isLoadingVis = false.obs;
+  var isLoadingTransort = false.obs;
+  List<TransportDto> transportsList = [];
 
   MapController mapController = MapController(
     initMapWithUserPosition: true,
@@ -82,6 +85,24 @@ class VisualizeDriverController extends GetxController {
     }
   }
 
+  getLocations() async {
+    try {
+      print("getLocations...");
+
+      var s = await sharedPreferenceService.getString("token");
+      var t = Token.fromJson(json.decode(s)).access_token;
+
+      var response =
+          await transportApi.getLocations(token: t, circuit: chosenCircuit);
+
+      transportsList = List<TransportDto>.from(
+          response.data.map((x) => TransportDto.fromJson(x)));
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    }
+  }
+
   void initPlatformState() async {
     try {
       isLoadingVis(true);
@@ -110,7 +131,7 @@ class VisualizeDriverController extends GetxController {
     }
   }
 
-  drawStationsMarkers(List<Station> stations) async {
+  drawStationsMarkers(List<StationDto> stations) async {
     stations.forEach(
       (element) async => await mapController.addMarker(
         GeoPoint(longitude: element.longitude, latitude: element.latitude),
@@ -122,5 +143,42 @@ class VisualizeDriverController extends GetxController {
         )),
       ),
     );
+  }
+
+  drawLocationsMarkers() async {
+    getLocations();
+    transportsList.forEach(
+      (element) async => await mapController.addMarker(
+        GeoPoint(longitude: element.longitude, latitude: element.latitude),
+        markerIcon: MarkerIcon(
+            icon: Icon(
+          Icons.person_pin,
+          size: 80,
+          color: AppColors.green,
+        )),
+      ),
+    );
+  }
+
+  drawRoad() async {
+    RoadInfo roadInfo = await mapController.drawRoad(
+      GeoPoint(
+        latitude: 36.83188020162938,
+        longitude: 10.232988952190393,
+      ),
+      GeoPoint(
+        latitude: chosenCircuit!.depart.latitude,
+        longitude: chosenCircuit!.depart.longitude,
+      ),
+      roadOption: RoadOption(
+        roadColor: AppColors.blue,
+        roadWidth: 20,
+      ),
+      // intersectPoint: chosenCircuit!.station
+      //     .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+      //     .toList(),
+    );
+    print("${roadInfo.distance}km");
+    print("${roadInfo.duration}sec");
   }
 }

@@ -40,8 +40,8 @@ class ActivationController extends GetxController {
   var mdp;
 
   dynamic activedUser;
-  List<Station> stationsList = [];
-  Station? chosenStation = null;
+  List<StationDto> stationsList = [];
+  StationDto? chosenStation = null;
 
   GlobalKey<FormState> formKeyPersonel = GlobalKey<FormState>();
   GlobalKey<FormState> formKeyLocation = GlobalKey<FormState>();
@@ -116,8 +116,8 @@ class ActivationController extends GetxController {
 
       var response = await stationApi.getAllStations();
 
-      stationsList =
-          List<Station>.from(response.data.map((x) => Station.fromJson(x)));
+      stationsList = List<StationDto>.from(
+          response.data.map((x) => StationDto.fromJson(x)));
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
@@ -127,7 +127,7 @@ class ActivationController extends GetxController {
     }
   }
 
-  void selectStation(Station? newval) {
+  void selectStation(StationDto? newval) {
     chosenStation = newval;
     print("selectStation    ${chosenStation}");
     update();
@@ -180,6 +180,24 @@ class ActivationController extends GetxController {
     update();
   }
 
+  getUser(String t) async {
+    print("Trying to getUser in sign in ...");
+    try {
+      // get user from api
+      var response = await userApi.getUserFromApi(token: t);
+      User u = User.fromJson(response.data);
+
+      // Store user in local storage
+      await sharedPreferenceService.setString(
+          "user", jsonEncode(u.toSharedJson()));
+
+      return u;
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    }
+  }
+
   void activate() async {
     try {
       print("Trying to activate account...");
@@ -187,10 +205,7 @@ class ActivationController extends GetxController {
         getErrorSnackBar(title: "Oops!", message: "an error has occcured");
         return;
       }
-      var response = await api.activateUser(user: activedUser);
-      User u = User.fromJson(response.data);
-      // userConnected.user?.value = u;
-      update();
+      await api.activateUser(user: activedUser);
 
       print("Trying to sign in controller...");
       var resAuth =
@@ -202,12 +217,20 @@ class ActivationController extends GetxController {
         var token = Token.fromJson(resAuth.data);
         await sharedPreferenceService.setString(
             "token", jsonEncode(token.toJson()));
-      }
 
-      // save the newly created user in the local storage
-      await sharedPreferenceService.setString(
-          "user", jsonEncode(u.toSharedJson()));
-      Get.toNamed(Routes.welcome);
+        // get token and save it in local storage
+        var response = await userApi.getUserFromApi(token: token.access_token);
+        User u = User.fromJson(response.data);
+        // userConnected.user?.value = u;
+        update();
+
+        // save the newly created user in the local storage
+        await sharedPreferenceService.setString(
+            "user", jsonEncode(u.toSharedJson()));
+        Get.toNamed(Routes.welcome);
+      } else {
+        Get.toNamed(Routes.signin);
+      }
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());

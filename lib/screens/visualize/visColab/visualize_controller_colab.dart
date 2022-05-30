@@ -6,6 +6,7 @@ import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_cont
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/visualization_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
+import 'package:softun_bus_mobile/style/colors.dart';
 
 class VisualizeColabController extends GetxController {
   SharedPreferenceService sharedPreferenceService = Get.find();
@@ -28,5 +29,27 @@ class VisualizeColabController extends GetxController {
   onInit() async {
     super.onInit();
     chosenTrajet = homeController.chosenTrajet;
+  }
+
+  drawRoad() async {
+    RoadInfo roadInfo = await mapController.drawRoad(
+      GeoPoint(
+        latitude: 36.83188020162938,
+        longitude: 10.232988952190393,
+      ),
+      GeoPoint(
+        latitude: chosenTrajet!.circuit.depart.latitude,
+        longitude: chosenTrajet!.circuit.depart.longitude,
+      ),
+      roadOption: RoadOption(
+        roadColor: AppColors.blue,
+        roadWidth: 20,
+      ),
+      // intersectPoint: chosenCircuit!.station
+      //     .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+      //     .toList(),
+    );
+    print("${roadInfo.distance}km");
+    print("${roadInfo.duration}sec");
   }
 }

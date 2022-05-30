@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 
 class CircuitCard extends StatelessWidget {
-  final Circuit? circuit;
+  final String name, description;
   const CircuitCard({
     Key? key,
-    required this.circuit,
+    required this.name,
+    required this.description,
   }) : super(key: key);
 
   @override
@@ -34,11 +34,11 @@ class CircuitCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      circuit!.name,
+                      name,
                       style: AppTextStyles.primarySlab24,
                     ),
                     Text(
-                      circuit!.name,
+                      name,
                       style: AppTextStyles.primarySlab17,
                     )
                   ],

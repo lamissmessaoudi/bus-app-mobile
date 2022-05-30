@@ -6,7 +6,7 @@ import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/badge.dart';
 
 class StationCard extends StatelessWidget {
-  final Station station;
+  final StationDto station;
   const StationCard({
     Key? key,
     required this.station,

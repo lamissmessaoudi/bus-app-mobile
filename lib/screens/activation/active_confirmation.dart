@@ -269,9 +269,11 @@ class _ActiveConfiramationState extends State<ActiveConfiramation> {
                 CustomButton(
                     text: "Retour",
                     onTap: controller.returnPage,
+                    width: null,
                     btnType: BtnType.AccentOutlined),
                 CustomButton(
                     text: "Suivant",
+                    width: null,
                     onTap: controller.activate,
                     btnType: BtnType.AccentFilled),
               ],

@@ -19,9 +19,6 @@ class VisualizeController extends GetxController {
   late User fetchedUser;
   late RoleType role;
   var isLoadingVis = false.obs;
-
-  late MapController mapController;
-
   Rx<String>? deviceid;
 
   @override
@@ -29,10 +26,6 @@ class VisualizeController extends GetxController {
     super.onInit();
     await getRole();
     print("onInit");
-    mapController ==
-        MapController(
-          initMapWithUserPosition: true,
-        );
   }
 
   getRole() async {

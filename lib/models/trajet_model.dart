@@ -18,15 +18,17 @@ class Trajet {
     required this.date,
   });
 
-  Circuit circuit;
-  User user;
+  CircuitResDto circuit;
+  InactiveUser user;
   DateTime date;
 
-  factory Trajet.fromJson(Map<String, dynamic> json) => Trajet(
-        circuit: Circuit.fromJson(json["circuit"]),
-        user: User.fromJson(json["user"]),
-        date: DateTime.parse(json["date"]),
-      );
+  factory Trajet.fromJson(Map<String, dynamic> json) {
+    return Trajet(
+      circuit: CircuitResDto.fromJson(json["circuit"]),
+      user: InactiveUser.fromJson(json["user"]),
+      date: DateTime.parse(json["date"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "circuit": circuit.toJson(),

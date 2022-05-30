@@ -80,22 +80,7 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                             RaisedButton(
                               child: Text("Voir circuit "),
                               onPressed: () async {
-                                RoadInfo roadInfo =
-                                    await controller.mapController.drawRoad(
-                                  GeoPoint(
-                                      latitude: 36.83189972628371,
-                                      longitude: 10.232979910714306), //Sofrecom
-                                  GeoPoint(
-                                      latitude: 36.826914001839285,
-                                      longitude:
-                                          10.193816593715127), //Hay Khadhra
-                                  roadOption: RoadOption(
-                                    roadColor: AppColors.blue,
-                                    roadWidth: 20,
-                                  ),
-                                );
-                                print("${roadInfo.distance}km");
-                                print("${roadInfo.duration}sec");
+                                controller.drawRoad();
                               },
                             ),
                             RaisedButton(
@@ -103,6 +88,12 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                               onPressed: () async {
                                 await controller.drawStationsMarkers(
                                     controller.chosenCircuit!.station);
+                              },
+                            ),
+                            RaisedButton(
+                              child: Text("Mark users"),
+                              onPressed: () async {
+                                await controller.drawLocationsMarkers();
                               },
                             ),
                           ],

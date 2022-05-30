@@ -27,6 +27,7 @@ class _DrivingStationsState extends State<DrivingStations> {
         Row(
           children: [
             Container(
+              color: Colors.pink,
               width: 50,
               child: GestureDetector(
                 child: Image.asset(
@@ -38,10 +39,14 @@ class _DrivingStationsState extends State<DrivingStations> {
             ),
             Expanded(
               child: Container(
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 15),
+                alignment: Alignment.center,
+                color: Colors.amber,
+                margin: EdgeInsets.only(bottom: 15),
+                child: Center(
                   child: Text(
                     " ${controller.chosenCircuit?.name}",
+                    softWrap: true,
+                    overflow: TextOverflow.clip,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.primarySlab36,
                   ),
@@ -49,6 +54,7 @@ class _DrivingStationsState extends State<DrivingStations> {
               ),
             ),
             Container(
+                color: Colors.pink,
                 width: 50,
                 child: GestureDetector(
                   child: Image.asset(
@@ -66,62 +72,10 @@ class _DrivingStationsState extends State<DrivingStations> {
         getStationCards(controller.chosenCircuit?.station),
       ],
     );
-    // Row(
-    //   children: [
-    //     Container(
-    //       color: AppColors.green,
-    //       width: 50,
-    //       child: GestureDetector(
-    //         child: Image.asset(
-    //           Assets.backFloating,
-    //           width: 50,
-    //         ),
-    //         onTap: controller.returnPage,
-    //       ),
-    //     ),
-    //     Expanded(
-    //       child: Container(
-    //         color: AppColors.blue,
-    //         child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.center,
-    //           children: [
-    //             Container(
-    //               margin: EdgeInsets.symmetric(horizontal: 20),
-    //               child: Text(
-    //                 " ${controller.chosenCircuit?.name}",
-    //                 textAlign: TextAlign.center,
-    //                 style: AppTextStyles.primarySlab36,
-    //               ),
-    //             ),
-    //             SizedBox(height: 20),
-    //             getStationCards(controller.chosenCircuit?.station),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //     // Obx(() {return
-    //     Container(
-    //         width: 50,
-    //         color: AppColors.green,
-    //         child: GestureDetector(
-    //           child: Image.asset(
-    //             Assets.nextFloating,
-    //             width: 50,
-    //           ),
-    //           onTap: () {
-    //             controller.step?.value = DrivingStep.startDriving;
-    //             controller.update();
-    //           },
-    //         ))
-    //     //       ;
-    //     // })
-    //     ,
-    //   ],
-    // );
   }
 }
 
-getStationCards(List<Station>? list) {
+getStationCards(List<StationDto>? list) {
   return Column(children: [
     SizedBox(),
     ...?list?.map((item) => StationCard(station: item))

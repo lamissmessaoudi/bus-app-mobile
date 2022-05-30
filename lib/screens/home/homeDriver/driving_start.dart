@@ -43,6 +43,13 @@ class StartDriving extends StatelessWidget {
               style: AppTextStyles.primarySlab24,
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              print("back");
+              controller.returnPage();
+            },
+            child: Image.asset(Assets.leftArrow, width: 50),
+          )
         ],
       ),
     );
