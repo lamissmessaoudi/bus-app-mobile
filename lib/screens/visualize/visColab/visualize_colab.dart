@@ -55,11 +55,44 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                             ),
                           ),
                         ),
-                        RaisedButton(
-                          child: Text("Voir circuit "),
-                          onPressed: () async {
-                            await controller.drawRoad();
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RaisedButton(
+                                child: Text("Voir circuit "),
+                                onPressed: () async {
+                                  await controller.drawRoad();
+                                },
+                              ),
+                              RaisedButton(
+                                child: Text("Voir Bus"),
+                                onPressed: () async {
+                                  await controller.drawDriverMarker();
+                                },
+                              ),
+                              Expanded(child: Container()),
+                              FloatingActionButton(
+                                backgroundColor: AppColors.accentColor,
+                                child: Icon(Icons.add),
+                                onPressed: () async {
+                                  await controller.mapController.zoomIn();
+                                },
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: FloatingActionButton(
+                                  backgroundColor: AppColors.accentColor,
+                                  child: Icon(Icons.remove),
+                                  onPressed: () async {
+                                    await controller.mapController.zoomOut();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     );

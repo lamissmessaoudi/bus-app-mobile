@@ -70,6 +70,11 @@ class VisualizeDriverController extends GetxController {
     });
   }
 
+  void dispose() {
+    print("dispose");
+    locationSubcription.cancel();
+  }
+
   getDeviceId() async {
     try {
       isLoadingVis(true);
@@ -97,6 +102,7 @@ class VisualizeDriverController extends GetxController {
 
       transportsList = List<TransportDto>.from(
           response.data.map((x) => TransportDto.fromJson(x)));
+      print("transportsList ${transportsList}");
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
