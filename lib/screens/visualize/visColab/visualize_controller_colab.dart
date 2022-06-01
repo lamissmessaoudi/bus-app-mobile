@@ -44,30 +44,39 @@ class VisualizeColabController extends GetxController {
     chosenTrajet = homeController.chosenTrajet;
     await getDriverDeviceId();
 
-    subscription = visService.databaseReference
-        .child(deviceid!.value)
-        .onValue
-        .listen((event) {
-      var eventArgs = event.snapshot.value as Map;
-      // var x = event.snapshot.value!['latitude'];
-      currentLatitude.value = eventArgs['latitude'];
-      currentLongitude.value = eventArgs['longitude'];
-      update();
-      removeOldMarker();
-      drawDriverMarker();
+    try {
+      print("eeeeeeeeeeeeee $deviceid");
+      subscription = visService.databaseReference
+          .child(deviceid!.value)
+          .onValue
+          .listen((event) {
+        print("new pos");
 
-      // mapController.animateCamera(
-      //   CameraUpdate.newCameraPosition(
-      //     CameraPosition(
-      //         target: LatLng(event.snapshot.value['latitude'],
-      //             event.snapshot.value['longitude']),
-      //         zoom: 17),
-      //   ),
-      // );
-      oldLongitude.value = currentLongitude.value;
-      oldLatitude.value = currentLatitude.value;
-      update();
-    });
+        var eventArgs = event.snapshot.value as Map;
+        print("sss ${event.snapshot.value}");
+        // var x = event.snapshot.value!['latitude'];
+        currentLatitude.value = eventArgs['latitude'];
+        currentLongitude.value = eventArgs['longitude'];
+        print("new pos ${currentLatitude.value} , ${currentLongitude.value}");
+        update();
+        removeOldMarker();
+        drawDriverMarker();
+
+        // mapController.animateCamera(
+        //   CameraUpdate.newCameraPosition(
+        //     CameraPosition(
+        //         target: LatLng(event.snapshot.value['latitude'],
+        //             event.snapshot.value['longitude']),
+        //         zoom: 17),
+        //   ),
+        // );
+        oldLongitude.value = currentLongitude.value;
+        oldLatitude.value = currentLatitude.value;
+        update();
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   getDriverDeviceId() async {
@@ -95,6 +104,8 @@ class VisualizeColabController extends GetxController {
   drawDriverMarker() async {
     GeoPoint busLoc = GeoPoint(
         longitude: currentLongitude.value, latitude: currentLatitude.value);
+    print("drawDriverMarker");
+    print("pb ${currentLatitude.value} , ${currentLongitude.value}");
     await mapController.addMarker(
       busLoc,
       markerIcon: MarkerIcon(

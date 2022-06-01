@@ -15,11 +15,8 @@ class VisualizeController extends GetxController {
   StationService stationApi = Get.find();
   VisualisationService visService = Get.find();
 
-  var c = false.obs;
-  late User fetchedUser;
   late RoleType role;
   var isLoadingVis = false.obs;
-  Rx<String>? deviceid;
 
   @override
   onInit() async {

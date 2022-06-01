@@ -33,6 +33,7 @@ class VisualizeDriverController extends GetxController {
   MapController mapController = MapController(
     initMapWithUserPosition: true,
   );
+  Timer? timer;
 
   Rx<LocationData?> currentLocation =
       LocationData.fromMap({'latitude': 0.0, 'longitude': 0.0}).obs;
@@ -48,26 +49,43 @@ class VisualizeDriverController extends GetxController {
     chosenCircuit = homeController.chosenCircuit;
     await getDeviceId();
     initPlatformState();
+    timer = Timer.periodic(Duration(seconds: 35), (Timer t) => fn());
+  }
 
-    locationSubcription = location.onLocationChanged.listen((result) {
-      // if (mounted) {
-      currentLocation.value = result;
-      update();
+  fn() async {
+    print("fn");
+    print("loc");
+    currentLocation.value = await location.getLocation();
+    visService.sendCurrentLocation(
+      deviceid: deviceid!.value,
+      currentLocation: currentLocation.value,
+    );
+    //  locationSubcription = location.onLocationChanged.listen((result) {
+    //   // if (mounted) {
 
-      // mapController.animateCamera(
-      //   CameraUpdate.newCameraPosition(
-      //     CameraPosition(
-      //         target: LatLng(
-      //             currentLocation.latitude, currentLocation.longitude),
-      //         zoom: 17),
-      //   ),
-      // );
-      // UpdateDatabase();
-      visService.sendCurrentLocation(
-        deviceid: deviceid!.value,
-        currentLocation: currentLocation.value,
-      );
-    });
+    //   print("loc");
+
+    //   currentLocation.value = result;
+    //   print(result);
+    //   update();
+
+    //   // mapController.animateCamera(
+    //   //   CameraUpdate.newCameraPosition(
+    //   //     CameraPosition(
+    //   //         target: LatLng(
+    //   //             currentLocation.latitude, currentLocation.longitude),
+    //   //         zoom: 17),
+    //   //   ),
+    //   // );
+    //   // UpdateDatabase();
+    //   visService.sendCurrentLocation(
+    //     deviceid: deviceid!.value,
+    //     currentLocation: currentLocation.value,
+    //   );
+    // });
+    // print("cancel");
+
+    // locationSubcription.cancel();
   }
 
   void dispose() {
@@ -180,9 +198,8 @@ class VisualizeDriverController extends GetxController {
         roadColor: AppColors.blue,
         roadWidth: 20,
       ),
-      
-       intersectPoint: chosenCircuit!.station
-           .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+      intersectPoint: chosenCircuit!.station
+          .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
           .toList(),
     );
     print("${roadInfo.distance}km");
