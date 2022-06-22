@@ -8,6 +8,8 @@ import 'package:softun_bus_mobile/screens/home/homeDriver/driving_stations.dart'
 import 'package:softun_bus_mobile/screens/home/homeDriver/home_driver_controller.dart';
 import 'package:softun_bus_mobile/screens/home/homeDriver/driving_start.dart';
 import 'package:softun_bus_mobile/widgets/custom_loader.dart';
+import 'package:softun_bus_mobile/widgets/custom_navigation_drawer.dart';
+import 'package:softun_bus_mobile/widgets/drawer_icon.dart';
 
 class HomeDriverPage extends StatelessWidget {
   const HomeDriverPage({Key? key}) : super(key: key);
@@ -15,8 +17,11 @@ class HomeDriverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.put(HomeDriverController());
+    GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
 
     return Scaffold(
+      key: scaffoldState,
+      drawer: CustomDrawer(),
       body: ConnectivityContainer(
         child: GetBuilder<HomeDriverController>(
             init: HomeDriverController(),
@@ -24,20 +29,24 @@ class HomeDriverPage extends StatelessWidget {
             builder: (controller) {
               return controller.isLoadingHome.value
                   ? CustomLoader()
-                  : SingleChildScrollView(
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // BODY OF THE PAGE
-                            Center(
-                              child: Container(
-                                width: 500,
-                                margin: EdgeInsets.symmetric(horizontal: 35),
-                                padding: EdgeInsets.only(top: 30, bottom: 10),
-                                child:
-                                    controller.step == DrivingStep.ciruitDriving
+                  : Stack(
+                      children: [
+                        SingleChildScrollView(
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // BODY OF THE PAGE
+                                Center(
+                                  child: Container(
+                                    width: 500,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 35),
+                                    padding:
+                                        EdgeInsets.only(top: 30, bottom: 10),
+                                    child: controller.step ==
+                                            DrivingStep.ciruitDriving
                                         ? DrivingCircuits()
                                         : controller.step ==
                                                 DrivingStep.stationsDriving
@@ -46,12 +55,15 @@ class HomeDriverPage extends StatelessWidget {
                                                     DrivingStep.startDriving
                                                 ? StartDriving()
                                                 : DrivingSelected(),
-                              ),
+                                  ),
+                                ),
+                                SizedBox(height: 40),
+                              ],
                             ),
-                            SizedBox(height: 40),
-                          ],
+                          ),
                         ),
-                      ),
+                        DrawerIcon(scaffoldState: scaffoldState)
+                      ],
                     );
             }),
       ),

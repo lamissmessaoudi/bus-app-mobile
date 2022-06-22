@@ -9,6 +9,7 @@ abstract class Routes {
   static const homeColab = '/homeColab';
   static const homeDriver = '/homeDriver';
   static const request = '/request';
+  static const feedback = '/feedback';
   static const forgetPassword = '/forgetPassword';
   static const visualize = '/visualize';
 }

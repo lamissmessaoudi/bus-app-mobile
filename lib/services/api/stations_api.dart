@@ -43,6 +43,29 @@ class StationService extends GetxService {
     }
   }
 
+  getStationById({required int id}) async {
+    try {
+      var path = AppUrls.stationById + "$id";
+      print(path);
+      var response = await dio.get(
+        path,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Basic c29mdHVuLWJ1czpzZWNyZXQ='
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      if (e is DioError) throw (e.response?.data['error']);
+    }
+  }
+
   addStation({required String token, required Demande demande}) async {
     try {
       var path = AppUrls.sendRequest;

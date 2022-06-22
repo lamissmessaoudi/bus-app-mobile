@@ -27,7 +27,7 @@ class _DrivingStationsState extends State<DrivingStations> {
         Row(
           children: [
             Container(
-              color: Colors.pink,
+              // color: Colors.pink,
               width: 50,
               child: GestureDetector(
                 child: Image.asset(
@@ -40,7 +40,7 @@ class _DrivingStationsState extends State<DrivingStations> {
             Expanded(
               child: Container(
                 alignment: Alignment.center,
-                color: Colors.amber,
+                // color: Colors.amber,
                 margin: EdgeInsets.only(bottom: 15),
                 child: Center(
                   child: Text(
@@ -54,7 +54,7 @@ class _DrivingStationsState extends State<DrivingStations> {
               ),
             ),
             Container(
-                color: Colors.pink,
+                // color: Colors.pink,
                 width: 50,
                 child: GestureDetector(
                   child: Image.asset(

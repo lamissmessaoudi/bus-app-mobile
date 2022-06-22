@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/bindings/activation_binding.dart';
+import 'package:softun_bus_mobile/bindings/feedback_controller.dart';
 import 'package:softun_bus_mobile/bindings/forget_password_binding.dart';
 import 'package:softun_bus_mobile/bindings/home_binding.dart';
 import 'package:softun_bus_mobile/bindings/profile_binding.dart';
@@ -13,6 +14,7 @@ import 'package:softun_bus_mobile/screens/activation/activation_page.dart';
 import 'package:softun_bus_mobile/screens/activation/welcome_page.dart';
 import 'package:softun_bus_mobile/screens/auth/roles/roles_page.dart';
 import 'package:softun_bus_mobile/screens/auth/signin/signin_page.dart';
+import 'package:softun_bus_mobile/screens/feedBack/feedback_station_page.dart';
 import 'package:softun_bus_mobile/screens/forgetPassword/forgot_password_page.dart';
 import 'package:softun_bus_mobile/screens/home/home_page.dart';
 import 'package:softun_bus_mobile/screens/profile/profile_page.dart';
@@ -65,6 +67,11 @@ class AppPages {
       name: Routes.request,
       page: () => RequestPage(),
       binding: RequestStationBinding(),
+    ),
+    GetPage(
+      name: Routes.feedback,
+      page: () => FeedBackPage(),
+      binding: FeedBackBinding(),
     ),
     GetPage(
       name: Routes.forgetPassword,

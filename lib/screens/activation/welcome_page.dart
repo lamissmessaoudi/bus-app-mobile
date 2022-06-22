@@ -228,12 +228,12 @@ class WelcomePage extends StatelessWidget {
                                                 child: Padding(
                                                   padding: const EdgeInsets
                                                           .symmetric(
-                                                      horizontal: 30,
-                                                      vertical: 10.0),
+                                                      horizontal: 20,
+                                                      vertical: 5.0),
                                                   child: Text(
                                                     "Confirmer",
                                                     style: AppTextStyles
-                                                        .primarySlab20
+                                                        .primarySlab17
                                                         .copyWith(
                                                             color: AppColors
                                                                 .white),
@@ -244,6 +244,7 @@ class WelcomePage extends StatelessWidget {
                                             ),
                                           ),
                                           CustomButton(
+                                            isSmall: true,
                                             text: "Annuler ",
                                             onTap: () {
                                               Navigator.pop(context, 'Cancel');

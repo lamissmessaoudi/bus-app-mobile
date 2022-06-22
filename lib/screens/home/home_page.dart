@@ -4,19 +4,13 @@ import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.da
 import 'package:softun_bus_mobile/screens/home/home_controller.dart';
 import 'package:softun_bus_mobile/widgets/bottombar_builder.dart';
 import 'package:softun_bus_mobile/widgets/custom_loader.dart';
-import 'package:softun_bus_mobile/widgets/custom_navigation_drawer.dart';
-import 'package:softun_bus_mobile/widgets/drawer_icon.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
-
     return Scaffold(
-      key: scaffoldState,
-      drawer: CustomDrawer(),
       bottomNavigationBar: buildBottomBar(),
       body: ConnectivityContainer(
         child: GetBuilder<HomeController>(
@@ -31,7 +25,6 @@ class HomePage extends StatelessWidget {
                         child: controller.pages[controller.currentIndex.value],
                       ),
                       // return getBody(controller);
-                      DrawerIcon(scaffoldState: scaffoldState)
                     ]);
             }),
       ),

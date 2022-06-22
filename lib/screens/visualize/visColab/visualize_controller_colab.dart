@@ -6,6 +6,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/models/trajet_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
+import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_controller.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/visualization_api.dart';
@@ -51,6 +52,7 @@ class VisualizeColabController extends GetxController {
           .onValue
           .listen((event) {
         print("new pos");
+        removeOldMarker();
 
         var eventArgs = event.snapshot.value as Map;
         print("sss ${event.snapshot.value}");
@@ -70,12 +72,17 @@ class VisualizeColabController extends GetxController {
         //         zoom: 17),
         //   ),
         // );
+        print("old : ${oldLatitude.value},   ${oldLongitude.value}");
+        print(
+            "current : ${currentLatitude.value},   ${currentLongitude.value}");
+
         oldLongitude.value = currentLongitude.value;
         oldLatitude.value = currentLatitude.value;
         update();
       });
     } catch (e) {
       print(e);
+      Get.toNamed(Routes.homeColab);
     }
   }
 
@@ -102,6 +109,7 @@ class VisualizeColabController extends GetxController {
   }
 
   drawDriverMarker() async {
+    removeOldMarker();
     GeoPoint busLoc = GeoPoint(
         longitude: currentLongitude.value, latitude: currentLatitude.value);
     print("drawDriverMarker");
@@ -112,13 +120,14 @@ class VisualizeColabController extends GetxController {
         icon: Icon(
           Icons.directions_bus_sharp,
           size: 80,
-          color: AppColors.green,
+          color: Colors.amber,
         ),
       ),
     );
   }
 
   removeOldMarker() async {
+    print("removeOldMarker");
     await mapController.removeMarker(
       GeoPoint(latitude: oldLatitude.value, longitude: oldLongitude.value),
     );
@@ -127,12 +136,12 @@ class VisualizeColabController extends GetxController {
   drawRoad() async {
     RoadInfo roadInfo = await mapController.drawRoad(
       GeoPoint(
-        latitude: 36.83188020162938,
-        longitude: 10.232988952190393,
-      ),
-      GeoPoint(
         latitude: chosenTrajet!.circuit.depart.latitude,
         longitude: chosenTrajet!.circuit.depart.longitude,
+      ),
+      GeoPoint(
+        latitude: 36.83188020162938,
+        longitude: 10.232988952190393,
       ),
       roadOption: RoadOption(
         roadColor: AppColors.blue,

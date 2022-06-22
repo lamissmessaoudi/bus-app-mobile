@@ -12,7 +12,7 @@ import 'package:softun_bus_mobile/widgets/custom_dialog.dart';
 
 class BusCard extends StatelessWidget {
   final String bus, arrivee, stationActuelle;
-  final CircuitDto circuit;
+  final CircuitDto? circuit;
   BusCard({
     Key? key,
     required this.bus,
@@ -46,9 +46,11 @@ class BusCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(bus, style: AppTextStyles.primarySlab24),
+                    circuit!.available
+                        ? Text(bus, style: AppTextStyles.primarySlab24)
+                        : SizedBox(height: 0),
                     Text(
-                      circuit.name,
+                      circuit!.name,
                       style: AppTextStyles.primarySlab17,
                     )
                   ],
@@ -57,14 +59,14 @@ class BusCard extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: circuit.available
+                    color: circuit!.available
                         ? AppColors.errorColor
                         : AppColors.green),
                 child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 3, horizontal: 7),
                     child: Text(
-                      circuit.available ? "Indisponible" : "Disponible",
+                      circuit!.available ? "Indisponible" : "Disponible",
                       style: AppTextStyles.primarySlab17
                           .copyWith(color: AppColors.white),
                     )),
@@ -73,19 +75,11 @@ class BusCard extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text(
-              "Arrivée dans $arrivee",
-              style: AppTextStyles.primarySlab17,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Text(
-                "Station actuelle $stationActuelle",
-                style: AppTextStyles.primarySlab17,
-              ),
-            ),
-            circuit.available
-                ? SizedBox()
+            circuit!.available
+                ? Text(
+                    "Aucun bus n'est encore assigné à circuit",
+                    style: AppTextStyles.primarySlab17,
+                  )
                 : Center(
                     child: Column(
                       children: [
@@ -98,11 +92,11 @@ class BusCard extends StatelessWidget {
                           text: "Réserver",
                           btnType: BtnType.AccentOutlined,
                           onTap: () =>
-                              reserverDialog(context, controller, circuit),
+                              reserverDialog(context, controller, circuit!),
                         ),
                       ],
                     ),
-                  ),
+                  )
           ],
         ),
       ),

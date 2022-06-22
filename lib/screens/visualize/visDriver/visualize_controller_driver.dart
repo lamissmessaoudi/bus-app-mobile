@@ -49,11 +49,12 @@ class VisualizeDriverController extends GetxController {
     chosenCircuit = homeController.chosenCircuit;
     await getDeviceId();
     initPlatformState();
-    timer = Timer.periodic(Duration(seconds: 35), (Timer t) => fn());
+    timer =
+        Timer.periodic(Duration(seconds: 5), (Timer t) => getTimedLocation());
   }
 
-  fn() async {
-    print("fn");
+  getTimedLocation() async {
+    print("getTimedLocation");
     print("loc");
     currentLocation.value = await location.getLocation();
     visService.sendCurrentLocation(
@@ -167,6 +168,9 @@ class VisualizeDriverController extends GetxController {
         )),
       ),
     );
+    mapController.changeLocation(GeoPoint(
+        latitude: chosenCircuit!.depart.latitude,
+        longitude: chosenCircuit!.depart.longitude));
   }
 
   drawLocationsMarkers() async {
@@ -187,12 +191,12 @@ class VisualizeDriverController extends GetxController {
   drawRoad() async {
     RoadInfo roadInfo = await mapController.drawRoad(
       GeoPoint(
-        latitude: 36.83188020162938,
-        longitude: 10.232988952190393,
-      ),
-      GeoPoint(
         latitude: chosenCircuit!.depart.latitude,
         longitude: chosenCircuit!.depart.longitude,
+      ),
+      GeoPoint(
+        latitude: 36.83188020162938,
+        longitude: 10.232988952190393,
       ),
       roadOption: RoadOption(
         roadColor: AppColors.blue,

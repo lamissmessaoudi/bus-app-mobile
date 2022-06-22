@@ -9,6 +9,7 @@ import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/activation_api.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
 import 'package:softun_bus_mobile/services/api/circuit_api.dart';
+import 'package:softun_bus_mobile/services/api/feedback_api.dart';
 import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/trajet_api.dart';
 import 'package:softun_bus_mobile/services/api/transport_api.dart';
@@ -40,6 +41,7 @@ initServices() async {
   await Get.putAsync(() => AuthService().init());
   await Get.putAsync(() => ActivationService().init());
   await Get.putAsync(() => VisualisationService().init());
+  await Get.putAsync(() => FeedbackService().init());
 }
 
 class GetApp extends StatelessWidget {

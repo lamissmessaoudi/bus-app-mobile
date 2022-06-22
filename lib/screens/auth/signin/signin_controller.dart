@@ -45,7 +45,7 @@ class SigninController extends GetxController {
   String? validateEmail(value) {
     if (value.toString().isEmpty) {
       return "Entrez votre e-mail";
-    } else if (!RegExp(r"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$")
+    } else if (!RegExp(r"^[a-zA-Z_\-.]+@[a-zA-Z_\-.]+$")
         .hasMatch(value.toString())) {
       return "Veuillez vérifier la validité de votre e-mail";
     }

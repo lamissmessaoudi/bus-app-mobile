@@ -5,6 +5,7 @@ import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.da
 import 'package:softun_bus_mobile/screens/visualize/visDriver/visualize_controller_driver.dart';
 import 'package:softun_bus_mobile/screens/visualize/visualize_controller.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
+import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 
 class VisualizeDriverPage extends StatefulWidget {
@@ -78,20 +79,29 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                         Column(
                           children: [
                             RaisedButton(
-                              child: Text("Voir circuit "),
+                              child: Text("Voir circuit ",
+                                  style: AppTextStyles.activeMontserrat14
+                                      .copyWith(color: AppColors.primaryColor)),
+                              color: AppColors.tabColor,
                               onPressed: () async {
                                 controller.drawRoad();
                               },
                             ),
                             RaisedButton(
-                              child: Text("Mark stations"),
+                              child: Text("Mark stations",
+                                  style: AppTextStyles.activeMontserrat14
+                                      .copyWith(color: AppColors.primaryColor)),
+                              color: AppColors.tabColor,
                               onPressed: () async {
                                 await controller.drawStationsMarkers(
                                     controller.chosenCircuit!.station);
                               },
                             ),
                             RaisedButton(
-                              child: Text("Mark users"),
+                              child: Text("Mark users",
+                                  style: AppTextStyles.activeMontserrat14
+                                      .copyWith(color: AppColors.primaryColor)),
+                              color: AppColors.tabColor,
                               onPressed: () async {
                                 await controller.drawLocationsMarkers();
                               },

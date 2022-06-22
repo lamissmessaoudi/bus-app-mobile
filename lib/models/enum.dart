@@ -20,10 +20,19 @@ enum DrivingStep {
   startDriving,
   selectedDriving
 }
+enum CollabStep {
+  busSelected,
+  busList,
+}
 enum RequestStep {
   requestList,
   requestForm,
   requestSucces,
+}
+enum FeedBackStep {
+  feedbackList,
+  feedbackForm,
+  feedbackSucces,
 }
 
 enum RoleType {

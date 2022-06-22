@@ -74,4 +74,38 @@ class TransportService extends GetxService {
       if (e is DioError) throw (e.response?.data['error']);
     }
   }
+
+//Checks if collab has selected bus or not
+  reservedBus({required String token}) async {
+    try {
+      var path = AppUrls.reservedBus;
+      print("*** reservedBus");
+      var response = await dio.get(
+        path,
+        options: Options(
+          headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      print("response de reservedBus $response");
+      if (response.statusCode == 200) {
+        return response;
+      }
+    } catch (e) {
+      print("reservedBus error");
+      print(e);
+      print((e is DioError));
+      if (e is DioError) {
+        print(e.response?.data['error']);
+        if (e.response?.data['error'] == "transport not found") {
+          return e.response;
+        } else {
+          throw (e.response?.data['error']);
+        }
+      }
+    }
+  }
 }

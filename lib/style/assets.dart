@@ -32,4 +32,5 @@ class Assets {
   static const String nextFloating = "assets/nextFloating.png";
   static const String backFloating = "assets/backFloating.png";
   static const String switchIcon = "assets/switch.png";
+  static const String feedback = "assets/feedBack.png";
 }

@@ -31,7 +31,6 @@ class Station {
   bool operator ==(Object other) => other is Station && other.id == id;
 
   factory Station.fromJson(Map<String, dynamic> json) {
-    print("cccccccc  Station");
     return Station(
       id: json["id"],
       name: json["name"],
@@ -76,7 +75,6 @@ class StationDto {
   bool operator ==(Object other) => other is StationDto && other.id == id;
 
   factory StationDto.fromJson(Map<String, dynamic> json) {
-    print("cccccccc StationDto");
     return StationDto(
       id: json["id"],
       name: json["name"],

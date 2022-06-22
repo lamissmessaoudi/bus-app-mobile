@@ -23,7 +23,6 @@ class Circuit {
   String toRawJson() => json.encode(toJson());
 
   factory Circuit.fromJson(Map<String, dynamic> json) {
-    print("rrrrr Circuit");
     return Circuit(
       id: json["id"],
       // description: json["description"],
@@ -46,7 +45,6 @@ class Circuit {
 class CircuitDto {
   CircuitDto({
     required this.id,
-    // required this.description,
     required this.name,
     required this.available,
   });
@@ -61,8 +59,6 @@ class CircuitDto {
   String toRawJson() => json.encode(toJson());
 
   factory CircuitDto.fromJson(Map<String, dynamic> json) {
-    print("rrrrr CircuitDto");
-
     return CircuitDto(
       id: json["id"],
       // description: json["description"],
@@ -101,7 +97,6 @@ class CircuitResDto {
   String toRawJson() => json.encode(toJson());
 
   factory CircuitResDto.fromJson(Map<String, dynamic> json) {
-    print("rrrrr CircuitResDto");
     var x = CircuitResDto(
       id: json["id"],
       // description: json["description"],
@@ -111,7 +106,6 @@ class CircuitResDto {
           json["station"].map((x) => StationDto.fromJson(x))),
       depart: StationDto.fromJson(json["depart"]),
     );
-    print(" CircuitResDto  IS DONE");
 
     return x;
   }

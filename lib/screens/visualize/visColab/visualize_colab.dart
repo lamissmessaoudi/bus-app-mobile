@@ -3,8 +3,8 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:softun_bus_mobile/screens/connectivity/connectivity_container.dart';
 import 'package:softun_bus_mobile/screens/visualize/visColab/visualize_controller_colab.dart';
-import 'package:softun_bus_mobile/screens/visualize/visualize_controller.dart';
 import 'package:softun_bus_mobile/style/colors.dart';
+import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_loader.dart';
 
 class VisualizeColabPage extends StatefulWidget {
@@ -21,6 +21,15 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
       appBar: AppBar(
         title: Text("Colab Map"),
         backgroundColor: AppColors.accentColor,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.white,
+          ),
+        ),
       ),
       body: ConnectivityContainer(
         child: GetBuilder<VisualizeColabController>(
@@ -38,22 +47,6 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                           minZoomLevel: 8,
                           maxZoomLevel: 16,
                           stepZoom: 1.0,
-                          userLocationMarker: UserLocationMaker(
-                            personMarker: MarkerIcon(
-                              icon: Icon(
-                                Icons.location_history_rounded,
-                                color: Colors.pink,
-                                size: 200,
-                              ),
-                            ),
-                            directionArrowMarker: MarkerIcon(
-                              icon: Icon(
-                                Icons.double_arrow,
-                                size: 200,
-                                color: Colors.orange,
-                              ),
-                            ),
-                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -61,13 +54,21 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               RaisedButton(
-                                child: Text("Voir circuit "),
+                                child: Text("Voir circuit ",
+                                    style: AppTextStyles.activeMontserrat14
+                                        .copyWith(
+                                            color: AppColors.primaryColor)),
+                                color: AppColors.tabColor,
                                 onPressed: () async {
                                   await controller.drawRoad();
                                 },
                               ),
                               RaisedButton(
-                                child: Text("Voir Bus"),
+                                child: Text("Voir Bus",
+                                    style: AppTextStyles.activeMontserrat14
+                                        .copyWith(
+                                            color: AppColors.primaryColor)),
+                                color: AppColors.tabColor,
                                 onPressed: () async {
                                   await controller.drawDriverMarker();
                                 },

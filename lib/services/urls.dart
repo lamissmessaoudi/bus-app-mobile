@@ -1,9 +1,9 @@
 class AppUrls {
   static const String BASE_URL =
       // "http://localhost:8080/softun-bus";
-      // "http://10.241.88.45:8080/softun-bus"; //Sofrecomn LAN
-      "http://10.241.88.33:8080/softun-bus"; // Galaxy point accés
-  // "http://10.241.106.20:8080/softun-bus"; //VM
+      //  "http://10.241.106.36:8080/softun-bus"; //Sofrecomn LAN
+      // "http://192.168.1.19:8080/softun-bus"; // Galaxy point accés
+      "http://192.168.251.198:8080/softun-bus"; //VM
 
   static const String LOGIN = BASE_URL + "/oauth/token?grant_type=password";
   static const String profile = BASE_URL + "/user/";
@@ -12,6 +12,7 @@ class AppUrls {
   static const String updateDevice = profile + "updateDevice";
   static const String activate = BASE_URL + "/signup/activateAccountMobile";
   static const String allStations = BASE_URL + "/stations/all";
+  static const String stationById = BASE_URL + "/stations/getStationById/";
   static const String allCircuits = BASE_URL + "/circuits/";
   static const String circuitById = BASE_URL + "/circuits/getById/";
   static const String availableCircuits = BASE_URL + "/circuits/available";
@@ -23,4 +24,5 @@ class AppUrls {
   static const String reservedCircuit = BASE_URL + "/trajet/reservedCircuit";
   static const String addTransport = BASE_URL + "/transport/addTransport";
   static const String getLocations = BASE_URL + "/transport/locations";
+  static const String reservedBus = BASE_URL + "/transport/reservedTransport";
 }
