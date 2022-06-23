@@ -44,7 +44,52 @@ class VisualizeColabController extends GetxController {
     super.onInit();
     chosenTrajet = homeController.chosenTrajet;
     await getDriverDeviceId();
+    startListener(); 
+    // try {
+    //   print("eeeeeeeeeeeeee $deviceid");
+    //   subscription = visService.databaseReference
+    //       .child(deviceid!.value)
+    //       .onValue
+    //       .listen((event) {
+    //     print("new pos");
+    //     removeOldMarker();
 
+    //     var eventArgs = event.snapshot.value as Map;
+    //     print("sss ${event.snapshot.value}");
+    //     // var x = event.snapshot.value!['latitude'];
+    //     currentLatitude.value = eventArgs['latitude'];
+    //     currentLongitude.value = eventArgs['longitude'];
+    //     print("new pos ${currentLatitude.value} , ${currentLongitude.value}");
+    //     update();
+    //     removeOldMarker();
+    //     drawDriverMarker();
+
+    //     // mapController.animateCamera(
+    //     //   CameraUpdate.newCameraPosition(
+    //     //     CameraPosition(
+    //     //         target: LatLng(event.snapshot.value['latitude'],
+    //     //             event.snapshot.value['longitude']),
+    //     //         zoom: 17),
+    //     //   ),
+    //     // );
+    //     print("old : ${oldLatitude.value},   ${oldLongitude.value}");
+    //     print(
+    //         "current : ${currentLatitude.value},   ${currentLongitude.value}");
+
+    //     oldLongitude.value = currentLongitude.value;
+    //     oldLatitude.value = currentLatitude.value;
+    //     update();
+    //   });
+    // } catch (e) {
+    //   print(e);
+    //   Get.toNamed(Routes.homeColab);
+    // }
+  }
+
+
+  @override
+  startListener() async {
+    chosenTrajet = homeController.chosenTrajet;
     try {
       print("eeeeeeeeeeeeee $deviceid");
       subscription = visService.databaseReference
@@ -102,15 +147,15 @@ class VisualizeColabController extends GetxController {
     }
   }
 
-  @override
-  void dispose() {
+  
+  stopListener() {
     subscription.cancel();
-    super.dispose();
   }
 
   drawDriverMarker() async {
-    removeOldMarker();
-    GeoPoint busLoc = GeoPoint(
+   await mapController.removeMarker(
+      GeoPoint(latitude: oldLatitude.value, longitude: oldLongitude.value),
+    );    GeoPoint busLoc = GeoPoint(
         longitude: currentLongitude.value, latitude: currentLatitude.value);
     print("drawDriverMarker");
     print("pb ${currentLatitude.value} , ${currentLongitude.value}");

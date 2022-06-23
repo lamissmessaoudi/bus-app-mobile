@@ -4,6 +4,7 @@ import 'package:softun_bus_mobile/models/circuit_model.dart';
 import 'package:softun_bus_mobile/models/enum.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/home/homeCollaborateur/home_colab_controller.dart';
+import 'package:softun_bus_mobile/screens/visualize/visColab/visualize_controller_colab.dart';
 import 'package:softun_bus_mobile/style/assets.dart';
 import 'package:softun_bus_mobile/style/text.dart';
 import 'package:softun_bus_mobile/widgets/custom_btn.dart';
@@ -11,6 +12,7 @@ import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 class CollabBusSelected extends StatelessWidget {
   CollabBusSelected({Key? key}) : super(key: key);
   final controller = Get.put(HomeColabController());
+  final c = Get.put(VisualizeColabController());
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,9 @@ class CollabBusSelected extends StatelessWidget {
           SizedBox(height: 20),
           CustomButton(
             text: "Visualiser",
-            onTap: () => Get.toNamed(Routes.visualize),
+            onTap: (){ Get.toNamed(Routes.visualize); 
+            c.startListener(); 
+            },
             // isSmall: true,
             width: null,
             btnType: BtnType.AccentFilled,

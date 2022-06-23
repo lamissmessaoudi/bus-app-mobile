@@ -15,15 +15,17 @@ class VisualizeColabPage extends StatefulWidget {
 }
 
 class _VisualizeColabPageState extends State<VisualizeColabPage> {
+  final c = Get.put(VisualizeColabController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Colab Map"),
+        title: Text("Colab Map", style: AppTextStyles.primarySlab17.copyWith(color: Colors.white),),
         backgroundColor: AppColors.accentColor,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
+            c.stopListener(); 
           },
           child: Icon(
             Icons.arrow_back_ios,

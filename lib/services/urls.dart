@@ -1,9 +1,11 @@
 class AppUrls {
   static const String BASE_URL =
       // "http://localhost:8080/softun-bus";
-      //  "http://10.241.106.36:8080/softun-bus"; //Sofrecomn LAN
-      // "http://192.168.1.19:8080/softun-bus"; // Galaxy point accés
-      "http://192.168.251.198:8080/softun-bus"; //VM
+      // "http://10.241.106.20:8080/softun-bus"; //Sofrecomn LAN
+          //   "http://192.168.1.19:8080/softun-bus"; // AP Chaima
+     // "http://192.168.1.16:8080/softun-bus"; // Galaxy point accés
+  "http://10.241.88.18:8080/softun-bus"; //VM
+
 
   static const String LOGIN = BASE_URL + "/oauth/token?grant_type=password";
   static const String profile = BASE_URL + "/user/";
