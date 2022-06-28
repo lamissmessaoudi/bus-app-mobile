@@ -50,7 +50,16 @@ class VisualizeDriverController extends GetxController {
     chosenCircuit = homeController.chosenCircuit;
     await getDeviceId();
     initPlatformState();
-      timer = Timer.periodic(Duration(seconds: 5), (Timer t) => fn());
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => fn());
+    mapController.changeIconMarker( MarkerIcon(
+      icon: Icon(
+        Icons.person_pin_circle,
+        color: Colors.blue,
+        size: 56,
+      )
+    )
+    );
+    //mapController.enableTracking();
   }
 
 
@@ -221,22 +230,23 @@ fn() async {
 
   drawRoad() async {
     RoadInfo roadInfo = await mapController.drawRoad(
-      GeoPoint(
-        latitude: 36.83188020162938,
-        longitude: 10.232988952190393,
-      ),
+      
       GeoPoint(
         latitude: chosenCircuit!.depart.latitude,
         longitude: chosenCircuit!.depart.longitude,
       ),
+      GeoPoint(
+        latitude: 36.833191753916566,
+        longitude: 10.23162949176146,
+      ),
+      roadType: RoadType.car,
       roadOption: RoadOption(
         roadColor: AppColors.blue,
         roadWidth: 20,
       ),
-      
-      //  intersectPoint: chosenCircuit!.station
-      //      .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
-      //     .toList(),
+      intersectPoint: chosenCircuit!.station
+            .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+           .toList(),
     );
     print("${roadInfo.distance}km");
     print("${roadInfo.duration}sec");

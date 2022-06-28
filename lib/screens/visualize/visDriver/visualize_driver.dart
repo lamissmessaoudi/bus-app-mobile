@@ -36,7 +36,7 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                       children: [
                         OSMFlutter(
                           controller: controller.mapController,
-                          trackMyPosition: false,
+                          trackMyPosition: true,
                           initZoom: 11,
                           minZoomLevel: 8,
                           maxZoomLevel: 16,
@@ -44,15 +44,15 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                           userLocationMarker: UserLocationMaker(
                             personMarker: MarkerIcon(
                               icon: Icon(
-                                Icons.location_history_rounded,
-                                color: Colors.pink,
-                                size: 200,
+                                Icons.directions_bus_sharp,
+                                color: Colors.orange,
+                                size: 80,
                               ),
                             ),
                             directionArrowMarker: MarkerIcon(
                               icon: Icon(
-                                Icons.double_arrow,
-                                size: 200,
+                                Icons.directions_bus_sharp,
+                                size: 80,
                                 color: Colors.orange,
                               ),
                             ),
@@ -88,7 +88,7 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                               },
                             ),
                             RaisedButton(
-                              child: Text("Mark stations",
+                              child: Text("Voir stations",
                                   style: AppTextStyles.activeMontserrat14
                                       .copyWith(color: AppColors.primaryColor)),
                               color: AppColors.tabColor,
@@ -98,7 +98,7 @@ class _VisualizeDriverPageState extends State<VisualizeDriverPage> {
                               },
                             ),
                             RaisedButton(
-                              child: Text("Mark users",
+                              child: Text("Voir Collaborateurs",
                                   style: AppTextStyles.activeMontserrat14
                                       .copyWith(color: AppColors.primaryColor)),
                               color: AppColors.tabColor,

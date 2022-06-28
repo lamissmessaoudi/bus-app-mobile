@@ -185,16 +185,17 @@ class VisualizeColabController extends GetxController {
         longitude: chosenTrajet!.circuit.depart.longitude,
       ),
       GeoPoint(
-        latitude: 36.83188020162938,
-        longitude: 10.232988952190393,
+        latitude: 36.833191753916566,
+        longitude: 10.23162949176146,
       ),
+      roadType: RoadType.car,
       roadOption: RoadOption(
         roadColor: AppColors.blue,
         roadWidth: 20,
       ),
-      // intersectPoint: chosenTrajet!.circuit.station
-      //     .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
-      //     .toList(),
+       intersectPoint: chosenTrajet!.circuit.station
+           .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+           .toList(),
     );
     print("${roadInfo.distance}km");
     print("${roadInfo.duration}sec");
