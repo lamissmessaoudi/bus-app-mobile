@@ -11,14 +11,10 @@ import 'package:softun_bus_mobile/widgets/custom_btn.dart';
 import 'package:softun_bus_mobile/widgets/custom_dialog.dart';
 
 class BusCard extends StatelessWidget {
-  final String bus, arrivee, stationActuelle;
   final CircuitDto? circuit;
   BusCard({
     Key? key,
-    required this.bus,
     required this.circuit,
-    required this.arrivee,
-    required this.stationActuelle,
   }) : super(key: key);
 
   final controller = Get.put(HomeColabController());
@@ -46,13 +42,7 @@ class BusCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    circuit!.available
-                        ? Text(bus, style: AppTextStyles.primarySlab24)
-                        : SizedBox(height: 0),
-                    Text(
-                      circuit!.name,
-                      style: AppTextStyles.primarySlab17,
-                    )
+                    Text(circuit!.name, style: AppTextStyles.primarySlab20),
                   ],
                 ),
               ),
@@ -75,9 +65,16 @@ class BusCard extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
+            Text(
+              circuit!.description ?? "ff",
+              style: AppTextStyles.primarySlab17,
+            ),
+            SizedBox(
+              height: 10,
+            ),
             circuit!.available
                 ? Text(
-                    "Aucun bus n'est encore assigné à circuit",
+                    "Aucun bus n'est encore assigné à ce circuit",
                     style: AppTextStyles.primarySlab17,
                   )
                 : Center(

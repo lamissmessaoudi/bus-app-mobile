@@ -13,6 +13,7 @@ import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/screens/activation/activation_page.dart';
 import 'package:softun_bus_mobile/screens/activation/welcome_page.dart';
 import 'package:softun_bus_mobile/screens/auth/roles/roles_page.dart';
+import 'package:softun_bus_mobile/screens/auth/signin/fixStation_page.dart';
 import 'package:softun_bus_mobile/screens/auth/signin/signin_page.dart';
 import 'package:softun_bus_mobile/screens/feedBack/feedback_station_page.dart';
 import 'package:softun_bus_mobile/screens/forgetPassword/forgot_password_page.dart';
@@ -31,6 +32,11 @@ class AppPages {
     GetPage(
       name: Routes.signin,
       page: () => SigninPage(),
+      binding: SigninBinding(),
+    ),
+    GetPage(
+      name: Routes.fixStation,
+      page: () => FixStation(),
       binding: SigninBinding(),
     ),
     GetPage(

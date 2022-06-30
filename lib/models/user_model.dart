@@ -93,7 +93,9 @@ class InactiveUser {
         phone: json["phone"],
         roles: List.from(json["roles"].map((x) =>
             EnumToString.fromString(RoleType.values, Role.fromJson(x).name))),
-        station: StationDto.fromJson(json["station"]),
+        station: json["station"] == null
+            ? null
+            : StationDto.fromJson(json["station"]),
         poste: json["poste"],
         active: json["active"],
         deviceId: json["deviceId"],

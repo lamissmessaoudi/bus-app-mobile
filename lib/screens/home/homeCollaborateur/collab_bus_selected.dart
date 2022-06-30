@@ -81,7 +81,6 @@ class CollabBusSelected extends StatelessWidget {
           SizedBox(height: 10),
 
           BusCardSelected(
-            bus: "bus",
             circuit: controller.chosenCircuit,
             chauffeurName: controller.chosenTrajet?.user.name,
             chauffeurTel: controller.chosenTrajet?.user.phone,
@@ -89,8 +88,9 @@ class CollabBusSelected extends StatelessWidget {
           SizedBox(height: 20),
           CustomButton(
             text: "Visualiser",
-            onTap: (){ Get.toNamed(Routes.visualize); 
-            c.startListener(); 
+            onTap: () {
+              Get.toNamed(Routes.visualize);
+              c.startListener();
             },
             // isSmall: true,
             width: null,
@@ -104,20 +104,17 @@ class CollabBusSelected extends StatelessWidget {
 }
 
 class BusCardSelected extends StatelessWidget {
-  final String bus;
   final CircuitDto? circuit;
   final String? chauffeurName;
   final String? chauffeurTel;
   BusCardSelected({
     Key? key,
-    required this.bus,
     required this.circuit,
     required this.chauffeurName,
     required this.chauffeurTel,
   }) : super(key: key);
 
   final controller = Get.put(HomeColabController());
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -141,9 +138,11 @@ class BusCardSelected extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(bus, style: AppTextStyles.primarySlab24),
+                    Text(circuit!.name,
+                        style: AppTextStyles.primarySlab20
+                            .copyWith(fontWeight: FontWeight.bold)),
                     Text(
-                      circuit!.name,
+                      circuit!.description ?? "",
                       style: AppTextStyles.primarySlab17,
                     )
                   ],

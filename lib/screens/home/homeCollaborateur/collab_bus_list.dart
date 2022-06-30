@@ -106,9 +106,6 @@ class CollabBusList extends StatelessWidget {
         return ListTile(
           title: BusCard(
             circuit: list[index],
-            arrivee: " 5 mins",
-            bus: "Bus n°34",
-            stationActuelle: "Menzah 5",
           ),
         );
       },

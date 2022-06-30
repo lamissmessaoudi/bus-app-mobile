@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:softun_bus_mobile/models/station_model.dart';
 import 'package:softun_bus_mobile/models/token_model.dart';
 import 'package:softun_bus_mobile/models/req_res_model.dart';
 import 'package:softun_bus_mobile/models/user_model.dart';
 import 'package:softun_bus_mobile/routes/app_routes.dart';
 import 'package:softun_bus_mobile/services/api/auth_api.dart';
+import 'package:softun_bus_mobile/services/api/stations_api.dart';
 import 'package:softun_bus_mobile/services/api/user_api.dart';
 import 'package:softun_bus_mobile/services/api/visualization_api.dart';
 import 'package:softun_bus_mobile/services/shared-prefs.dart';
@@ -17,9 +19,16 @@ class SigninController extends GetxController {
   AuthService api = Get.find();
   UserService userApi = Get.find();
   VisualisationService visService = Get.find();
+  StationService stationApi = Get.find();
   SharedPreferenceService sharedPreferenceService = Get.find();
   late Token token;
   late User user;
+  dynamic x;
+  List<Station> stationsList = [];
+  Station? chosenStation = null;
+  GlobalKey<FormState> formKeyDropDownFix = GlobalKey<FormState>();
+
+  var isLoadingFix = false.obs;
 
   var loginController = TextEditingController(),
       passwordController = TextEditingController();
@@ -122,13 +131,19 @@ class SigninController extends GetxController {
       isLoadingSignIn(true);
       // get user from api
       var response = await userApi.getUserFromApi(token: t);
-      User u = User.fromJson(response.data);
-
-      // Store user in local storage
-      await sharedPreferenceService.setString(
-          "user", jsonEncode(u.toSharedJson()));
-
-      return u;
+      InactiveUser u1 = InactiveUser.fromJson(response.data);
+      x = u1;
+      print("${x!.toJson()}");
+      if (x!.station == null) {
+        await getStations();
+        Get.toNamed(Routes.fixStation);
+      } else {
+        User us = User.fromJson(response.data);
+        // Store user in local storage
+        await sharedPreferenceService.setString(
+            "user", jsonEncode(us.toSharedJson()));
+        return us;
+      }
     } catch (error) {
       print(error.toString());
       getErrorSnackBar(title: "Oops!", message: error.toString());
@@ -156,6 +171,56 @@ class SigninController extends GetxController {
       print(error);
     } finally {
       isLoadingSignIn(false);
+      update();
+    }
+  }
+
+  void selectStation(Station? newval) {
+    chosenStation = newval;
+    print("selectStation    ${chosenStation}");
+    update();
+  }
+
+  void setLocation() async {
+    //GET THE STATION FROM THE FORM
+    if (chosenStation != null) {
+      User updatedUser = User(
+          name: x.name,
+          lastname: x.lastname,
+          email: x.email,
+          phone: x.phone,
+          roles: x.roles,
+          station: chosenStation!,
+          poste: x.poste,
+          active: x.active,
+          deviceId: x.deviceId);
+      var response = await userApi.updateUserPerso(
+          token: token.access_token, user: updatedUser);
+      getSuccessSnackBar(
+          title: "Succés", message: "Station changée avec succés");
+
+      User u = User.fromJson(response.data);
+
+      // save the updated user in the local storage
+      await sharedPreferenceService.setString(
+          "user", jsonEncode(u.toSharedJson()));
+    } else
+      print("STAAAAATION === NULL");
+    Get.toNamed(Routes.roles);
+    update();
+  }
+
+  getStations() async {
+    try {
+      isLoadingFix(true);
+      var response = await stationApi.getAllStations();
+      stationsList =
+          List<Station>.from(response.data.map((x) => Station.fromJson(x)));
+    } catch (error) {
+      print(error.toString());
+      getErrorSnackBar(title: "Oops!", message: error.toString());
+    } finally {
+      isLoadingFix(false);
       update();
     }
   }

@@ -47,10 +47,11 @@ class CircuitDto {
     required this.id,
     required this.name,
     required this.available,
+    this.description,
   });
 
   final int id;
-  // final String description;
+  final String? description;
   final String name;
   final bool available;
   factory CircuitDto.fromRawJson(String str) =>
@@ -61,7 +62,7 @@ class CircuitDto {
   factory CircuitDto.fromJson(Map<String, dynamic> json) {
     return CircuitDto(
       id: json["id"],
-      // description: json["description"],
+      description: json["description"],
       name: json["name"],
       available: json["available"],
     );
@@ -77,7 +78,7 @@ class CircuitDto {
 class CircuitResDto {
   CircuitResDto({
     required this.id,
-    // required this.description,
+    this.description,
     required this.name,
     required this.available,
     required this.station,
@@ -85,7 +86,7 @@ class CircuitResDto {
   });
 
   final int id;
-  // final String description;
+  final String? description;
   final String name;
   final bool available;
   final List<StationDto> station;
@@ -99,7 +100,7 @@ class CircuitResDto {
   factory CircuitResDto.fromJson(Map<String, dynamic> json) {
     var x = CircuitResDto(
       id: json["id"],
-      // description: json["description"],
+      description: json["description"],
       name: json["name"],
       available: json["available"],
       station: List<StationDto>.from(

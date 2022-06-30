@@ -44,7 +44,7 @@ class VisualizeColabController extends GetxController {
     super.onInit();
     chosenTrajet = homeController.chosenTrajet;
     await getDriverDeviceId();
-    startListener(); 
+    startListener();
     // try {
     //   print("eeeeeeeeeeeeee $deviceid");
     //   subscription = visService.databaseReference
@@ -85,7 +85,6 @@ class VisualizeColabController extends GetxController {
     //   Get.toNamed(Routes.homeColab);
     // }
   }
-
 
   @override
   startListener() async {
@@ -147,15 +146,15 @@ class VisualizeColabController extends GetxController {
     }
   }
 
-  
   stopListener() {
     subscription.cancel();
   }
 
   drawDriverMarker() async {
-   await mapController.removeMarker(
+    await mapController.removeMarker(
       GeoPoint(latitude: oldLatitude.value, longitude: oldLongitude.value),
-    );    GeoPoint busLoc = GeoPoint(
+    );
+    GeoPoint busLoc = GeoPoint(
         longitude: currentLongitude.value, latitude: currentLatitude.value);
     print("drawDriverMarker");
     print("pb ${currentLatitude.value} , ${currentLongitude.value}");
@@ -193,11 +192,27 @@ class VisualizeColabController extends GetxController {
         roadColor: AppColors.blue,
         roadWidth: 20,
       ),
-       intersectPoint: chosenTrajet!.circuit.station
-           .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
-           .toList(),
+      intersectPoint: chosenTrajet!.circuit.station
+          .map((e) => GeoPoint(latitude: e.latitude, longitude: e.longitude))
+          .toList(),
     );
     print("${roadInfo.distance}km");
     print("${roadInfo.duration}sec");
+  }
+
+  drawReservationPosition() async {
+    GeoPoint reservationPos = GeoPoint(
+        latitude: homeController.chosenTransport!.latitude,
+        longitude: homeController.chosenTransport!.longitude);
+    await mapController.addMarker(
+      reservationPos,
+      markerIcon: MarkerIcon(
+        icon: Icon(
+          Icons.boy_rounded,
+          size: 80,
+          color: Colors.red,
+        ),
+      ),
+    );
   }
 }

@@ -42,6 +42,7 @@ class HomeColabController extends GetxController {
   late Station? chosenStation;
   late CircuitDto? chosenCircuit;
   late Trajet? chosenTrajet;
+  late Transport? chosenTransport;
   late String driverDeviceId;
   late List<Station> stationsList;
   late List<Station> trajetStops;
@@ -186,6 +187,9 @@ class HomeColabController extends GetxController {
           circuit: chosenCircuit!, latitude: latitude, longitude: longitude);
       var responseTransport =
           await transportApi.addUserToTransport(token: t, transport: transport);
+      chosenTransport = transport;
+      update();
+
       print("responseTransport.  ${responseTransport}");
 
       print(responseTransport.statusCode);
@@ -232,8 +236,12 @@ class HomeColabController extends GetxController {
 
       if (responseCheckReserved.statusCode == 200) {
         Transport transport = Transport.fromJson(responseCheckReserved.data);
+        chosenTransport = transport;
         chosenCircuit = transport.circuit;
+        reservationPosition = GeoPoint(
+            latitude: transport.latitude, longitude: transport.longitude);
         print("alreadyChosenTransport /n   ${chosenCircuit}");
+        update();
 
         // get trajet of chosen circuit to get the Driver&Stations
         var responseTrajet =

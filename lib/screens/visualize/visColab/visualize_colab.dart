@@ -20,12 +20,15 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Colab Map", style: AppTextStyles.primarySlab17.copyWith(color: Colors.white),),
+        title: Text(
+          "Colab Map",
+          style: AppTextStyles.primarySlab17.copyWith(color: Colors.white),
+        ),
         backgroundColor: AppColors.accentColor,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
-            c.stopListener(); 
+            c.stopListener();
           },
           child: Icon(
             Icons.arrow_back_ios,
@@ -73,6 +76,16 @@ class _VisualizeColabPageState extends State<VisualizeColabPage> {
                                 color: AppColors.tabColor,
                                 onPressed: () async {
                                   await controller.drawDriverMarker();
+                                },
+                              ),
+                              RaisedButton(
+                                child: Text("Ma réservation",
+                                    style: AppTextStyles.activeMontserrat14
+                                        .copyWith(
+                                            color: AppColors.primaryColor)),
+                                color: AppColors.tabColor,
+                                onPressed: () async {
+                                  await controller.drawReservationPosition();
                                 },
                               ),
                               Expanded(child: Container()),
